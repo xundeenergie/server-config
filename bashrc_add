@@ -1,0 +1,9 @@
+cd  "/home/adminjs/server-config"
+if which git >/dev/null; then
+	git pull
+	if [ -f "/home/adminjs/server-config/bashrc_local" ]; then
+		. "/home/adminjs/server-config/bashrc_local"
+	fi
+else
+	curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
+fi
