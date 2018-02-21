@@ -4,7 +4,7 @@ Damit auf einem neuen Server meine persönlichen Alias und Bash-Promt, wie auch 
 
 ```
 wget https://git.ebcont.com/jakobus.schuerz/server-config/raw/master/bashrc_add
-edit .bashrc
+vi .bashrc
 ```
 Dies lädt die Datei bashrc_add ins Home-Verzeichnis. 
 
