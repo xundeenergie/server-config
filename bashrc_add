@@ -1,4 +1,5 @@
-SCONF="/home/adminjs/server-config"
+SC=server-config
+SCONF="${HOME}/${SC}"
 sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
@@ -36,6 +37,6 @@ else
     sync_config
     
     #Anlegen von Symlinks
-    ln -sf server-config/vimrc .vimrc
-    ln -sf server-config/bashrc_add 
+    ln -sf "${SC}/vimrc" .vimrc
+    ln -sf "${SC}/bashrc_add" 
 fi
