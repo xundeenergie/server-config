@@ -20,6 +20,7 @@ else
     #mkdir -p "${SCONF}"
     #git init
     git clone "https://git.ebcont.com/jakobus.schuerz/server-config.git"
+    ln -s server-config/vimrc .vimrc
     cd  "${SCONF}"
     USERNAME="jakobus.schuerz"
     FULLNAME="Jakobus Schürz"
@@ -35,6 +36,5 @@ else
     sync_config
     
     #Anlegen von Symlinks
-    ln -s server-config/vimrc ../.vimrc
     
 fi
