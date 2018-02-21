@@ -17,7 +17,7 @@ if [ -d "${SCONF}" ]; then
     sync_config
 else
     echo "Create Server-Config and configure git"
-    mkdir "${SCONF}"
+    mkdir -p "${SCONF}"
     cd  "${SCONF}"
     git init
     USERNAME="jakobus.schuerz"
