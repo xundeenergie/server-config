@@ -33,4 +33,8 @@ else
     git config credential.helper 'store'
     
     sync_config
+    
+    #Anlegen von Symlinks
+    ln -s server-config/vimrc ../.vimrc
+    
 fi
