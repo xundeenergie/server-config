@@ -116,10 +116,7 @@ set visualbell
 set t_vb=
 
 " check if mouse is enabled
-if &mouse = 'a'
-    " disable mouse
-    set mouse=
-else
+if has('mouse')
     " Enable use of the mouse for all modes
     set mouse=a
 endif 
