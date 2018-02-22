@@ -5,16 +5,16 @@
 # export SYSTEMD_PAGER=
 
 # User specific aliases and function
-if [ -f "/home/adminjs/server-config/vimrc" ]; then
-    svi () { sudo vim -u "/home/adminjs/server-config/vimrc" $@; }
+if [ -f "${HOME}/server-config/vimrc" ]; then
+    svi () { sudo vim -u "${HOME}/server-config/vimrc" $@; }
 fi
 
-if [ -f "/home/adminjs/server-config/aliases" ]; then
-	. "/home/adminjs/server-config/aliases"
+if [ -f "${HOME}/server-config/aliases" ]; then
+	. "${HOME}/adminjs/server-config/aliases"
 fi
 
-if [ -f "/home/adminjs/server-config/PS1" ]; then
-	. "/home/adminjs/server-config/PS1"
+if [ -f "${HOME}/server-config/PS1" ]; then
+	. "${HOME}/server-config/PS1"
 fi
 
 
