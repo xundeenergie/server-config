@@ -32,7 +32,7 @@ else
 
     git config push.default simple
 
-    git config credential.helper 'store'
+    #git config credential.helper 'store'
     
     sync_config
     
