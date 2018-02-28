@@ -18,9 +18,8 @@ if [ -d "${SCONF}" ]; then
     sync_config
 else
     echo "Create Server-Config and configure git"
-    #mkdir -p "${SCONF}"
-    #git init
-    git clone "https://git.ebcont.com/jakobus.schuerz/server-config.git"
+    #git clone "https://git.ebcont.com/jakobus.schuerz/server-config.git"
+    git clone "git@github.com:xundeenergie/server-config.git"
     
     cd  "${SCONF}"
     USERNAME="jakobus.schuerz"
