@@ -26,6 +26,9 @@ filetype indent on
 " Enable syntax highlighting
 syntax on
  
+" Set Highlight-Color of marked text reverse:
+"hi Visual term=reverse cterm=reverse guibg=Grey
+hi Visual term=underline ctermbg=Grey cterm=underline guibg=Grey gui=underline
  
 "------------------------------------------------------------
 " Must have options {{{1
@@ -236,3 +239,5 @@ augroup filetype
 augroup END
 
 autocmd FileType human set formatoptions-=t textwidth=0 "disable wrapping in txt
+
+
