@@ -31,7 +31,7 @@ $CMD /bin/bash << EOF
     wget -p "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add" || exit $?
     echo "modify ~/.bashrc"
     if grep -q bashrc_add .bashrc ;then
-        sed -e '/bashrc_add/d' .bashrc
+        sed -i -e '/bashrc_add/d' .bashrc
     fi
     echo
     printf "%s" "[ -f bashrc_add ] && . bashrc_add" | tee -a .bashrc
