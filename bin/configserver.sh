@@ -32,6 +32,7 @@ $CMD /bin/bash << EOF
     echo "modify ~/.bashrc"
     if grep -q bashrc_add .bashrc ;then
         sed -e '/bashrc_add/d' .bashrc
+    fi
     echo
     printf "%s" "[ -f bashrc_add ] && . bashrc_add" | tee -a .bashrc
 EOF
