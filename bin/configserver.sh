@@ -26,6 +26,7 @@ CMD="$SSH ${OPTIONS} -p ${PORT} ${USERNAME}@${SERVER}"
 echo "Configure new Server (${SERVER}) for personal use"
 
 $CMD test -e "~/bashrc_add" && { echo "Server ${SERVER} configured"; exit 0; }
-$CMD wget "https://git.ebcont.com/jakobus.schuerz/server-config/raw/master/bashrc_add"
+#$CMD wget "https://git.ebcont.com/jakobus.schuerz/server-config/raw/master/bashrc_add"
+$CMD wget "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add"
 echo "modify ~/.bashrc"
 printf "%s" "[ -f bashrc_add ] && . bashrc_add" |$CMD tee -a .bashrc
