@@ -30,3 +30,4 @@ $CMD test -e "~/bashrc_add" && { echo "Server ${SERVER} configured"; exit 0; }
 $CMD wget "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add"
 echo "modify ~/.bashrc"
 printf "%s" "[ -f bashrc_add ] && . bashrc_add" |$CMD tee -a .bashrc
+$CMD
