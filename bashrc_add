@@ -20,7 +20,7 @@ else
     echo "Create Server-Config and configure git"
     #mkdir -p "${SCONF}"
     #git init
-    git clone "git@github.com:xundeenergie/server-config.git"
+    git clone "https://github.com/xundeenergie/server-config.git"
     #git clone "https://git.ebcont.com/jakobus.schuerz/server-config.git"
 
     
