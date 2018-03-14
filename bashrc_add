@@ -3,8 +3,8 @@ SCONF="${HOME}/${SC}"
 sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
-        echo Sync config with git
-    	git pull
+        #echo Sync config with git
+    	git pull > /dev/null 2>&1
     	if [ -f "${SCONF}/bashrc_local" ]; then
     		. "${SCONF}/bashrc_local"
     	fi
