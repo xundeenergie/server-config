@@ -28,12 +28,14 @@ echo "Configure new Server (${SERVER}) for personal use"
 $CMD /bin/bash << EOF
     test -e "~/bashrc_add" && { echo "Server ${SERVER} configured"; exit 0; }
     #$CMD wget "https://git.ebcont.com/jakobus.schuerz/server-config/raw/master/bashrc_add"
-    wget -p "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add" || exit $?
+    #wget -O ~/bashrc_add -p "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add" || exit $?
+    wget "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add" || exit $?
     echo "modify ~/.bashrc"
     if grep -q bashrc_add .bashrc ;then
         sed -i -e '/bashrc_add/d' .bashrc
     fi
     echo
     printf "%s" "[ -f bashrc_add ] && . bashrc_add" | tee -a .bashrc
+    echo
 EOF
 $CMD
