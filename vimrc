@@ -245,4 +245,4 @@ augroup END
 
 autocmd FileType human set formatoptions-=t textwidth=0 "disable wrapping in txt
 
-
+autocmd BufRead,BufNewFile *.conf setf dosini
