@@ -27,6 +27,7 @@ echo "Configure new Server (${SERVER}) for personal use"
 
 $CMD /bin/bash << EOF
     test -e "~/bashrc_add" && { echo "Server ${SERVER} configured"; exit 0; }
+    rm -rf ~/bashrc_add
     #$CMD wget "https://git.ebcont.com/jakobus.schuerz/server-config/raw/master/bashrc_add"
     #wget -O ~/bashrc_add -p "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add" || exit $?
     wget "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add" || exit $?
