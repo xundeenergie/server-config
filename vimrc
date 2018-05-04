@@ -228,7 +228,7 @@ au BufNewFile,BufRead *.py
 " yaml syntax
 " https://www.vim.org/scripts/script.php?script_id=739
 " wget https://www.vim.org/scripts/download_script.php?src_id=2249 -O ~/.vim/yaml.vim
-au BufNewFile,BufRead *.yaml,*.yml so ~/.vim/yaml.vim
+au BufNewFile,BufRead *.yaml,*.yml so ~/server-config/.vim/yaml.vim
 
 "------
 " in makefiles, dont't expand tabs to spaces, since actual tab characters are
