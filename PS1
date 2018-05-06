@@ -103,7 +103,7 @@ xterm*|rxvt*|screen*)
     if [ "`id -u`" -eq 0 ]; then
        PS1="\[$BRed\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BRed\]${SYSSUBVOL}\w: \[\e[m\]\[$BRed\]# "
     else
-       PS1="\[$BIBlue\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BIBlue\]${SYSSUBVOL}\w: \[\e[m\]\[$BIBlue\]\$ "
+       PS1="\[$BICyan\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BICyan\]${SYSSUBVOL}\w: \[\e[m\]\[$BICyan\]\$ "
     fi
     RETVAL0="\342\234\223"
     RETVALN0="\342\234\227 "
