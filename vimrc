@@ -230,6 +230,8 @@ au BufNewFile,BufRead *.py
 " wget https://www.vim.org/scripts/download_script.php?src_id=2249 -O ~/.vim/yaml.vim
 au BufNewFile,BufRead *.yaml,*.yml so ~/server-config/.vim/yaml.vim
 
+autocmd BufRead,BufNewFile /etc/exim* set filetype=exim
+
 "------
 " in makefiles, dont't expand tabs to spaces, since actual tab characters are
 " needed, and have indentation at 8 chars to be sure that all indents are tabs
@@ -244,6 +246,7 @@ augroup filetype
 augroup END
 
 autocmd FileType human set formatoptions-=t textwidth=0 "disable wrapping in txt
+
 
 autocmd BufRead,BufNewFile *.conf setf dosini
 

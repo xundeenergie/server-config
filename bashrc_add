@@ -41,5 +41,6 @@ else
     
     #Anlegen von Symlinks
     ln -sf "${SC}/vimrc" .vimrc
+    ln -sf "${SC}/vim" .vim
     ln -sf "${SC}/bashrc_add" 
 fi
