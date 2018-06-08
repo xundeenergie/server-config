@@ -1,5 +1,9 @@
 # /etc/profile.d/PS1.sh: executed by Bourne-compatible login shells.
 
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
 if [ -x "/usr/bin/getsyssubvol" ]; then
     if [ "$(/usr/bin/getsyssubvol /)" = "/" ] ; then
         SYSSUBVOL=""
@@ -101,18 +105,18 @@ xterm*|rxvt*|screen*)
 		*) SCREEN="";;
 	esac
     if [ "`id -u`" -eq 0 ]; then
-       PS1="\[$BRed\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BRed\]${SYSSUBVOL}\w: \[\e[m\]\[$BRed\]# "
+       PS1="\[$BRed\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BRed\]${SYSSUBVOL}\w:\$(parse_git_branch) \[\e[m\]\[$BRed\]# "
     else
-       PS1="\[$BICyan\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BICyan\]${SYSSUBVOL}\w: \[\e[m\]\[$BICyan\]\$ "
+       PS1="\[$BICyan\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BICyan\]${SYSSUBVOL}\w:\$(parse_git_branch) \[\e[m\]\[$BICyan\]\$ "
     fi
     RETVAL0="\342\234\223"
     RETVALN0="\342\234\227 "
     ;;
 *)
     if [ "`id -u`" -eq 0 ]; then
-       PS1="\[$BRed\][$SYSSUBVOL]\u@\h \[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BRed\]\n${SYSSUBVOL}\w: # \[\e[m\]\[$Red\]"
+       PS1="\[$BRed\][$SYSSUBVOL]\u@\h \[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BRed\]\n${SYSSUBVOL}\w:\$(parse_git_branch) # \[\e[m\]\[$Red\]"
     else
-       PS1="\[$BCyan\][$SYSSUBVOL]\u@\h \[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BCyan\]\n${SYSSUBVOL}\w: \$  \[\e[m\]\[$Cyan\]"
+       PS1="\[$BCyan\][$SYSSUBVOL]\u@\h \[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BCyan\]\n${SYSSUBVOL}\w:\$(parse_git_branch) \$  \[\e[m\]\[$Cyan\]"
     fi
     RETVAL0=":)"
     RETVALN0=":("
