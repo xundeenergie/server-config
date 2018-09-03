@@ -254,3 +254,10 @@ autocmd BufRead,BufNewFile *.conf setf dosini
 " to make comments better visible on dark backgrounds
 :color desert
 
+
+
+" Commands
+
+" Sample command W
+ 
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
