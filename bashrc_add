@@ -8,6 +8,7 @@ sync_config () {
     	if [ -f "${SCONF}/bashrc_local" ]; then
     		. "${SCONF}/bashrc_local"
     	fi
+        git submodule update --remote --merge
     else
         echo "git not installed, no configuration possible, please install git"
     	#curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
