@@ -59,3 +59,4 @@ alias unetbootin='export QT_X11_NO_MITSHM=1 unetbootin'
 alias u=umount
 alias vlc='VDPAU_DRIVER=va_gl vlc'
 alias wbackup="watch '/bin/mount|grep \"backup\\|mars\"; echo;echo;systemctl|grep backup;echo;echo;ls /dev/mapper/*|grep mars'"
+alias vi='/usr/bin/vim'
