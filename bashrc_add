@@ -33,6 +33,7 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         cd  "${SCONF}"
 
         # Initialize Vundle as preconfigured Submodule
+        figlet $(hostname)
         git submodule update --init --recursive
         echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
         USERNAME="jakobus.schuerz"
