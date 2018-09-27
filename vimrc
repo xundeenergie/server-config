@@ -20,7 +20,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'Zenburn'
 Plugin 'vim-scripts/indentpython.vim'
-Plugin 'tmhedberg/SimpylFold'
+Plugin 'tmhedberg/SimplyFold'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'jistr/vim-nerdtree-tabs'
