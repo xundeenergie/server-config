@@ -28,10 +28,13 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         #mkdir -p "${SCONF}"
         #git init
         git clone "https://github.com/xundeenergie/server-config.git"
-        #git clone "https://git.ebcont.com/jakobus.schuerz/server-config.git"
 
         
         cd  "${SCONF}"
+
+        # Initialize Vundle as preconfigured Submodule
+        git submodule update --init --recursive
+        echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
         USERNAME="jakobus.schuerz"
         FULLNAME="Jakobus Schürz"
         
