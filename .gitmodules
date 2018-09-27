@@ -1,9 +1,10 @@
 [submodule "vim/bundle/Vundle.vim"]
 	path = vim/bundle/Vundle.vim
 	url = https://github.com/gmarik/Vundle.vim.git
-[submodule "vim/bundle/SimplyFold"]
-	path = vim/bundle/SimplyFold
-	url = https://github.com/tmhedberg/SimpylFold
 [submodule "vim/autoload/togglebg"]
 	path = vim/autoload/togglebg
 	url = https://github.com/rakr/vim-togglebg.git
+[submodule "vim/bundle/SimplyFold"]
+	path = vim/bundle/SimplyFold
+	url = https://github.com/tmhedberg/SimpylFold
+

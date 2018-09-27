@@ -22,6 +22,7 @@ Plugin 'Zenburn'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-syntastic/syntastic'
+Plugin 'kien/ctrlp.vim'
 "Plugin 'Valloric/YouCompleteMe'
 
 " add all your plugins here (note older versions of Vundle
