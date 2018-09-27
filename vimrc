@@ -23,6 +23,10 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'kien/ctrlp.vim'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'rakr/vim-togglebg'
 "Plugin 'Valloric/YouCompleteMe'
 
 " add all your plugins here (note older versions of Vundle
@@ -332,14 +336,10 @@ command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 let python_highlight_all=1
 syntax on
 
-Plugin 'jistr/vim-nerdtree-tabs'
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
-Plugin 'kien/ctrlp.vim'
 
-Plugin 'tpope/vim-fugitive'
 
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " Code from:
 " http://stackoverflow.com/questions/5585129/pasting-code-into-terminal-window-into-vim-on-mac-os-x
