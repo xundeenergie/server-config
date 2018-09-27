@@ -285,7 +285,7 @@ au BufNewFile,BufRead *.py,*pyw,*.c,*.h
     \ set autoindent |
     \ set fileformat=unix 
 
-"au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " yaml syntax
 " https://www.vim.org/scripts/script.php?script_id=739
