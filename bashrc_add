@@ -6,7 +6,7 @@ SCONF="${HOME}/${SC}"
 sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
-        #echo Sync config with git
+        echo Sync config with git
     	git pull > /dev/null 2>&1
     	if [ -f "${SCONF}/bashrc_local" ]; then
     		. "${SCONF}/bashrc_local"
@@ -28,10 +28,13 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         #mkdir -p "${SCONF}"
         #git init
         git clone "https://github.com/xundeenergie/server-config.git"
-        #git clone "https://git.ebcont.com/jakobus.schuerz/server-config.git"
 
         
         cd  "${SCONF}"
+
+        # Initialize Vundle as preconfigured Submodule
+        git submodule update --init --recursive
+        echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
         USERNAME="jakobus.schuerz"
         FULLNAME="Jakobus Schürz"
         
@@ -46,6 +49,7 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         sync_config
         
         #Anlegen von Symlinks
+        rm -rf "~/vimrc" "~/vim"
         ln -sf "${SC}/vimrc" .vimrc
         ln -sf "${SC}/vim" .vim
         ln -sf "${SC}/bashrc_add" 
