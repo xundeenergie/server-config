@@ -294,3 +294,7 @@ imap <expr> <f28> XTermPasteBegin("")
 vmap <expr> <f28> XTermPasteBegin("c")
 cmap <f28> <nop>
 cmap <f29> <nop>
+
+if !has("unix")
+    set guioptions-=aA
+endif
