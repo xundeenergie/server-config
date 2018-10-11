@@ -47,8 +47,10 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         sync_config
         
         #Anlegen von Symlinks
-        rm -rfi ~/.vimrc ~/.vim ~/bashrc_add
-        stat ~/.vimrc ~/.vim ~/bashrc_add
+        rm -rf ~/.vimrc ~/.vim ~/bashrc_add
+        ls ~/.vimrc
+        ls ~/.vim
+        read i
         ln -sf "${SC}/vimrc" ~/.vimrc
         ls ~/.vimrc
         ln -sf "${SC}/vim" ~/.vim
