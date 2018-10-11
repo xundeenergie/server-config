@@ -12,7 +12,7 @@ sync_config () {
     		. "${SCONF}/bashrc_local"
     	fi
     else
-        echo "git not installed, no configuration possible, please install git"
+        echo "git not installed, no configuration possible, please install git" >&2
     	#curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
     fi
     cd ${HOME}
@@ -25,18 +25,14 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         sync_config
     else
         echo "Create Server-Config and configure git"
-        #mkdir -p "${SCONF}"
-        #git init
         git clone "https://github.com/xundeenergie/server-config.git"
-
         
         cd  "${SCONF}"
 
         # Initialize Vundle as preconfigured Submodule
         git submodule update --init --recursive
 
-        vim -c "PluginInstall"
-        echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
+        #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
         USERNAME="jakobus.schuerz"
         FULLNAME="Jakobus Schürz"
         
@@ -51,13 +47,30 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         sync_config
         
         #Anlegen von Symlinks
-        rm -rf "~/vimrc" "~/vim"
-        ln -sf "${SC}/vimrc" .vimrc
-        ln -sf "${SC}/vim" .vim
+        rm -rf ~/.vimrc ~/.vim ~/bashrc_add
+        ls ~/.vimrc
+        ls ~/.vim
+        read i
+        ln -sf "${SC}/vimrc" ~/.vimrc
+        ls ~/.vimrc
+        ln -sf "${SC}/vim" ~/.vim
+        ls ~/.vim
         ln -sf "${SC}/bashrc_add" 
+
+        # Install vim Plugins
+        vim -c "PluginInstall" -c ":qa!"
     fi
 else 
     echo github.com not reachable;
     echo profile not syncing;
 fi
 
+[ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR=/run/user/$(id -u $USER)
+if test $SSH_TTY && test $TERM != screen && test $(systemctl status screen@${USER} 1>/dev/null 2>&1; echo $? ) -eq 0; then
+        echo Starting or resuming screen session
+        echo Press CTRL+C to cancel screen startup
+        echo "User: $USER - $UID"
+        #systemctl --user start vnc@5901.service
+        sleep 1
+        screen -xR;
+fi
