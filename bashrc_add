@@ -71,6 +71,6 @@ if test $SSH_TTY && test $TERM != screen && test $(systemctl status screen@${USE
         echo Press CTRL+C to cancel screen startup
         echo "User: $USER - $UID"
         #systemctl --user start vnc@5901.service
-        sleep 1
-        screen -xR;
+        sleep 2
+        screen -UxR;
 fi
