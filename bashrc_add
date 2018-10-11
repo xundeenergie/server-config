@@ -32,7 +32,6 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         # Initialize Vundle as preconfigured Submodule
         git submodule update --init --recursive
 
-        vim -c "PluginInstall" -c ":qa!"
         #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
         USERNAME="jakobus.schuerz"
         FULLNAME="Jakobus Schürz"
@@ -52,6 +51,9 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         ln -sf "${SC}/vimrc" .vimrc
         ln -sf "${SC}/vim" .vim
         ln -sf "${SC}/bashrc_add" 
+
+        # Install vim Plugins
+        vim -c "PluginInstall" -c ":qa!"
     fi
 else 
     echo github.com not reachable;
