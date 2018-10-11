@@ -12,7 +12,7 @@ sync_config () {
     		. "${SCONF}/bashrc_local"
     	fi
     else
-        echo "git not installed, no configuration possible, please install git"
+        echo "git not installed, no configuration possible, please install git" >&2
     	#curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
     fi
     cd ${HOME}
@@ -25,18 +25,15 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         sync_config
     else
         echo "Create Server-Config and configure git"
-        #mkdir -p "${SCONF}"
-        #git init
         git clone "https://github.com/xundeenergie/server-config.git"
-
         
         cd  "${SCONF}"
 
         # Initialize Vundle as preconfigured Submodule
         git submodule update --init --recursive
 
-        vim -c "PluginInstall"
-        echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
+        vim -c "PluginInstall" -c ":qa!"
+        #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
         USERNAME="jakobus.schuerz"
         FULLNAME="Jakobus Schürz"
         
@@ -51,7 +48,7 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         sync_config
         
         #Anlegen von Symlinks
-        rm -rf "~/vimrc" "~/vim"
+        rm -rf "~/vimrc" "~/vim" "~/bashrc_add"
         ln -sf "${SC}/vimrc" .vimrc
         ln -sf "${SC}/vim" .vim
         ln -sf "${SC}/bashrc_add" 
