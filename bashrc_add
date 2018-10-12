@@ -48,13 +48,8 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         
         #Anlegen von Symlinks
         rm -rf ~/.vimrc ~/.vim ~/bashrc_add
-        ls ~/.vimrc
-        ls ~/.vim
-        read i
         ln -sf "${SC}/vimrc" ~/.vimrc
-        ls ~/.vimrc
         ln -sf "${SC}/vim" ~/.vim
-        ls ~/.vim
         ln -sf "${SC}/bashrc_add" 
 
         # Install vim Plugins
