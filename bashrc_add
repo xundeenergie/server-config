@@ -8,9 +8,6 @@ sync_config () {
     if which git >/dev/null; then
         echo Sync config with git 1>&2
     	git pull > /dev/null 2>&1
-    	if [ -f "${SCONF}/bashrc_local" ]; then
-    		. "${SCONF}/bashrc_local"
-    	fi
     else
         echo "git not installed, no configuration possible, please install git" >&2
     	#curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
@@ -56,8 +53,12 @@ if $(ping -c 1 github.com > /dev/null 2>&1) ;then
         vim -c "PluginInstall" -c ":qa!"
     fi
 else 
-    echo github.com not reachable;
-    echo profile not syncing;
+    echo github.com not reachable >&2;
+    echo profile not syncing >&2;
+fi
+
+if [ -e "${SCONF}/bashrc_local" ]; then
+        . "${SCONF}/bashrc_local"
 fi
 
 [ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR=/run/user/$(id -u $USER)
@@ -67,5 +68,5 @@ if test $SSH_TTY && test $TERM != screen && test $(systemctl status screen@${USE
         echo "User: $USER - $UID"
         #systemctl --user start vnc@5901.service
         sleep 2
-        screen -UxR;
+        screen -UxR
 fi
