@@ -17,7 +17,7 @@ sync_config () {
 
 
 
-if $(ping -c 1 github.com > /dev/null 2>&1) ;then 
+if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
     if [ -d "${SCONF}" ]; then
         sync_config
     else
