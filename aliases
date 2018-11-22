@@ -62,4 +62,4 @@ alias u=umount
 alias vlc='VDPAU_DRIVER=va_gl vlc'
 alias wbackup="watch '/bin/mount|grep \"backup\\|mars\"; echo;echo;systemctl|grep backup;echo;echo;ls /dev/mapper/*|grep mars'"
 alias vi='/usr/bin/vim'
-alias rock64='sudo  minicom  -s  -D  /dev/ttyUSB0  -b  1500000  --color=on'
+alias rock64='sudo  minicom -D /dev/ttyUSB0 --color=on'
