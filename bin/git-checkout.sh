@@ -32,7 +32,7 @@ $(date)
 no changes in local repo
 EOF
     #echo "checkout origin/master as detached HEAD"
-    git checkout ${PRE}master 1>/dev/null 2>"${LOGFILE}"|| exit 2
+    git checkout ${PRE}master 1>/dev/null 2>>"${LOGFILE}"|| exit 2
 else
     cat << EOF >> "${LOGFILE}"
 
