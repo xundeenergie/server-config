@@ -25,7 +25,7 @@ git fetch -p || exit 1
 if git diff-index --exit-code HEAD --; then
 #    echo no changes in local repo
 #    echo "checkout origin/master as detached HEAD"
-    git checkout ${PRE}master 1>&2|| exit 2
+    git checkout ${PRE}master || exit 2
 else
     echo "Ich habe lokale Änderungen festgestellt"
     echo "um die Änderung zurückzusetzen bitte"
