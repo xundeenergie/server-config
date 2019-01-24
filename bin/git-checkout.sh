@@ -11,12 +11,21 @@
 # notes         :                                                                               #
 #################################################################################################
 
+case $1 in;
+    -h)
+        # Headless repo local
+        PRE="origin/"
+        ;;
+    *)
+        PRE=""
+        ;;
+esac
 git fetch -p || exit 1
 
 if git diff-index --exit-code HEAD --; then
     echo no changes in local repo
     echo "checkout origin/master as detached HEAD"
-    git checkout origin/master || exit 2
+    git checkout ${PRE}master || exit 2
 else
     echo "Ich habe lokale Änderungen festgestellt"
     echo "um die Änderung zurückzusetzen bitte"
