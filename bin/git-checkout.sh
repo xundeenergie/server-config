@@ -11,7 +11,10 @@
 # notes         :                                                                               #
 #################################################################################################
 
-LOGFILE=./logs/git.log
+LOGDIR="./logs"
+LOGFILE="${LOGDIR}/git.log"
+[ -d "${LOGDIR}" ] || mkdir -p "${LOGDIR}"
+
 case $1 in
     -h)
         # Headless repo local
