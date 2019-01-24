@@ -31,11 +31,9 @@ if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then
         # Initialize Vundle as preconfigured Submodule
         git submodule update --init --recursive
 
-        #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
         USERNAME="jakobus.schuerz"
         FULLNAME="Jakobus Schürz"
         
-
         git config user.email ${USERNAME}
         git config user.name ${FULLNAME}
 
@@ -52,6 +50,7 @@ if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then
         ln -sf "${SC}/bashrc_add" 
 
         # Install vim Plugins
+        #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
         vim -c "PluginInstall" -c ":qa!"
     fi
 else 
