@@ -37,11 +37,13 @@ if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then
         git config user.email ${USERNAME}
         git config user.name ${FULLNAME}
 
-        git config push.default simple
+        #git config push.default simple
+        git remote set-url origin --add git@git.schuerz.at:/srv/repos/public/server-config.git
 
         #git config credential.helper 'store'
         
-        sync_config
+        ./bin/git-checkout.sh 1>&2
+        #sync_config
         
         #Anlegen von Symlinks
         rm -rf ~/.vimrc ~/.vim ~/bashrc_add
