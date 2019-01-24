@@ -9,6 +9,11 @@
 set nocompatible              " required
 filetype off                  " required
 
+" If Vim Version >= 7.03, igore errors on startup, when missing plugins (for example using sudo vim on servers with personal login
+if version >= 703
+  set rnu
+endif
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -27,6 +32,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'rakr/vim-togglebg'
+"Plugin 'ryanpcmcquen/fix-vim-pasting'
 "Plugin 'Valloric/YouCompleteMe'
 
 " add all your plugins here (note older versions of Vundle
@@ -169,7 +175,7 @@ set cmdheight=2
 set notimeout ttimeout ttimeoutlen=200
  
 " Use <F11> to toggle between 'paste' and 'nopaste'
-set pastetoggle=<F11>
+set pastetoggle=<F2>
  
  
 "------------------------------------------------------------
@@ -214,6 +220,10 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
  
+" Map :next to <C-TAB> 
+nmap <C-Tab> :next<CR>
+nmap <C-S-Tab> :prev<CR>
+nmap <C-t> :tabnew<CR>
 "------------------------------------------------------------
 let g:SimplyFold_docstring_preview=1
 
@@ -359,19 +369,32 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 " Docs on mapping fast escape codes in vim
 " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 
-if exists("g:loaded_bracketed_paste")
-  finish
-endif
-let g:loaded_bracketed_paste = 1
+"if exists("g:loaded_bracketed_paste")
+"  finish
+"endif
+"let g:loaded_bracketed_paste = 1
 
-let &t_ti .= "\<Esc>[?2004h"
-let &t_te = "\e[?2004l" . &t_te
+function! WrapForTmux(s)
+  if !exists('$TMUX') || !exists('$SCREEN')
+    return a:s
+  endif
 
-function! XTermPasteBegin(ret)
-  set pastetoggle=<f29>
-  set paste
-  return a:ret
+  let tmux_start = "\<Esc>Ptmux;"
+  let tmux_end = "\<Esc>\\"
+
+  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
 endfunction
+
+let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 execute "set <f28>=\<Esc>[200~"
 execute "set <f29>=\<Esc>[201~"
