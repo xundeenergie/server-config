@@ -42,6 +42,7 @@ alias nedit='LC_ALL=ISO-8850-15;export LC_ALL;nedit -fn win8x15 -xrm "*fontList:
 alias netzwerk='watch "route; echo iwconfig; iwconfig 2> /dev/null ;echo; echo ifconfig; ifconfig 2> /dev/null; echo; echo arp -a; arp -a; echo EOF"'
 alias o='less -r'
 alias rd=rmdir
+alias ovpnrestart='sudo systemctl restart openvpn-client@${HOSTNAME}.service'
 alias scdr='systemctl --system daemon-reload'
 alias scpo='systemctl poweroff'
 alias scrb='systemctl reboot'
