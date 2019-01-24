@@ -2,6 +2,9 @@
 
 SC=server-config
 SCONF="${HOME}/${SC}"
+LOGDIR="./logs"
+LOGFILE="${LOGDIR}/git.log"
+[ -d "${LOGDIR}" ] || mkdir -p "${LOGDIR}"
 
 sync_config () {
     cd  "${SCONF}"
