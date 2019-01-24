@@ -7,7 +7,8 @@ sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
         echo -n Sync config with git: 1>&2
-    	git pull > /dev/null 2>&1
+    	#git pull > /dev/null 2>&1
+        ./bin/git-checkout.sh >> ./logs/git.log 1>&2
         #echo -n synced 1>&2
         printf '%s\n' "synced" 1>&2
     else
@@ -42,8 +43,7 @@ if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then
 
         #git config credential.helper 'store'
         
-        ./bin/git-checkout.sh 1>&2
-        #sync_config
+        sync_config
         
         #Anlegen von Symlinks
         rm -rf ~/.vimrc ~/.vim ~/bashrc_add
