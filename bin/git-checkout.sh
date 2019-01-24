@@ -11,6 +11,7 @@
 # notes         :                                                                               #
 #################################################################################################
 
+LOGFILE=./logs/git.log
 case $1 in
     -h)
         # Headless repo local
@@ -23,27 +24,32 @@ esac
 git fetch -p || exit 1
 
 if git diff-index --exit-code HEAD --; then
-    cat << EOF >> ./logs/git.log
-    $(date) 
-    no changes in local repo
+    cat << EOF >> "${LOGFILE}"
+
++-------------------------------------------------+
+$(date) 
+no changes in local repo
 EOF
     #echo "checkout origin/master as detached HEAD"
     git checkout ${PRE}master || exit 2
 else
-    echo "Ich habe lokale Änderungen festgestellt"
-    echo "um die Änderung zurückzusetzen bitte"
-    echo
-    echo "  git checkout \$FILENAME"
-    echo
-    echo "oder"
-    echo
-    echo "  git checkout ."
-    echo
-    echo "ausführen"
-    echo
-    echo "Die Änderungen sind:"; 
-    git diff-index HEAD --|awk '{print $5, $6}'
-    git diff-index -p HEAD --
+    cat << EOF >> "${LOGFILE}"
+    Ich habe lokale Änderungen festgestellt
+    um die Änderung zurückzusetzen bitte
+
+      git checkout \$FILENAME
+
+    oder
+
+      git checkout .
+
+    ausführen
+
+    Die Änderungen sind:
+EOF
+    git diff-index HEAD --|awk '{print $5, $6}' |tee -a "${LOGFILE}"
+    git diff-index -p HEAD --|tee -a "${LOGFILE}"
+
     exit 3
 
 fi
