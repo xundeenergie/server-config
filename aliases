@@ -11,6 +11,7 @@ alias dclogs='docker-compose logs -f'
 alias dcup='docker-compose up --build -d'
 alias dcpull='docker-compose pull'
 alias dcrestartcollabora='docker-compose restart collabora-code'
+alias dcrestart='docker-compose down && docker-compose pull && docker-compose up'
 alias dir='ls -l $LS_OPTIONS'
 alias fuck='sudo -i $(history -p \!\!)'
 alias git-getbranchauthors="git for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' | sort -k5n -k2M -k3n -k4n"
