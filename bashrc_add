@@ -6,8 +6,10 @@ SCONF="${HOME}/${SC}"
 sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
-        echo Sync config with git 1>&2
+        echo -n Sync config with git: 1>&2
     	git pull > /dev/null 2>&1
+        #echo -n synced 1>&2
+        printf '%s\n' "synced" 1>&2
     else
         echo "git not installed, no configuration possible, please install git" >&2
     	#curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
