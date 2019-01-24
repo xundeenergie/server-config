@@ -7,9 +7,10 @@ sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
         echo -n Sync config with git: 1>&2
-    	git pull > /dev/null 2>&1
+    	#git pull > /dev/null 2>&1
+        ./bin/git-checkout.sh -h || nok="not" #|tee -a ./logs/git.log 1>&2   
         #echo -n synced 1>&2
-        printf '%s\n' "synced" 1>&2
+        printf '%s\n' " ${nok}synced" 1>&2
     else
         echo "git not installed, no configuration possible, please install git" >&2
     	#curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
@@ -37,7 +38,8 @@ if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then
         git config user.email ${USERNAME}
         git config user.name ${FULLNAME}
 
-        git config push.default simple
+        #git config push.default simple
+        git remote set-url origin --add git@git.schuerz.at:/srv/repos/public/server-config.git
 
         #git config credential.helper 'store'
         
