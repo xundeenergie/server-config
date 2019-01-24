@@ -23,7 +23,7 @@ esac
 git fetch -p || exit 1
 
 if git diff-index --exit-code HEAD --; then
-    cat << EOF >> ../logs/git.log
+    cat << EOF >> ./logs/git.log
     $(date) 
     no changes in local repo
 EOF
