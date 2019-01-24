@@ -8,7 +8,7 @@ sync_config () {
     if which git >/dev/null; then
         echo -n Sync config with git: 1>&2
     	#git pull > /dev/null 2>&1
-        ./bin/git-checkout.sh >> ./logs/git.log 1>&2
+        ./bin/git-checkout.sh >> ./logs/git.log 2>&1
         #echo -n synced 1>&2
         printf '%s\n' "synced" 1>&2
     else
