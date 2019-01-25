@@ -10,9 +10,9 @@ set nocompatible              " required
 filetype off                  " required
 
 " If Vim Version >= 7.03, igore errors on startup, when missing plugins (for example using sudo vim on servers with personal login
-if version >= 703
-  set rnu
-endif
+"if version >= 703
+"  set rnu
+"endif
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -24,6 +24,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'Zenburn'
+Plugin 'Solarized'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-syntastic/syntastic'
