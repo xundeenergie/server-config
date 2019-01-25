@@ -21,11 +21,23 @@ sync_config () {
     cd ${HOME}
 }
 
+create_symlinks() {
 
+    cd  "${SCONF}"
+    #Anlegen von Symlinks
+    rm -rf ~/.vimrc ~/.vim ~/bashrc_add ~/.gitconfig
+    ln -sf "${SC}/vimrc" ~/.vimrc
+    ln -sf "${SC}/vim" ~/.vim
+    ln -sf "${SC}/.gitconfig" ~/.gitconfig
+    ln -sf "${SC}/bashrc_add" ~/bashrc_add
+    cd ~-
+
+}
 
 if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
     if [ -d "${SCONF}" ]; then
         sync_config
+        create_symlinks
     else
         echo "Create Server-Config and configure git"
         git clone "https://github.com/xundeenergie/server-config.git"
@@ -48,12 +60,7 @@ if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then
         
         sync_config
         
-        #Anlegen von Symlinks
-        rm -rf ~/.vimrc ~/.vim ~/bashrc_add
-        ln -sf "${SC}/vimrc" ~/.vimrc
-        ln -sf "${SC}/vim" ~/.vim
-        ln -sf "${SC}/.gitconfig" ~/.gitconfig
-        ln -sf "${SC}/bashrc_add" 
+        create_symlinks
 
         # Install vim Plugins
         #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
