@@ -52,6 +52,7 @@ if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then
         rm -rf ~/.vimrc ~/.vim ~/bashrc_add
         ln -sf "${SC}/vimrc" ~/.vimrc
         ln -sf "${SC}/vim" ~/.vim
+        ln -sf "${SC}/.gitconfig" ~/.gitconfig
         ln -sf "${SC}/bashrc_add" 
 
         # Install vim Plugins

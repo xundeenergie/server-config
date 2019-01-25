@@ -1,0 +1,23 @@
+[credential]
+	helper = cache --timeout 30000
+[user]
+	name = Jakobus Schürz
+	email = jakobus.schuerz@ebcont.com
+[push]
+	default = simple
+[core]
+	editor = vim
+[diff]
+	submodule = log
+[alias]
+	last = log -1 HEAD
+	unstage = reset HEAD --
+	visual = !gitk
+	tree = log --graph --all
+	hist = log --pretty=format:'%h %ad | %s%d [%an : %cn]' --graph --date=short
+	fixcached = rm -r --cached .
+[merge]
+	conflictstyle = diff3
+	tool = vimdiff
+[mergetool]
+	prompt = false
