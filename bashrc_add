@@ -9,11 +9,11 @@ LOGFILE="${LOGDIR}/git.log"
 sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
-        echo -n Sync config with git: 1>&2
+        echo -n Sync config with git : 1>&2
     	#git pull > /dev/null 2>&1
-        ./bin/git-checkout.sh || nok="not" #|tee -a ./logs/git.log 1>&2   
+        ./bin/git-checkout.sh || nok="not" 2>"${LOGFILE}i" 1>&2 #|tee -a ./logs/git.log 1>&2   
         #echo -n synced 1>&2
-        printf '%s\n' " ${nok}synced" 1>&2
+        printf '%s\n' "${nok}synced" 1>&2
     else
         echo "git not installed, no configuration possible, please install git" >&2
     	#curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
