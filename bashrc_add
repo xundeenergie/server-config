@@ -45,6 +45,8 @@ if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then
 
         #git config push.default simple
         git remote set-url origin --add git@git.schuerz.at:/srv/repos/public/server-config.git
+	
+
 
         #git config credential.helper 'store'
         
