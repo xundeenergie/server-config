@@ -21,6 +21,7 @@ sync_config () {
     cd ${HOME}
 }
 
+pwd
 . ./functions.sh
 
 if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
