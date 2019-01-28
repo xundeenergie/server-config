@@ -18,4 +18,4 @@ echo '     new HEAD: '`git name-rev --name-only $newHEAD`
 pwd
 REPODIR=$(git rev-parse --show-toplevel)
 . ./functions.sh
-create_symlinks $(REPODIR)
+create_symlinks ${REPODIR}
