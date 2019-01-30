@@ -276,8 +276,8 @@ set spelllang=de
 au BufNewFile,BufRead *.csv
     \ set fileformat=unix 
 
-" Javascript syntax
-au BufNewFile,BufRead *.js
+" Javascript and Java syntax
+au BufNewFile,BufRead *.js,*.java
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2 |
