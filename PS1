@@ -1,7 +1,7 @@
 # /etc/profile.d/PS1.sh: executed by Bourne-compatible login shells.
 
 parse_git_branch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+     git branch 2> /dev/null | sed -ne 's/* \(.*\)/ (\1)/p'
 }
 
 if [ -x "/usr/bin/getsyssubvol" ]; then
