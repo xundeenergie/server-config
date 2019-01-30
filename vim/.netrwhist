@@ -1,4 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/home/jakobus.schuerz/server-config'
-let g:netrw_dirhist_2='/home/jakobus.schuerz/BMI/firstPlugin/target/classes/at/schuerz/jira/firstPlugin/api'
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/jakob/.vim'

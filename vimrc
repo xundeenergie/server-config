@@ -9,10 +9,6 @@
 set nocompatible              " required
 filetype off                  " required
 
-" If Vim Version >= 7.03, igore errors on startup, when missing plugins (for example using sudo vim on servers with personal login
-"if version >= 703
-"  set rnu
-"endif
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -296,13 +292,21 @@ au BufNewFile,BufRead *.py,*pyw,*.c,*.h
     \ set autoindent |
     \ set fileformat=unix 
 
+au BufNewFile,BufRead *.yml,*yaml
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix 
 
-" Use the below highlight group when displaying bad whitespace is desired.
+"Use the below highlight group when displaying bad whitespace is desired.
 highlight BadWhitespace ctermbg=red guibg=red
 
 " Display tabs at the beginning of a line in Python mode as bad.
 au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
-" Make trailing whitespace be flagged as bad.
+" Make trailing whitespaces be flagged as bad.
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " yaml syntax
