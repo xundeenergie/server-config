@@ -1,9 +1,12 @@
+#!/bin/bash
+
 SC=server-config
 SCONF="${HOME}/${SC}"
+
 sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
-        #echo Sync config with git
+        echo Sync config with git
     	git pull > /dev/null 2>&1
     	if [ -f "${SCONF}/bashrc_local" ]; then
     		. "${SCONF}/bashrc_local"
@@ -15,32 +18,44 @@ sync_config () {
     cd ${HOME}
 }
 
-if [ -d "${SCONF}" ]; then
-    sync_config
-else
-    echo "Create Server-Config and configure git"
-    #mkdir -p "${SCONF}"
-    #git init
-    git clone "https://github.com/xundeenergie/server-config.git"
-    #git clone "https://git.ebcont.com/jakobus.schuerz/server-config.git"
 
-    
-    cd  "${SCONF}"
-    USERNAME="jakobus.schuerz"
-    FULLNAME="Jakobus Schürz"
-    
 
-    git config user.email ${USERNAME}
-    git config user.name ${FULLNAME}
+if $(ping -c 1 github.com > /dev/null 2>&1) ;then 
+    if [ -d "${SCONF}" ]; then
+        sync_config
+    else
+        echo "Create Server-Config and configure git"
+        #mkdir -p "${SCONF}"
+        #git init
+        git clone "https://github.com/xundeenergie/server-config.git"
 
-    git config push.default simple
+        
+        cd  "${SCONF}"
 
-    #git config credential.helper 'store'
-    
-    sync_config
-    
-    #Anlegen von Symlinks
-    ln -sf "${SC}/vimrc" .vimrc
-    ln -sf "${SC}/vim" .vim
-    ln -sf "${SC}/bashrc_add" 
+        # Initialize Vundle as preconfigured Submodule
+        git submodule update --init --recursive
+        echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
+        USERNAME="jakobus.schuerz"
+        FULLNAME="Jakobus Schürz"
+        
+
+        git config user.email ${USERNAME}
+        git config user.name ${FULLNAME}
+
+        git config push.default simple
+
+        #git config credential.helper 'store'
+        
+        sync_config
+        
+        #Anlegen von Symlinks
+        rm -rf "~/vimrc" "~/vim"
+        ln -sf "${SC}/vimrc" .vimrc
+        ln -sf "${SC}/vim" .vim
+        ln -sf "${SC}/bashrc_add" 
+    fi
+else 
+    echo github.com not reachable;
+    echo profile not syncing;
 fi
+
