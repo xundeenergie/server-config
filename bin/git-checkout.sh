@@ -58,7 +58,7 @@ EOF
     git diff-index HEAD --|awk '{print $5, $6}' >>  "${LOGFILE}"
     git diff-index -p HEAD -- >> "${LOGFILE}"
 
-    echo "Lokale Änderungen festgestellt: Siehe Logfile ${LOGFILE}" > &2
+    echo "Lokale Änderungen festgestellt: Siehe Logfile ${LOGFILE}" >&2
     exit 3
 
 fi
