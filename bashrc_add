@@ -29,7 +29,8 @@ if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then
         create_symlinks "$SCONF"
     else
         echo "Create Server-Config and configure git"
-        git clone "https://github.com/xundeenergie/server-config.git"
+        git clone "https://git.schuerz.at/public/server-config.git"
+        #git clone "https://github.com/xundeenergie/server-config.git"
         
         cd  "${SCONF}"
 
