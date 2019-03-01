@@ -34,18 +34,20 @@ git fetch -p  2>>"${LOGFILE}"|| exit 1
 
 if git diff-index --exit-code HEAD -- >/dev/null ; then
     cat << EOF >> "${LOGFILE}"
+Check for local changes:
     no changes in local repo
 EOF
     #echo "checkout origin/master as detached HEAD"
     git checkout ${PRE}master 1>/dev/null 2>>"${LOGFILE}"|| exit 2
 else
     cat << EOF >> "${LOGFILE}"
+Check for local changes:
     Ich habe lokale Änderungen festgestellt
     um die Änderung zurückzusetzen bitte
 
       git checkout \$FILENAME
 
-    oder
+    oder um alle lokalen Änderungen auf einmal zurückzusetzen:
 
       git checkout .
 
