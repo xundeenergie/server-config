@@ -18,7 +18,10 @@ sync_config () {
     if which git >/dev/null; then
         echo -n "Sync config with git: " 1>&2
     	#git pull > /dev/null 2>&1
-        ./bin/git-checkout.sh ${HEADLESS} || nok="not" 2>"${LOGFILE}" 1>&2 #|tee -a ./logs/git.log 1>&2   
+        # GITCHECKOUT_SCRIPT_OPTIONS are options for bin/git-checkout.sh
+        # this are now:
+        #   -h for headless repo
+        ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} || nok="not" 2>"${LOGFILE}" 1>&2 #|tee -a ./logs/git.log 1>&2   
         #echo -n synced 1>&2
         printf '%s\n' "${nok}synced" 1>&2
     else
