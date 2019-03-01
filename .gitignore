@@ -4,3 +4,4 @@ vim/bundle
 *.log
 *.swp
 *.orig
+serverconfig.local.conf
