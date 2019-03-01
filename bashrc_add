@@ -50,7 +50,7 @@ if $(curl -sSf "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" > /dev/null 2>&1) ;then
         git config user.name ${FULLNAME}
 
         #git config push.default simple
-        git remote set-url origin --add "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}
+        git remote set-url origin --add "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
 	
 
 
