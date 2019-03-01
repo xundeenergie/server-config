@@ -16,9 +16,7 @@ LOGFILE="${LOGDIR}/git.log"
 [ -d "${LOGDIR}" ] || mkdir -p "${LOGDIR}"
 
 cat << EOF >> "${LOGFILE}"
-
-+-------------------------------------------------+
-$(date) 
++-----BEGINN $(date) -------------------------------+
 EOF
 
 case $1 in
