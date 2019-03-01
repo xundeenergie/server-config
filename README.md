@@ -2,14 +2,21 @@
 
 Damit auf einem neuen Server meine persönlichen Alias und Bash-Promt, wie auch verschiedene andere Befehle (vim in sudo mit der vimrc des Benutzers) zur Verfügung stehen, muss als erstes nach dem ersten Login folgendes ausgeführt werden:
 
+Download von github
 ```
-wget https://git.ebcont.com/jakobus.schuerz/server-config/raw/master/bashrc_add
-vi .bashrc
+curl -o bashrc_add "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add"
 ```
-Dies lädt die Datei bashrc_add ins Home-Verzeichnis. 
+oder Download von git.schuerz.at
+```
+curl -o bashrc_add "https://git.schuerz.at/?p=server-config.git;a=blob_plain;f=bashrc_add;hb=HEAD"
+```
+
+## Einbinden von bashrc_add in die bash 
 
 Die Default .bashrc muss am Ende um folgende Zeilen ergänzt werden:
 ```
+vi .bashrc
+
 # User specific aliases and function
 [ -f bashrc_add ] && . bashrc_add
 ```
