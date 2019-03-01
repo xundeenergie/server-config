@@ -11,6 +11,16 @@ oder Download von git.schuerz.at
 curl -o bashrc_add "https://git.schuerz.at/?p=server-config.git;a=blob_plain;f=bashrc_add;hb=HEAD"
 ```
 
+## Lokale Configuration
+Die Datei - so vorhanden -  ~/server-config/serverconfig.local.conf wird gesourced.
+Die Variablen werden in Bash-Syntax definiert. Also in Hochkommas und Leerzeichengetrennt
+Momentan verwendete Variablen darin sind:
+GITCHECKOUT_SCRIPT_OPTIONS=
+Mögliche Optionen:
+    * -h
+Verwendung: Damit kann man angeben, ob ein headless Repo erzeugt wird. Ohne -h folgt das Repo origin/master
+
+
 ## Einbinden von bashrc_add in die bash 
 
 Die Default .bashrc muss am Ende um folgende Zeilen ergänzt werden:
