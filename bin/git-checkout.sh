@@ -57,6 +57,11 @@ EOF
     git diff-index -p HEAD -- >> "${LOGFILE}"
 
     echo "Lokale Änderungen festgestellt: Siehe Logfile $(pwd)${LOGFILE}" >&2
+cat << EOF >> "${LOGFILE}"
+
++-----ENDE $(date) ---------------------------------+
+ 
+EOF
     exit 3
 
 fi
