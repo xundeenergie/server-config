@@ -15,6 +15,12 @@ LOGDIR="./logs"
 LOGFILE="${LOGDIR}/git.log"
 [ -d "${LOGDIR}" ] || mkdir -p "${LOGDIR}"
 
+cat << EOF >> "${LOGFILE}"
+
++-------------------------------------------------+
+$(date) 
+EOF
+
 case $1 in
     -h)
         # Headless repo local
@@ -24,24 +30,16 @@ case $1 in
         PRE=""
         ;;
 esac
-git fetch -p || exit 1
+git fetch -p  2>>"${LOGFILE}"|| exit 1
 
 if git diff-index --exit-code HEAD -- >/dev/null ; then
     cat << EOF >> "${LOGFILE}"
-
-+-------------------------------------------------+
-$(date) 
-
-no changes in local repo
+    no changes in local repo
 EOF
     #echo "checkout origin/master as detached HEAD"
     git checkout ${PRE}master 1>/dev/null 2>>"${LOGFILE}"|| exit 2
 else
     cat << EOF >> "${LOGFILE}"
-
-+-------------------------------------------------+
-$(date) 
-
     Ich habe lokale Änderungen festgestellt
     um die Änderung zurückzusetzen bitte
 
@@ -63,5 +61,10 @@ EOF
 
 fi
 
+cat << EOF >> "${LOGFILE}"
+
++-----ENDE $(date) ---------------------------------+
+ 
+EOF
 exit 0
 
