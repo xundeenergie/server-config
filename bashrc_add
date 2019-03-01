@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 GIT_HTTP_PROTOCOL="http://"
 GIT_SSH_PROTOCOL="git@"
 GIT_SERVER="git.schuerz.at"
@@ -10,13 +11,14 @@ SCONF="${HOME}/${SC}"
 LOGDIR="./logs"
 LOGFILE="${LOGDIR}/git.log"
 [ -d "${LOGDIR}" ] || mkdir -p "${LOGDIR}"
+[ -f "${SCONF}/serverconfig.local.conf" ] && . "${SCONF}/serverconfig.local.conf"
 
 sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
         echo -n "Sync config with git: " 1>&2
     	#git pull > /dev/null 2>&1
-        ./bin/git-checkout.sh || nok="not" 2>"${LOGFILE}" 1>&2 #|tee -a ./logs/git.log 1>&2   
+        ./bin/git-checkout.sh ${HEADLESS} || nok="not" 2>"${LOGFILE}" 1>&2 #|tee -a ./logs/git.log 1>&2   
         #echo -n synced 1>&2
         printf '%s\n' "${nok}synced" 1>&2
     else
