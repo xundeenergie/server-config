@@ -21,5 +21,5 @@ if [ -f "${SCONF}/PS1" ]; then
 	. "${SCONF}/PS1"
 fi
 
-
-
+if [ -f "~/.config/gnome-shell-extensions-default.list" ]; then
+    gnome-shell-extensions-enable-defaults () { for i in $(cat "~/.config/gnome-shell-extensions-default.list"); do gnome-shell-extension-tool -e $i;done; }
