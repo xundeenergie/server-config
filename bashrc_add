@@ -21,7 +21,7 @@ sync_config () {
         # GITCHECKOUT_SCRIPT_OPTIONS are options for bin/git-checkout.sh
         # this are now:
         #   -h for headless repo
-        ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} || nok="not" 2>"${LOGFILE}" 1>&2 #|tee -a ./logs/git.log 1>&2   
+        ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} || nok="not" 2>>"${LOGFILE}" 1>&2 #|tee -a ./logs/git.log 1>&2   
         #echo -n synced 1>&2
         printf '%s\n' "${nok}synced" 1>&2
     else
@@ -40,7 +40,7 @@ if $(curl --connect-timeout 3 -m 4 -sSf "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" > /d
         create_symlinks "$SCONF"
     else
         echo "Create Server-Config and configure git"
-        git clone "${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPOPATH}" 2>"${LOGFILE}"
+        git clone "${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPOPATH}" 2>>"${LOGFILE}"
         #git clone "https://github.com/xundeenergie/server-config.git"
         
         cd  "${SCONF}"
