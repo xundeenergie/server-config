@@ -16,7 +16,7 @@ LOGFILE="${LOGDIR}/git.log"
 sync_config () {
     cd  "${SCONF}"
     if which git >/dev/null; then
-        echo -n "Sync config with git: " 1>&2
+        echo -n "Sync config with ${GIT_SERVER}: " 1>&2
     	#git pull > /dev/null 2>&1
         # GITCHECKOUT_SCRIPT_OPTIONS are options for bin/git-checkout.sh
         # this are now:
