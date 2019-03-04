@@ -70,7 +70,7 @@ if $(curl --connect-timeout 3 -m 4 -sSf "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" > /d
         vim -c "PluginInstall" -c ":qa!"
     fi
 else 
-    echo github.com not reachable >&2;
+    echo "${GIT_SERVER}" not reachable >&2;
     echo profile not syncing >&2;
 fi
 
