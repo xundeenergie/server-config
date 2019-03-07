@@ -37,7 +37,12 @@ Check for local changes:
 EOF
     #echo "checkout origin/master as detached HEAD"
     git checkout ${PRE}master 1>/dev/null 2>>"${LOGFILE}"|| exit 2
-    git submodule update --remote --merge || exit 9
+    if $(curl --connect-timeout 1 -m 1 -sSf "http://github.com" > /dev/null 2>&1) ;then 
+        echo -n "Sync submodules: " 1>&2
+        git submodule update --remote --merge || exit 9
+    else
+        echo "Syncing of submodules not possible, github.com not reachable"
+    fi
 else
     cat << EOF >> "${LOGFILE}"
 Check for local changes:
