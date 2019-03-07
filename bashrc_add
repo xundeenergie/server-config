@@ -43,6 +43,7 @@ sync_config () {
 
 . ${SCONF}/functions.sh
 
+cd  "${SCONF}"
 #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
 #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
 if $( git ls-remote >/dev/null ) ;then 
@@ -98,3 +99,5 @@ if test $SSH_TTY && test $TERM != screen && test $(systemctl status screen@${USE
         sleep 2
         screen -UxR
 fi
+
+cd ${HOME}
