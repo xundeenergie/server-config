@@ -21,7 +21,7 @@ sync_config () {
         # GITCHECKOUT_SCRIPT_OPTIONS are options for bin/git-checkout.sh
         # this are now:
         #   -h for headless repo
-        ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} || nok="not" 2>>"${LOGFILE}" 1>&2 #|tee -a ./logs/git.log 1>&2   
+        ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} || nok="not " 2>>"${LOGFILE}" 1>&2 #|tee -a ./logs/git.log 1>&2   
         #echo -n synced 1>&2
         printf '%s\n' "${nok}synced" 1>&2
 
@@ -29,7 +29,8 @@ sync_config () {
         #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}"|grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
         if $( git ls-remote >/dev/null ) ;then 
             echo -n "Sync submodules: " 1>&2
-            git submodule update --remote --merge || exit 9
+            git submodule update --remote --merge || nok="not " 2>>"${LOGFILE}" 1>&2
+            printf '%s\n' "${nok}synced" 1>&2
         else
             echo "Syncing of submodules not possible, github.com not reachable"
         fi
