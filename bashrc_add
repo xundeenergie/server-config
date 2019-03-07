@@ -26,7 +26,7 @@ sync_config () {
         printf '%s\n' "${nok}synced" 1>&2
 
         # Sync submodules
-        if [ $(curl -sLI --connect-timeout 1 -m 1 -sSf "${GIT_HTTP_PROTOCOL}${GIT_SERVER}"|head -n1|cut -d$'' -f2 ) -ne 200 ] ;then 
+        if [ $(curl -sLI --connect-timeout 1 -m 1 -sSf "${GIT_HTTP_PROTOCOL}${GIT_SERVER}"|head -n1|cut -d$'' -f2 ) -eq 200 ] ;then 
             echo -n "Sync submodules: " 1>&2
             git submodule update --remote --merge || exit 9
         else
@@ -43,7 +43,7 @@ sync_config () {
 . ${SCONF}/functions.sh
 
 #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
-if [ $(curl -sLI --connect-timeout 1 -m 1 -sSf "${GIT_HTTP_PROTOCOL}${GIT_SERVER}"|head -n1|cut -d$'' -f2 ) -ne 200 ] ;then 
+if [ $(curl -sLI --connect-timeout 1 -m 1 -sSf "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |head -n1|cut -d$'' -f2 ) -eq 200 ] ;then 
     if [ -d "${SCONF}" ]; then
         sync_config
         create_symlinks "$SCONF"
