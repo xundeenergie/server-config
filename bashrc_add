@@ -25,17 +25,26 @@ sync_config () {
         #echo -n synced 1>&2
         printf '%s\n' "${nok}synced" 1>&2
 
-        # Sync submodules
-        #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}"|grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
-        #if $( git ls-remote >/dev/null 2>&1) ;then 
-        if $( git ls-remote https://github.com/VundleVim/Vundle.vim HEAD >/dev/null 2>&1) ;then 
+cat << EOF
 
-            echo -n "Sync submodules: " 1>&2
-            git submodule update --remote --merge >/dev/null 2>&1 || nok="not " 2>>"${LOGFILE}" 1>&2
-            printf '%s\n' "${nok}synced" 1>&2
-        else
-            echo "Syncing of submodules not possible, github.com not reachable"
-        fi
+---------------------------------------------------
+if you want to update submodules, change dir an run
+cd ~/server-config
+git submodule update --remote --merge
+cd ~
+---------------------------------------------------
+EOF
+#        # Sync submodules
+#        #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}"|grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
+#        if $( git ls-remote >/dev/null 2>&1) ;then 
+#        #if $( git ls-remote https://github.com/VundleVim/Vundle.vim HEAD >/dev/null 2>&1) ;then 
+#
+#            echo -n "Sync submodules: " 1>&2
+#            git submodule update --remote --merge >/dev/null 2>&1 || nok="not " 2>>"${LOGFILE}" 1>&2
+#            printf '%s\n' "${nok}synced" 1>&2
+#        else
+#            echo "Syncing of submodules not possible, github.com not reachable"
+#        fi
 
     else
         echo "git not installed, no configuration possible, please install git" >&2
