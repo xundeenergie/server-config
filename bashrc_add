@@ -27,7 +27,9 @@ sync_config () {
 
         # Sync submodules
         #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}"|grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
-        if $( git ls-remote >/dev/null 2>&1) ;then 
+        #if $( git ls-remote >/dev/null 2>&1) ;then 
+        if $( git ls-remote https://github.com/VundleVim/Vundle.vim HEAD >/dev/null 2>&1) ;then 
+
             echo -n "Sync submodules: " 1>&2
             git submodule update --remote --merge >/dev/null 2>&1 || nok="not " 2>>"${LOGFILE}" 1>&2
             printf '%s\n' "${nok}synced" 1>&2
