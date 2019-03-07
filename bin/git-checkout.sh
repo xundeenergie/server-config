@@ -66,13 +66,6 @@ EOF
 
 fi
 
-if $(curl --connect-timeout 1 -m 1 -sSf "http://github.com" > /dev/null 2>&1) ;then 
-    echo -n "Sync submodules: " 1>&2
-    git submodule update --remote --merge || exit 9
-else
-    echo "Syncing of submodules not possible, github.com not reachable"
-fi
-
 cat << EOF >> "${LOGFILE}"
 
 +-----ENDE $(date) ---------------------------------+
