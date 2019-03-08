@@ -25,7 +25,7 @@ sync_config () {
         #echo -n synced 1>&2
         printf '%s\n' "${nok}synced" 1>&2
 
-cat << EOF
+cat << EOF >&2
 
 ---------------------------------------------------
 if you want to update submodules, change dir an run
