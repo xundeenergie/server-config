@@ -30,17 +30,17 @@ call vundle#begin()
 "Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 "Plugin 'rakr/vim-togglebg'
 
-Plugin 'http://git.schuerz.at/public/Vundle.vim'
-Plugin 'http://git.schuerz.at/public/Zenburn'
-Plugin 'http://git.schuerz.at/public/Solarized'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'tmhedberg/SimpylFold'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'rakr/vim-togglebg'
+Plugin 'http://git.schuerz.at/public/Vundle.vim.git'
+Plugin 'http://git.schuerz.at/public/Zenburn.git'
+Plugin 'http://git.schuerz.at/public/vim-colors-solarized.git'
+Plugin 'http://git.schuerz.at/public/indentpython.vim.git'
+Plugin 'http://git.schuerz.at/public/SimpylFold.git'
+Plugin 'http://git.schuerz.at/public/syntastic.git'
+Plugin 'http://git.schuerz.at/public/ctrlp.vim.git'
+Plugin 'http://git.schuerz.at/public/vim-nerdtree-tabs.git'
+Plugin 'http://git.schuerz.at/public/vim-fugitive.git'
+Plugin 'http://git.schuerz.at/public/powerline.git', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'http://git.schuerz.at/public/vim-togglebg.git'
 "Plugin 'ryanpcmcquen/fix-vim-pasting'
 "Plugin 'Valloric/YouCompleteMe'
 
