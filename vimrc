@@ -168,10 +168,11 @@ set visualbell
 set t_vb=
 
 " check if mouse is enabled
-if has('mouse')
-    " Enable use of the mouse for all modes
-    set mouse=a
-endif 
+" Disabled, because mark and paste outside vim is not working correctly
+"if has('mouse')
+"    " Enable use of the mouse for all modes
+"    set mouse=a
+"endif 
  
 " Set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
