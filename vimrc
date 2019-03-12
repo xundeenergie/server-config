@@ -18,9 +18,21 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'Zenburn'
-Plugin 'Solarized'
+"Plugin 'gmarik/Vundle.vim'
+"Plugin 'Zenburn'
+"Plugin 'Solarized'
+"Plugin 'vim-scripts/indentpython.vim'
+"Plugin 'tmhedberg/SimpylFold'
+"Plugin 'vim-syntastic/syntastic'
+"Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'jistr/vim-nerdtree-tabs'
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+"Plugin 'rakr/vim-togglebg'
+
+Plugin 'http://git.schuerz.at/public/Vundle.vim'
+Plugin 'http://git.schuerz.at/public/Zenburn'
+Plugin 'http://git.schuerz.at/public/Solarized'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-syntastic/syntastic'
