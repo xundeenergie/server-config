@@ -406,13 +406,15 @@ endfunction
 let &t_SI .= WrapForTmux("\<Esc>[?2004h")
 let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
 function! XTermPasteBegin()
   set pastetoggle=<Esc>[201~
   set paste
-  return "a:ret"
+  "return "a:ret"
+  return ""
 endfunction
 
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 execute "set <f28>=\<Esc>[200~"
 execute "set <f29>=\<Esc>[201~"
