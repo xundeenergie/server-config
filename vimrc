@@ -29,6 +29,7 @@ call vundle#begin()
 "Plugin 'tpope/vim-fugitive'
 "Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 "Plugin 'rakr/vim-togglebg'
+"Plugin 'ConradIrwin/vim-bracketed-paste'
 
 Plugin 'http://git.schuerz.at/public/Vim/Vundle.vim.git'
 Plugin 'http://git.schuerz.at/public/Vim/Zenburn.git'
@@ -41,7 +42,7 @@ Plugin 'http://git.schuerz.at/public/Vim/vim-nerdtree-tabs.git'
 Plugin 'http://git.schuerz.at/public/Vim/vim-fugitive.git'
 Plugin 'http://git.schuerz.at/public/Vim/powerline.git', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'http://git.schuerz.at/public/Vim/vim-togglebg.git'
-Plugin 'ConradIrwin/vim-bracketed-paste'
+Plugin 'http://git.schuerz.at/public/Vim/vim-bracketed-paste'
 "Plugin 'ryanpcmcquen/fix-vim-pasting'
 "Plugin 'Valloric/YouCompleteMe'
 
