@@ -42,7 +42,7 @@ Plugin 'http://git.schuerz.at/public/Vim/vim-nerdtree-tabs.git'
 Plugin 'http://git.schuerz.at/public/Vim/vim-fugitive.git'
 Plugin 'http://git.schuerz.at/public/Vim/powerline.git', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'http://git.schuerz.at/public/Vim/vim-togglebg.git'
-Plugin 'http://git.schuerz.at/public/Vim/vim-bracketed-paste'
+Plugin 'http://git.schuerz.at/public/Vim/vim-bracketed-paste.git'
 "Plugin 'ryanpcmcquen/fix-vim-pasting'
 "Plugin 'Valloric/YouCompleteMe'
 
