@@ -28,7 +28,6 @@ case $1 in
         PRE=""
         ;;
 esac
-echo 2git fetch 2>>"${LOGFILE}"
 git fetch -p  2>>"${LOGFILE}"|| exit 1
 
 if git diff-index --exit-code HEAD -- >/dev/null ; then
