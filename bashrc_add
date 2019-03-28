@@ -109,7 +109,8 @@ if test $SSH_TTY && test $TERM != screen && test $(systemctl status screen@${USE
         echo "User: $USER - $UID"
         #systemctl --user start vnc@5901.service
         sleep 2
-        screen -UxR
+        #screen -UxR
+        tmux attach-session
 fi
 
 cd ${HOME}
