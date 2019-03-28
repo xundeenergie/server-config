@@ -10,6 +10,7 @@ SC=server-config
 SCONF="${HOME}/${SC}"
 LOGDIR="./logs"
 LOGFILE="${LOGDIR}/git.log"
+GITCHECKOUT_SCRIPT_OPTIONS="-h"
 [ -d "${LOGDIR}" ] || mkdir -p "${LOGDIR}"
 [ -f "${SCONF}/serverconfig.local.conf" ] && . "${SCONF}/serverconfig.local.conf"
 
