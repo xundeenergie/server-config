@@ -59,7 +59,7 @@ cd  "${SCONF}"
 #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
 #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
 if $( timeout --foreground 3s git ls-remote >/dev/null  2>&1) ;then 
-    if [ -d "${SCONF}" ]; then
+    if [ -d "${SCONF}" -a $TERM != screen ]; then
         sync_config
         create_symlinks "$SCONF"
     else
