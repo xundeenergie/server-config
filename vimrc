@@ -394,34 +394,34 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 "endif
 "let g:loaded_bracketed_paste = 1
 
-function! WrapForTmux(s)
-  if !exists('$TMUX') || !exists('$SCREEN')
-    return a:s
-  endif
-
-  let tmux_start = "\<Esc>Ptmux;"
-  let tmux_end = "\<Esc>\\"
-
-  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-endfunction
-
-let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-let &t_EI .= WrapForTmux("\<Esc>[?2004l")
-
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
-function! XTermPasteBegin()
-  set pastetoggle=<Esc>[201~
-  set paste
-  "return "a:ret"
-  return ""
-endfunction
-
-
-execute "set <f28>=\<Esc>[200~"
-execute "set <f29>=\<Esc>[201~"
-map <expr> <f28> XTermPasteBegin("i")
-imap <expr> <f28> XTermPasteBegin("")
-vmap <expr> <f28> XTermPasteBegin("c")
-cmap <f28> <nop>
-cmap <f29> <nop>
+"function! WrapForTmux(s)
+"  if !exists('$TMUX') || !exists('$SCREEN')
+"    return a:s
+"  endif
+"
+"  let tmux_start = "\<Esc>Ptmux;"
+"  let tmux_end = "\<Esc>\\"
+"
+"  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+"endfunction
+"
+"let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+"let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+"
+"inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+"
+"function! XTermPasteBegin()
+"  set pastetoggle=<Esc>[201~
+"  set paste
+"  "return "a:ret"
+"  return ""
+"endfunction
+"
+"
+"execute "set <f28>=\<Esc>[200~"
+"execute "set <f29>=\<Esc>[201~"
+"map <expr> <f28> XTermPasteBegin("i")
+"imap <expr> <f28> XTermPasteBegin("")
+"vmap <expr> <f28> XTermPasteBegin("c")
+"cmap <f28> <nop>
+"cmap <f29> <nop>
