@@ -6,3 +6,6 @@ vim/bundle/*
 *.swp
 *.orig
 serverconfig.local.conf
+!tmux/
+tmux/plugins
+tmux/themepack
