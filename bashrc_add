@@ -54,7 +54,31 @@ EOF
     cd ${HOME}
 }
 
-. ${SCONF}/functions.sh
+
+create_symlinks() {
+
+    SCONFDIR="$1"
+    DIR="$(basename ${SCONFDIR})"
+    cd  "${SCONFDIR}"
+    git config credential.helper 'cache --timeout=300'
+    #Anlegen von Symlinks
+    rm -rf ~/.vimrc ~/.vim ~/bashrc_add ~/.gitconfig ~/.tmux.conf ~/.tmux
+    ln -sf "${DIR}/vimrc" ~/.vimrc
+    ln -sf "${DIR}/vim" ~/.vim
+    ln -sf "${DIR}/.gitconfig" ~/.gitconfig
+    ln -sf "${DIR}/bashrc_add" ~/bashrc_add
+    ln -sf "${DIR}/tmux.conf" ~/.tmux.conf
+    ln -sf "${DIR}/tmux" ~/.tmux
+
+    git config core.hooksPath .githooks
+    find .git/hooks -type l -exec rm {} \; && find .githooks -type f -exec ln -sf ../../{} .git/hooks/ \;
+
+    cd ~-
+
+}
+
+
+#. ${SCONF}/functions.sh
 
 cd  "${SCONF}"
 #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
