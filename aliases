@@ -1,5 +1,6 @@
 #Persönliche Aliases
 
+alias aptupgrade='/usr/bin/apt update && /usr/bin/apt dist-upgrade'
 alias bkpcheck='sudo du -sch /mnt/backup/prod-ml/MarkLogic/*/* && sudo grep "Finishing backup" /var/opt/MarkLogic/Logs/ErrorLog*.txt | grep "$(date +"%Y%m%d" -d "last sunday")"'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -39,6 +40,7 @@ alias md='mkdir -p'
 alias me='owndisk mount'
 alias mkbackupinfo='mkbackup -Vi list SNP BKP SRC'
 alias m=mount
+alias myip='curl "http://icanhazip.com/"'
 alias ncmpcpp='ncmpcpp -h "${MPD_HOST}" -p "${MPD_PORT}"'
 alias nedit='LC_ALL=ISO-8850-15;export LC_ALL;nedit -fn win8x15 -xrm "*fontList:win8x15"'
 alias netzwerk='watch "route; echo iwconfig; iwconfig 2> /dev/null ;echo; echo ifconfig; ifconfig 2> /dev/null; echo; echo arp -a; arp -a; echo EOF"'
@@ -67,3 +69,4 @@ alias vlc='VDPAU_DRIVER=va_gl vlc'
 alias wbackup="watch '/bin/mount|grep \"backup\\|mars\"; echo;echo;systemctl|grep backup;echo;echo;ls /dev/mapper/*|grep mars'"
 alias vi='/usr/bin/vim'
 alias rock64='sudo  minicom -D /dev/ttyUSB0 --color=on'
+alias rock64='sudo  minicom -D /dev/ttyUSB0 -b 1500000--color=on'

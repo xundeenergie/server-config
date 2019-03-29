@@ -18,17 +18,31 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'Zenburn'
-Plugin 'Solarized'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'tmhedberg/SimpylFold'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'rakr/vim-togglebg'
+"Plugin 'gmarik/Vundle.vim'
+"Plugin 'Zenburn'
+"Plugin 'Solarized'
+"Plugin 'vim-scripts/indentpython.vim'
+"Plugin 'tmhedberg/SimpylFold'
+"Plugin 'vim-syntastic/syntastic'
+"Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'jistr/vim-nerdtree-tabs'
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+"Plugin 'rakr/vim-togglebg'
+"Plugin 'ConradIrwin/vim-bracketed-paste'
+
+Plugin 'http://git.schuerz.at/public/Vim/Vundle.vim.git'
+Plugin 'http://git.schuerz.at/public/Vim/Zenburn.git'
+Plugin 'http://git.schuerz.at/public/Vim/vim-colors-solarized.git'
+Plugin 'http://git.schuerz.at/public/Vim/indentpython.vim.git'
+Plugin 'http://git.schuerz.at/public/Vim/SimpylFold.git'
+Plugin 'http://git.schuerz.at/public/Vim/syntastic.git'
+Plugin 'http://git.schuerz.at/public/Vim/ctrlp.vim.git'
+Plugin 'http://git.schuerz.at/public/Vim/vim-nerdtree-tabs.git'
+Plugin 'http://git.schuerz.at/public/Vim/vim-fugitive.git'
+Plugin 'http://git.schuerz.at/public/Vim/powerline.git', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'http://git.schuerz.at/public/Vim/vim-togglebg.git'
+Plugin 'http://git.schuerz.at/public/Vim/vim-bracketed-paste.git'
 "Plugin 'ryanpcmcquen/fix-vim-pasting'
 "Plugin 'Valloric/YouCompleteMe'
 
@@ -156,10 +170,11 @@ set visualbell
 set t_vb=
 
 " check if mouse is enabled
-if has('mouse')
-    " Enable use of the mouse for all modes
-    set mouse=a
-endif 
+" Disabled, because mark and paste outside vim is not working correctly
+"if has('mouse')
+"    " Enable use of the mouse for all modes
+"    set mouse=a
+"endif 
  
 " Set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
@@ -379,6 +394,7 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 "endif
 "let g:loaded_bracketed_paste = 1
 
+<<<<<<< HEAD
 function! WrapForTmux(s)
   if !exists('$TMUX') || !exists('$SCREEN')
     return a:s
@@ -412,3 +428,66 @@ cmap <f29> <nop>
 if !has("unix")
     set guioptions-=aA
 endif
+||||||| merged common ancestors
+function! WrapForTmux(s)
+  if !exists('$TMUX') || !exists('$SCREEN')
+    return a:s
+  endif
+
+  let tmux_start = "\<Esc>Ptmux;"
+  let tmux_end = "\<Esc>\\"
+
+  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+endfunction
+
+let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return "a:ret"
+endfunction
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+execute "set <f28>=\<Esc>[200~"
+execute "set <f29>=\<Esc>[201~"
+map <expr> <f28> XTermPasteBegin("i")
+imap <expr> <f28> XTermPasteBegin("")
+vmap <expr> <f28> XTermPasteBegin("c")
+cmap <f28> <nop>
+cmap <f29> <nop>
+=======
+"function! WrapForTmux(s)
+"  if !exists('$TMUX') || !exists('$SCREEN')
+"    return a:s
+"  endif
+"
+"  let tmux_start = "\<Esc>Ptmux;"
+"  let tmux_end = "\<Esc>\\"
+"
+"  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+"endfunction
+"
+"let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+"let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+"
+"inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+"
+"function! XTermPasteBegin()
+"  set pastetoggle=<Esc>[201~
+"  set paste
+"  "return "a:ret"
+"  return ""
+"endfunction
+"
+"
+"execute "set <f28>=\<Esc>[200~"
+"execute "set <f29>=\<Esc>[201~"
+"map <expr> <f28> XTermPasteBegin("i")
+"imap <expr> <f28> XTermPasteBegin("")
+"vmap <expr> <f28> XTermPasteBegin("c")
+"cmap <f28> <nop>
+"cmap <f29> <nop>
+>>>>>>> f312f6d06956036a6890e46998a6ee8516744887

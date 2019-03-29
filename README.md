@@ -1,15 +1,43 @@
 # server-config
 
+Am Einfachsten ist es, das github-Repo zu forken und in .gitconfig den Namen und die Emailadresse an die eigenen Werte anzupassen. Das Repo ist öffentlich, also keine Passwörter speicher!!!
+
+.gitconfig wird von diesem Repo beim Einrichten nach ~/.gitconfig gelinkt. Bitte beachten, dass damit eine schon vorhandene eigene Datei überschrieben wird!
+
+Soll ein Proxy zum Einsatz kommen, so ist dieser mittels
+```
+git config http.proxy "http://proxy.to.use:prot/"
+```
+local für jedes Repo zu konfigurieren. Die globale gitconfig für den User wird auf allen eingesetzten Instanzen verteilt und versioniert!
+
+## Installation
 Damit auf einem neuen Server meine persönlichen Alias und Bash-Promt, wie auch verschiedene andere Befehle (vim in sudo mit der vimrc des Benutzers) zur Verfügung stehen, muss als erstes nach dem ersten Login folgendes ausgeführt werden:
 
+Download von github
 ```
-wget https://git.ebcont.com/jakobus.schuerz/server-config/raw/master/bashrc_add
-vi .bashrc
+curl -o bashrc_add "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add"
 ```
-Dies lädt die Datei bashrc_add ins Home-Verzeichnis. 
+oder Download von git.schuerz.at
+```
+curl -o bashrc_add "https://git.schuerz.at/?p=server-config.git;a=blob_plain;f=bashrc_add;hb=HEAD"
+```
+
+## Lokale Configuration
+Die Datei - so vorhanden -  ~/server-config/serverconfig.local.conf wird gesourced.
+Die Variablen werden in Bash-Syntax definiert. Also in Hochkommas und Leerzeichengetrennt
+Momentan verwendete Variablen darin sind:
+GITCHECKOUT_SCRIPT_OPTIONS=
+Mögliche Optionen:
+    * -h
+Verwendung: Damit kann man angeben, ob ein headless Repo erzeugt wird. Ohne -h folgt das Repo origin/master
+
+
+## Einbinden von bashrc_add in die bash 
 
 Die Default .bashrc muss am Ende um folgende Zeilen ergänzt werden:
 ```
+vi .bashrc
+
 # User specific aliases and function
 [ -f bashrc_add ] && . bashrc_add
 ```

@@ -1,5 +1,5 @@
 [credential]
-	helper = cache --timeout 30000
+	helper = cache --timeout=600
 [user]
 	name = Jakobus Schürz
 	email = jakobus.schuerz@ebcont.com
