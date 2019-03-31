@@ -1,6 +1,4 @@
-new -s User -n Default /bin/bash
-neww -n Root foo
-selectw -t 0
-splitw -v -p 50 -t 0 sudo -i
+new -s User -n Default 
+neww -n Root sudo -i 
 selectw -t 1
-selectp -t 0
+selectp -t 1
