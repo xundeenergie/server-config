@@ -8,6 +8,4 @@ vim/bundle/*
 serverconfig.local.conf
 tmux/*
 !tmux/*session
-!tmux/
-!tmux/plugins
-!tmux/themepack
+!tmux/plugins/tpm
