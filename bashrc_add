@@ -154,6 +154,7 @@ if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
 fi
 
 setproxy () {
+    set -x
     if [ -f "~/.config/proxycreds_$1" ]; then
         . "~/.config/proxycreds_$1"
         export PROXY_CREDS="${PROXY_USER}:${PROXY_PASS}@"
@@ -162,6 +163,7 @@ setproxy () {
     fi
 
     export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PROXY_PORT}"
+    set +x
 }
 
 unsetproxy () {
