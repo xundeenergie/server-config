@@ -129,15 +129,42 @@ case $TERM in
         ;;
 esac
 
+# User specific aliases and function
+if [ -f "${SCONF}/vimrc" ]; then
+    svi () { sudo vim -u "${SCONF}/vimrc" $@; }
+fi
+
+if [ -f "${SCONF}/aliases" ]; then
+	. "${SCONF}/aliases"
+fi
+
+if [ -f ~/.aliases ]; then
+	. ~/.aliases
+fi
+
+if [ -f "${SCONF}/PS1" ]; then
+	. "${SCONF}/PS1"
+fi
+
+if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
+    gnome-shell-extensions-enable-defaults () { for i in $(cat ~/.config/gnome-shell-extensions-default.list); do gnome-shell-extension-tool -e $i;done; }
+fi
+
+
 if [ -e "${SCONF}/bashrc_local" ]; then
         . "${SCONF}/bashrc_local"
 fi
 
 [ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR=/run/user/$(id -u $USER)
 if test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
-        echo Starting or resuming screen session
-        echo Press CTRL+C to cancel screen startup
-        echo "User: $USER - $UID"
+    cat << EOF
+
+        "User: $USER - $UID"
+
+        Starting or resuming screen session
+        Press CTRL+C to cancel screen startup
+
+EOF
         #systemctl --user start vnc@5901.service
         sleep 2
         #screen -UxR
