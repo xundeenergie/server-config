@@ -161,7 +161,7 @@ setproxy () {
         export PROXY_CREDS=""
     fi
 
-    export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PORT}"
+    export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PROXY_PORT}"
 }
 
 unsetproxy () {
