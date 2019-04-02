@@ -3,6 +3,7 @@
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
+#######################################################################################
 # User specific aliases and function
 if [ -f "${SCONF}/vimrc" ]; then
     svi () { sudo vim -u "${SCONF}/vimrc" $@; }
@@ -24,10 +25,20 @@ if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
     gnome-shell-extensions-enable-defaults () { for i in $(cat ~/.config/gnome-shell-extensions-default.list); do gnome-shell-extension-tool -e $i;done; }
 fi
 
+setproxy () {
+    if [ -f "~/.config/proxycreds_$1" ]; then
+        . "~/.config/proxycreds_$1"
+        export PROXY_CREDS="${PROXY_USER}:${PROXY_PASS}@"
+    else
+        export PROXY_CREDS=""
+    fi
 
-if [ -e "${SCONF}/bashrc_local" ]; then
-        . "${SCONF}/bashrc_local"
-fi
+    export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PORT}"
+}
+
+unsetproxy () {
+    unset {http,https,fpt}_proxy
+}
 
 #########################################################################################
 GIT_HTTP_PROTOCOL="http://"
@@ -157,6 +168,11 @@ case $TERM in
     *screen*)
         ;;
 esac
+
+if [ -e "${SCONF}/bashrc_local" ]; then
+        . "${SCONF}/bashrc_local"
+fi
+
 
 [ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR=/run/user/$(id -u $USER)
 if test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
