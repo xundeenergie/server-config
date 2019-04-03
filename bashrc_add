@@ -170,6 +170,7 @@ setproxy () {
 
 unsetproxy () {
     unset {http,https,fpt}_proxy
+    unset PROXY_{CREDS,USER,PASS,SERVER,PORT}"
 }
 
 if [ -e "${SCONF}/bashrc_local" ]; then
