@@ -156,9 +156,11 @@ fi
 setproxy () {
     set -x
     if [ -f "~/.config/proxycreds_$1" ]; then
-        . "~/.config/proxycreds_$1"
+        echo proxycreds_$1 exist: $?
+        source "~/.config/proxycreds_$1"
         export PROXY_CREDS="${PROXY_USER}:${PROXY_PASS}@"
     else
+        echo proxycreds_$1 not exist: $?
         export PROXY_CREDS=""
     fi
 
