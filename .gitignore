@@ -10,3 +10,4 @@ tmux/*
 !tmux/*session
 !tmux/plugins/tpm
 bashrc_local
+.local_scripts
