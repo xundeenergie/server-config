@@ -155,6 +155,7 @@ fi
 
 setproxy () {
     set -x
+    unsetproxy
     if [ -f ~/.config/proxycreds_"${1}" ]; then
         echo proxycreds_$1 exist: $?
         source ~/.config/proxycreds_"${1}"
