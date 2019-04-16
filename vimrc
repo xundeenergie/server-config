@@ -425,3 +425,8 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 "vmap <expr> <f28> XTermPasteBegin("c")
 "cmap <f28> <nop>
 "cmap <f29> <nop>
+
+" write .netrwhist to cache-dir instead of ~/.vim to prevent configcheckout
+" problems
+let g:netrw_home=$XDG_CACHE_HOME.'/vim'
+
