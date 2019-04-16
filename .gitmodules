@@ -4,4 +4,4 @@
 [submodule "tmux/plugins/tpm"]
 	path = tmux/plugins/tpm
         #url = https://github.com/tmux-plugins/tpm
-	url = https://git.schuerz.at/public/tmux-plugins/tpm
+	url = https://git.schuerz.at/public/tmux-plugins/tpm.git

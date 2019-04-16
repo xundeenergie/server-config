@@ -69,8 +69,8 @@ create_symlinks() {
     ln -sf "${DIR}/vim" ~/.vim
     ln -sf "${DIR}/.gitconfig" ~/.gitconfig
     ln -sf "${DIR}/bashrc_add" ~/bashrc_add
-    ln -sf "${DIR}/tmux.conf" ~/.tmux.conf
     ln -sf "${DIR}/tmux" ~/.tmux
+    ln -sf "${DIR}/tmux/tmux.conf" ~/.tmux.conf
 
     git config core.hooksPath .githooks
     find .git/hooks -type l -exec rm {} \; && find .githooks -type f -exec ln -sf ../../{} .git/hooks/ \;
