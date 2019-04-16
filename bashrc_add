@@ -185,6 +185,7 @@ git-mergedetachedheadtomaster () {
 
 git-pushdetachedhead () {
     git push origin HEAD:master
+
 }
 
 #########################################################################################
