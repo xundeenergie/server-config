@@ -1,6 +1,7 @@
 #Persönliche Aliases
 
 alias aptupgrade='/usr/bin/apt update && /usr/bin/apt dist-upgrade'
+alias apt-get-key='sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys'
 alias bkpcheck='sudo du -sch /mnt/backup/prod-ml/MarkLogic/*/* && sudo grep "Finishing backup" /var/opt/MarkLogic/Logs/ErrorLog*.txt | grep "$(date +"%Y%m%d" -d "last sunday")"'
 alias ..='cd ..'
 alias ...='cd ../..'

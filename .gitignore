@@ -9,5 +9,7 @@ serverconfig.local.conf
 tmux/*
 !tmux/*session
 !tmux/plugins/tpm
+!tmux/tmux.conf
+!tmux/initial.conf
 bashrc_local
 .local_scripts
