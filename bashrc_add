@@ -13,6 +13,10 @@ SCONF="${HOME}/${SC}"
 LOGDIR="./logs"
 LOGFILE="${LOGDIR}/git.log"
 GITCHECKOUT_SCRIPT_OPTIONS="-h"
+GIT_TIMEOUT=5s
+
+
+#----------------------------------------
 [ -d "${LOGDIR}" ] || mkdir -p "${LOGDIR}"
 [ -f "${SCONF}/serverconfig.local.conf" ] && . "${SCONF}/serverconfig.local.conf"
 
@@ -88,7 +92,7 @@ case $TERM in
     *term*)
         if [ -d "${SCONF}" ]; then
             cd  "${SCONF}"
-            if $( timeout --foreground 3s git ls-remote >/dev/null  2>&1) ;then 
+            if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
                 sync_config
                 create_symlinks "$SCONF"
             else 
