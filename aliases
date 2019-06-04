@@ -63,6 +63,7 @@ alias rd=rmdir
 alias ovpnrestart='sudo systemctl restart openvpn-client@${HOSTNAME}.service'
 alias ovpnstart='sudo systemctl start openvpn-client@${HOSTNAME}.service'
 alias ovpnstop='sudo systemctl stop openvpn-client@${HOSTNAME}.service'
+alias ovpnstatus='sudo systemctl status openvpn-client@${HOSTNAME}.service'
 alias scdr='systemctl --system daemon-reload'
 alias scpo='systemctl poweroff'
 alias scrb='systemctl reboot'
