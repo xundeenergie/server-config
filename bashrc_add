@@ -87,6 +87,11 @@ EOF
 
 . ${SCONF}/functions.sh
 
+if [ -f "~/.bashrc_local" ]; then
+	. "~/.bashrc_local"
+fi
+
+
 #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
 #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
 case $TERM in
@@ -158,40 +163,6 @@ if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
     gnome-shell-extensions-enable-defaults () { for i in $(cat ~/.config/gnome-shell-extensions-default.list); do gnome-shell-extension-tool -e $i;done; }
 fi
 
-#setproxy () {
-#    set -x
-#    unsetproxy
-#    if [ -f ~/.config/proxycreds_"${1}" ]; then
-#        echo proxycreds_$1 exist: $?
-#        source ~/.config/proxycreds_"${1}"
-#        export PROXY_CREDS="${PROXY_USER}:${PROXY_PASS}@"
-#    else
-#        echo proxycreds_$1 not exist: $?
-#        export PROXY_CREDS=""
-#    fi
-#
-#    export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PROXY_PORT}"
-#    set +x
-#}
-#
-#unsetproxy () {
-#    unset {http,https,fpt}_proxy
-#    unset PROXY_{CREDS,USER,PASS,SERVER,PORT}
-#}
-#
-#if [ -e "${SCONF}/bashrc_local" ]; then
-#        . "${SCONF}/bashrc_local"
-#fi
-#
-#git-mergedetachedheadtomaster () {
-#    r=$(git show-ref --heads|awk '{print $1}')
-#    git checkout master && git merge $r
-#}
-#
-#git-pushdetachedhead () {
-#    git push origin HEAD:master
-#
-#}
 
 sshs() {
     REMOTEFILE=$(mktemp)
