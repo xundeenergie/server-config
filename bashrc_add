@@ -194,7 +194,6 @@ git-pushdetachedhead () {
 }
 
 sshs() {
-    set -x
     REMOTEFILE=$(mktemp)
     FILELIST=("${SCONF}/aliases" "~/.aliases" "${SCONF}/PS1")
     for f in ${FILELIST[*]}; do
