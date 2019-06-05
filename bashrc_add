@@ -194,13 +194,12 @@ git-pushdetachedhead () {
 }
 
 sshs() {
-    REMOTEFILE="${SCONF}/bashrc_remote"
+    REMOTEFILE=$(mktemp)
+    FILELIST=("${SCONF}/aliases" "~/.aliases" "${SCONF}/PS1")
+    for f in ${FILELIST[*]}; do
+        if [ -e "$f" ]; then cat "$f" >> "${REMOTEFILE}";fi
+    done
     if [ -e "${REMOTEFILE}" ] ; then
-        echo > "${REMOTEFILE}"
-        FILELIST=("${SCONF}/aliases" "~/.aliases" "${SCONF}/PS1")
-        for f in ${FILELIST[*]}; do
-            if [ -e "$f" ]; then cat "$f" >> "${REMOTEFILE}";fi
-        done
         TMPFILE=$(ssh $@ "mktemp")
         ssh $@ "cat > ${TMPFILE}" < "${REMOTEFILE}"
         ssh -t $@ "bash --rcfile ${TMPFILE}"; rm ${TMPFILE}
