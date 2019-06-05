@@ -28,8 +28,8 @@ case $1 in
         PRE=""
         ;;
 esac
-git fetch -p  2>>"${LOGFILE}"|| exit 1
-git submodule update --recursive 2>>"${LOGFILE}"|| exit 1
+git fetch -p  2>>"${LOGFILE}"|| { echo fetch failed; exit 1; }
+git submodule update --recursive 2>>"${LOGFILE}"|| { echo update submodules failed; exit 1; }
 
 if git diff-index --exit-code HEAD -- >/dev/null ; then
     cat << EOF >> "${LOGFILE}"
