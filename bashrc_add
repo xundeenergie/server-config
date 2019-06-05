@@ -193,6 +193,16 @@ git-pushdetachedhead () {
 
 }
 
+sshs() {
+    if [ -e "${SCONF}/bashrc_remote" ] ]; then
+        TMPFILE=$(ssh $@ "mktemp")
+        ssh $@ "cat > ${TMPFILE}" < "${SCONF}/bashrc_remote"
+        ssh -t $@ "bash --rcfile ${TMPFILE}"; rm ${TMPFILE}
+    else
+        echo "${SCONF}/bashrc_remote does not exist. Use »ssh $@«"
+    fi
+}
+
 #########################################################################################
 
 [ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR=/run/user/$(id -u $USER)
