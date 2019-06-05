@@ -194,7 +194,7 @@ git-pushdetachedhead () {
 }
 
 sshs() {
-    if [ -e "${SCONF}/bashrc_remote" ] ]; then
+    if [ -e "${SCONF}/bashrc_remote" ] ; then
         TMPFILE=$(ssh $@ "mktemp")
         ssh $@ "cat > ${TMPFILE}" < "${SCONF}/bashrc_remote"
         ssh -t $@ "bash --rcfile ${TMPFILE}"; rm ${TMPFILE}
