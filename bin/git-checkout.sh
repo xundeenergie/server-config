@@ -32,7 +32,7 @@ git fetch -p  2>>"${LOGFILE}"|| { echo fetch failed; exit 1; }
 git submodule update --remote --merge 2>>"${LOGFILE}"|| { echo update submodules failed: continue ; }
 #git submodule update --recursive 2>>"${LOGFILE}"|| { echo update submodules failed; exit 1; }
 
-if git diff-index --exit-code HEAD -- >/dev/null ; then
+if git diff-index --ignore-submodules --exit-code HEAD -- >/dev/null ; then
     cat << EOF >> "${LOGFILE}"
 Check for local changes:
     no changes in local repo
