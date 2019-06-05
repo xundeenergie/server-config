@@ -194,12 +194,18 @@ git-pushdetachedhead () {
 }
 
 sshs() {
-    if [ -e "${SCONF}/bashrc_remote" ] ; then
+    REMOTEFILE="${SCONF}/bashrc_remote"
+    if [ -e "${REMOTEFILE}" ] ; then
+        echo > "${REMOTEFILE}"
+        FILELIST=("${SCONF}/aliases" "~/.aliases" "${SCONF}/PS1")
+        for f in ${FILELIST[*]}; do
+            if [ -e "$f" ]; then cat "$f" >> "${REMOTEFILE}";fi
+        done
         TMPFILE=$(ssh $@ "mktemp")
-        ssh $@ "cat > ${TMPFILE}" < "${SCONF}/bashrc_remote"
+        ssh $@ "cat > ${TMPFILE}" < "${REMOTEFILE}"
         ssh -t $@ "bash --rcfile ${TMPFILE}"; rm ${TMPFILE}
     else
-        echo "${SCONF}/bashrc_remote does not exist. Use »ssh $@«"
+        echo "${REMOTEFILE} does not exist. Use »ssh $@«"
     fi
 }
 
