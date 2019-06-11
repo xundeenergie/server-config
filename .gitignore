@@ -7,7 +7,6 @@ vim/bundle/*
 *.orig
 serverconfig.local.conf
 tmux/*
-!tmux/*session
 !tmux/plugins/tpm
 !tmux/tmux.conf
 !tmux/initial.conf
