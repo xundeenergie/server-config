@@ -165,7 +165,7 @@ fi
 
 
 sshs() {
-    MKTMPCMD="mktemp /tmp/tmp.${UID}.XXXXXXXX.conf"
+    MKTMPCMD="mktemp /tmp/tmp.${USER}.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
     FILELIST=("${SCONF}/aliases" "~/.aliases" "${SCONF}/PS1")
     for f in ${FILELIST[*]}; do
