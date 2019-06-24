@@ -165,23 +165,27 @@ fi
 
 
 sshs() {
-    REMOTEFILE=$(mktemp)
+    MKTMPCMD="mktemp /tmp/tmp.${UID}.XXXXXXXX.conf"
+    TMPBASHCONFIG=$($MKTMPCMD)
     FILELIST=("${SCONF}/aliases" "~/.aliases" "${SCONF}/PS1")
     for f in ${FILELIST[*]}; do
-        if [ -e "$f" ]; then cat "$f" >> "${REMOTEFILE}";fi
+        if [ -e "$f" ]; then cat "$f" >> "${TMPBASHCONFIG}";fi
     done
     if [ $# -ge 1 ]; then
-        if [ -e "${REMOTEFILE}" ] ; then
-            TMPFILE=$(ssh $@ "mktemp")
-            ssh $@ "cat > ${TMPFILE}" < "${REMOTEFILE}"
-            ssh -t $@ "bash --rcfile ${TMPFILE}; rm ${TMPFILE}"
+        if [ -e "${TMPBASHCONFIG}" ] ; then
+            REMOTETMPBASHCONFIG=$(ssh $@ "$MKTMPCMD")
+            ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+            rm "${TMPBASHCONFIG}"
+           
+            ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm ${REMOTETMPBASHCONFIG}"
         else
-            echo "${REMOTEFILE} does not exist. Use »ssh $@«"
+            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
         fi
     else
         ssh
     fi
 }
+
 
 #########################################################################################
 
