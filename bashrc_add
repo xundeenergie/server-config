@@ -180,8 +180,7 @@ sshs() {
             ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
             #rm "${TMPBASHCONFIG}"
           
-            ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm
-${REMOTETMPBASHCONFIG}"
+            ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm ${REMOTETMPBASHCONFIG}"
         else
             echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
         fi
