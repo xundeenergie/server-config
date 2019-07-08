@@ -209,7 +209,13 @@ EOF
         tmux attach-session
 fi
 
+# Install some scripts to ~/bin
+scripts=(configserver.sh git-checkout.sh)
+for i in ${scripts[*]};do
+    [ -x bin/${i} ] && install bin/"${i}" ~/bin/"${i}"
+done
+
 cd ${HOME}
 
 # Add ~/server-config/bin to PATH
-PATH="${HOME}/server-config/bin:${PATH}"
+#PATH="${HOME}/server-config/bin:${PATH}"
