@@ -48,7 +48,8 @@ fi
 
 git-mergedetachedheadtomaster () {
     r=$(git show-ref --heads|awk '{print $1}')
-    git checkout master ; git merge $r
+    git checkout master 
+    git merge $r
 }
 
 git-pushdetachedhead () {
