@@ -30,7 +30,8 @@ $CMD /bin/bash << EOF
     rm -rf ~/bashrc_add
     #$CMD wget "https://git.ebcont.com/jakobus.schuerz/server-config/raw/master/bashrc_add"
     #wget -O ~/bashrc_add -p "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add" || exit $?
-    wget "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add" || exit $?
+    #wget "https://raw.githubusercontent.com/xundeenergie/server-config/master/bashrc_add" || exit $?
+    wget "https://git.schuerz.at/?p=server-config.git;a=blob_plain;f=bashrc_add;hb=HEAD" -O ~/bashrc_add
     echo "modify ~/.bashrc"
     if grep -q bashrc_add .bashrc ;then
         sed -i -e '/bashrc_add/d' .bashrc
