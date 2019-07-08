@@ -57,6 +57,12 @@ EOF
         echo "git not installed, no configuration possible, please install git" >&2
     	#curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
     fi
+    # Install some scripts to ~/bin
+    scripts=(configserver.sh git-checkout.sh)
+    for i in ${scripts[*]};do
+        [ -e bin/${i} ] && install bin/"${i}" ~/bin/"${i}"
+    done
+
     cd ${HOME}
 }
 
@@ -208,12 +214,6 @@ EOF
         #screen -UxR
         tmux attach-session
 fi
-
-# Install some scripts to ~/bin
-scripts=(configserver.sh git-checkout.sh)
-for i in ${scripts[*]};do
-    [ -x bin/${i} ] && install bin/"${i}" ~/bin/"${i}"
-done
 
 cd ${HOME}
 
