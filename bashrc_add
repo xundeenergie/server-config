@@ -189,7 +189,7 @@ sshs() {
     fi
 }
 
-#complete -F _ssh sshs
+complete -F _ssh sshs
 
 #########################################################################################
 
@@ -210,3 +210,6 @@ EOF
 fi
 
 cd ${HOME}
+
+# Add ~/server-config/bin to PATH
+PATH="${HOME}/server-config/bin:${PATH}"
