@@ -69,11 +69,6 @@ EOF
 }
 
 
-. ${SCONF}/functions.sh
-
-if [ -f "~/.bashrc_local" ]; then
-	. "~/.bashrc_local"
-fi
 
 
 #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
@@ -125,8 +120,14 @@ case $TERM in
         ;;
 esac
 
+. ${SCONF}/functions.sh
+
 #######################################################################################
 # User specific aliases and function
+if [ -f "~/.bashrc_local" ]; then
+	. "~/.bashrc_local"
+fi
+
 if [ -f "${SCONF}/vimrc" ]; then
     svi () { sudo vim -u "${SCONF}/vimrc" $@; }
 fi
