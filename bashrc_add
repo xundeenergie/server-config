@@ -118,6 +118,9 @@ case $TERM in
             #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
             vim -c "PluginInstall" -c ":qa!"
         fi
+        if [ $( git remote get-url origin|grep ${GIT_SERVER} ; echo $?) -gt 0 ]; then
+            git remote set-url origin --add "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
+        fi
         ;;
     *screen*)
         ;;
