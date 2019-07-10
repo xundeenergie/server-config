@@ -19,3 +19,6 @@ pwd
 REPODIR=$(git rev-parse --show-toplevel)
 . ./functions.sh
 create_symlinks ${REPODIR}
+
+# Check if local scripts exists and source it
+[ -e .local_scripts/post-merge ] && . .local_scripts/post-merge

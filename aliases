@@ -1,6 +1,7 @@
 #Persönliche Aliases
 
 alias aptupgrade='/usr/bin/apt update && /usr/bin/apt dist-upgrade'
+alias apt-get-key='sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys'
 alias bkpcheck='sudo du -sch /mnt/backup/prod-ml/MarkLogic/*/* && sudo grep "Finishing backup" /var/opt/MarkLogic/Logs/ErrorLog*.txt | grep "$(date +"%Y%m%d" -d "last sunday")"'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -11,10 +12,24 @@ alias dcdown='docker-compose down'
 alias dclogs='docker-compose logs -f'
 alias dcup='docker-compose up --build -d'
 alias dcpull='docker-compose pull'
+alias dcbuild='docker-compose build --pull'
 alias dcrestartcollabora='docker-compose restart collabora-code'
 alias dcrestart='docker-compose down && docker-compose pull && docker-compose up'
+# Kill all running containers.
+alias dockerkillall='docker kill $(docker ps -q)'
+
+# Delete all stopped containers.
+alias dockercleanc='printf "\n>>> Deleting stopped containers\n\n" && docker rm $(docker ps -a -q)'
+
+# Delete all untagged images.
+alias dockercleani='printf "\n>>> Deleting untagged images\n\n" && docker rmi $(docker images -q -f dangling=true)'
+
+# Delete all stopped containers and untagged images.
+alias dockerclean='dockercleanc || true && dockercleani'
+
 alias dir='ls -l $LS_OPTIONS'
 alias fuck='sudo -i $(history -p \!\!)'
+alias getrelease='cat /etc/*release'
 alias git-getbranchauthors="git for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' | sort -k5n -k2M -k3n -k4n"
 alias godebian='cd ~/debian'
 alias gofvwm='cd /home/jakob/src/fvwmverve/'
@@ -47,6 +62,9 @@ alias netzwerk='watch "route; echo iwconfig; iwconfig 2> /dev/null ;echo; echo i
 alias o='less -r'
 alias rd=rmdir
 alias ovpnrestart='sudo systemctl restart openvpn-client@${HOSTNAME}.service'
+alias ovpnstart='sudo systemctl start openvpn-client@${HOSTNAME}.service'
+alias ovpnstop='sudo systemctl stop openvpn-client@${HOSTNAME}.service'
+alias ovpnstatus='sudo systemctl status openvpn-client@${HOSTNAME}.service'
 alias scdr='systemctl --system daemon-reload'
 alias scpo='systemctl poweroff'
 alias scrb='systemctl reboot'

@@ -1,26 +1,7 @@
 # .bashrc_local
 
+# Use this file for local configs. It is ignored by git
+alias diclean='docker images | grep '\''<none>'\'' | grep -P '\''[1234567890abcdef]{12}'\'' -o | xargs -L1 docker rmi'
+alias dclean='docker ps -a | grep -v '\''CONTAINER\|_config\|_data\|_run'\'' | cut -c-12 | xargs docker rm'
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
 
-# User specific aliases and function
-if [ -f "${SCONF}/vimrc" ]; then
-    svi () { sudo vim -u "${SCONF}/vimrc" $@; }
-fi
-
-if [ -f "${SCONF}/aliases" ]; then
-	. "${SCONF}/aliases"
-fi
-
-if [ -f ~/.aliases ]; then
-	. ~/.aliases
-fi
-
-if [ -f "${SCONF}/PS1" ]; then
-	. "${SCONF}/PS1"
-fi
-
-if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
-    gnome-shell-extensions-enable-defaults () { for i in $(cat ~/.config/gnome-shell-extensions-default.list); do gnome-shell-extension-tool -e $i;done; }
-fi

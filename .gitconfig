@@ -1,5 +1,5 @@
 [credential]
-	helper = cache --timeout=600
+	helper = cache --timeout=1200
 [user]
 	name = Jakobus Schürz
 	email = jakobus.schuerz@ebcont.com
@@ -21,3 +21,6 @@
 	tool = vimdiff
 [mergetool]
 	prompt = false
+
+[include]
+    path = ~/.gitconfig_local
