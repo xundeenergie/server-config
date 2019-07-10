@@ -79,6 +79,7 @@ case $TERM in
             cd  "${SCONF}"
             if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
                 sync_config
+                . ${SCONF}/functions.sh
                 create_symlinks "$SCONF"
             else 
                 echo "${GIT_SERVER}" not reachable >&2;
@@ -108,6 +109,8 @@ case $TERM in
             #git config credential.helper 'store'
             
             sync_config
+
+            . ${SCONF}/functions.sh
             
             create_symlinks "$SCONF"
 
