@@ -175,6 +175,13 @@ sshs() {
 }
 
 #complete -F _ssh sshs
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    #PATH="$HOME/bin:$PATH"
+    pathmunge "$HOME/bin"
+    export PATH
+fi
+
 
 #########################################################################################
 
@@ -196,5 +203,6 @@ fi
 
 cd ${HOME}
 
+unset -f pathmunge
 # Add ~/server-config/bin to PATH
 #PATH="${HOME}/server-config/bin:${PATH}"
