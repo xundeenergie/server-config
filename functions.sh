@@ -48,6 +48,7 @@ fi
 
 git-mergedetachedheadtomaster () {
     r=$(git show-ref --heads|awk '{print $1}')
+    echo branch: $r
     git checkout master 
     git merge $r
 }
@@ -69,4 +70,9 @@ pathmunge () {
                 PATH=$1:$PATH
             fi
     esac
+}
+
+mkcd () {
+    mkdir -p "$1"
+    cd "$1"
 }
