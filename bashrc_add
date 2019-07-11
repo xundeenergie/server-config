@@ -77,7 +77,7 @@ case $TERM in
     *term*)
         if [ -d "${SCONF}" ]; then
             cd  "${SCONF}"
-            if [ $( git remote get-url origin|grep ${GIT_HTTP_PROTOCOL}${GIT_SERVER} ; echo $?) -gt 0 ]; then
+            if [ $( git remote get-url origin|grep -q ${GIT_HTTP_PROTOCOL}${GIT_SERVER} ; echo $?) -gt 0 ]; then
                 git remote set-url origin --add "${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_HTTP_PATH}${GIT_REPOPATH}"
             fi
             if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
