@@ -15,6 +15,8 @@ alias dcpull='docker-compose pull'
 alias dcbuild='docker-compose build --pull'
 alias dcrestartcollabora='docker-compose restart collabora-code'
 alias dcrestart='docker-compose down && docker-compose pull && docker-compose up'
+alias diclean='docker images | grep '\''<none>'\'' | grep -P '\''[1234567890abcdef]{12}'\'' -o | xargs -L1 docker rmi'
+alias dclean='docker ps -a | grep -v '\''CONTAINER\|_config\|_data\|_run'\'' | cut -c-12 | xargs docker rm'
 # Kill all running containers.
 alias dockerkillall='docker kill $(docker ps -q)'
 
