@@ -94,9 +94,9 @@ sshs() {
             REMOTETMPVIMCONFIG=$(ssh $@ "$MKTMPCMD")
             # Add additional aliases to bashrc for remote-machine
             cat << EOF >> "${TMPBASHCONFIG}"
-echo "alias vi='vim -u ${REMOTETMPVIMCONFIG}'"
-echo "alias vim='vim -u ${REMOTETMPVIMCONFIG}'"
-echo "alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'"
+alias vi='vim -u ${REMOTETMPVIMCONFIG}'
+alias vim='vim -u ${REMOTETMPVIMCONFIG}'
+alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'
 EOF
             ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
             ssh $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
