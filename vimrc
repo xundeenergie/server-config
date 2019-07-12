@@ -10,6 +10,7 @@ set nocompatible              " required
 filetype off                  " required
 
 
+if !empty(glob("~/.vim/bundle/Vundle.vim"))
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -53,6 +54,7 @@ Plugin 'http://git.schuerz.at/public/Vim/vim-bracketed-paste.git'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+endif
 filetype plugin indent on    " required
 "------------------------------------------------------------
 set encoding=utf-8
