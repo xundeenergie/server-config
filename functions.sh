@@ -87,18 +87,22 @@ sshs() {
             cat "$f" >> "${TMPBASHCONFIG}";
         fi
     done
+    
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
             REMOTETMPBASHCONFIG=$(ssh $@ "$MKTMPCMD")
             REMOTETMPVIMCONFIG=$(ssh $@ "$MKTMPCMD")
+            # Add additional aliases to bashrc for remote-machine
+            cat << EOF >> "${TMPBASHCONFIG}"
+echo "alias vi='vim -u ${REMOTETMPVIMCONFIG}'"
+echo "alias vim='vim -u ${REMOTETMPVIMCONFIG}'"
+echo "alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'"
+EOF
             ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
             ssh $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
-            echo "alias vi='vim -u ${REMOTETMPVIMCONFIG}'" | ssh $@ "cat >> ${REMOTETMPBASHCONFIG}" 
-            echo "alias vim='vim -u ${REMOTETMPVIMCONFIG}'" | ssh $@ "cat >> ${REMOTETMPBASHCONFIG}" 
-            echo "alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'" | ssh $@ "cat >> ${REMOTETMPBASHCONFIG}" 
-            #rm "${TMPBASHCONFIG}"
           
-            ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm ${REMOTETMPBASHCONFIG}"
+            ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}"
+            rm "${TMPBASHCONFIG}"
         else
             echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
         fi
