@@ -3,7 +3,7 @@ create_symlinks() {
     SCONFDIR="$1"
     DIR="$(basename ${SCONFDIR})"
     cd  "${SCONFDIR}"
-    echo "DIR SCONFDIR $DIR $SCONFDIR"
+    #echo "DIR SCONFDIR $DIR $SCONFDIR"
     git config credential.helper 'cache --timeout=300'
     #Anlegen von Symlinks
     rm -rf ~/.vimrc ~/.vim ~/bashrc_add ~/.gitconfig ~/.tmux.conf ~/.tmux
