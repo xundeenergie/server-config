@@ -80,7 +80,7 @@ mkcd () {
 sshs() {
     MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
-    FILELIST=("${SCONF}/aliases" "${HOME}/.aliases" "${SCONF}/PS1")
+    FILELIST=( "${SCONF}/functions.sh" "${SCONF}/aliases" "${HOME}/.aliases" "${SCONF}/PS1" )
     for f in ${FILELIST[*]}; do
         if [ -e $f ]; then
             echo add $f to tmpconfig
