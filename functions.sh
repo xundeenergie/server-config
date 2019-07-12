@@ -116,3 +116,6 @@ if [ -f "${SCONF}/vimrc" ]; then
     svi () { sudo vim -u "${SCONF}/vimrc" $@; }
 fi
 
+showbashrc () {
+    awk -F "\000" '{print $3}' /proc/$$/cmdline
+}
