@@ -93,6 +93,9 @@ sshs() {
             REMOTETMPVIMCONFIG=$(ssh $@ "$MKTMPCMD")
             ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
             ssh $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
+            echo "alias vi='vim -u ${REMOTETMPVIMCONFIG}'" ssh $@ "cat >> ${REMOTETMPVIMCONFIG}" 
+            echo "alias vim='vim -u ${REMOTETMPVIMCONFIG}'" ssh $@ "cat >> ${REMOTETMPVIMCONFIG}" 
+            echo "alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'" ssh $@ "cat >> ${REMOTETMPVIMCONFIG}" 
             #rm "${TMPBASHCONFIG}"
           
             ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm ${REMOTETMPBASHCONFIG}"
