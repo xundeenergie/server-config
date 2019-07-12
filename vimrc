@@ -11,49 +11,49 @@ filetype off                  " required
 
 
 if !empty(glob("~/.vim/bundle/Vundle.vim"))
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+  " set the runtime path to include Vundle and initialize
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#begin()
 
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+  " alternatively, pass a path where Vundle should install plugins
+  "call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-"Plugin 'gmarik/Vundle.vim'
-"Plugin 'Zenburn'
-"Plugin 'Solarized'
-"Plugin 'vim-scripts/indentpython.vim'
-"Plugin 'tmhedberg/SimpylFold'
-"Plugin 'vim-syntastic/syntastic'
-"Plugin 'ctrlpvim/ctrlp.vim'
-"Plugin 'jistr/vim-nerdtree-tabs'
-"Plugin 'tpope/vim-fugitive'
-"Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-"Plugin 'rakr/vim-togglebg'
-"Plugin 'ConradIrwin/vim-bracketed-paste'
+  " let Vundle manage Vundle, required
+  "Plugin 'gmarik/Vundle.vim'
+  "Plugin 'Zenburn'
+  "Plugin 'Solarized'
+  "Plugin 'vim-scripts/indentpython.vim'
+  "Plugin 'tmhedberg/SimpylFold'
+  "Plugin 'vim-syntastic/syntastic'
+  "Plugin 'ctrlpvim/ctrlp.vim'
+  "Plugin 'jistr/vim-nerdtree-tabs'
+  "Plugin 'tpope/vim-fugitive'
+  "Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+  "Plugin 'rakr/vim-togglebg'
+  "Plugin 'ConradIrwin/vim-bracketed-paste'
 
-Plugin 'http://git.schuerz.at/public/Vim/Vundle.vim.git'
-Plugin 'http://git.schuerz.at/public/Vim/Zenburn.git'
-Plugin 'http://git.schuerz.at/public/Vim/vim-colors-solarized.git'
-Plugin 'http://git.schuerz.at/public/Vim/indentpython.vim.git'
-Plugin 'http://git.schuerz.at/public/Vim/SimpylFold.git'
-Plugin 'http://git.schuerz.at/public/Vim/syntastic.git'
-Plugin 'http://git.schuerz.at/public/Vim/ctrlp.vim.git'
-Plugin 'http://git.schuerz.at/public/Vim/vim-nerdtree-tabs.git'
-Plugin 'http://git.schuerz.at/public/Vim/vim-fugitive.git'
-Plugin 'http://git.schuerz.at/public/Vim/powerline.git', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'http://git.schuerz.at/public/Vim/vim-togglebg.git'
-Plugin 'http://git.schuerz.at/public/Vim/vim-bracketed-paste.git'
-"Plugin 'ryanpcmcquen/fix-vim-pasting'
-"Plugin 'Valloric/YouCompleteMe'
+  Plugin 'http://git.schuerz.at/public/Vim/Vundle.vim.git'
+  Plugin 'http://git.schuerz.at/public/Vim/Zenburn.git'
+  Plugin 'http://git.schuerz.at/public/Vim/vim-colors-solarized.git'
+  Plugin 'http://git.schuerz.at/public/Vim/indentpython.vim.git'
+  Plugin 'http://git.schuerz.at/public/Vim/SimpylFold.git'
+  Plugin 'http://git.schuerz.at/public/Vim/syntastic.git'
+  Plugin 'http://git.schuerz.at/public/Vim/ctrlp.vim.git'
+  Plugin 'http://git.schuerz.at/public/Vim/vim-nerdtree-tabs.git'
+  Plugin 'http://git.schuerz.at/public/Vim/vim-fugitive.git'
+  Plugin 'http://git.schuerz.at/public/Vim/powerline.git', {'rtp': 'powerline/bindings/vim/'}
+  Plugin 'http://git.schuerz.at/public/Vim/vim-togglebg.git'
+  Plugin 'http://git.schuerz.at/public/Vim/vim-bracketed-paste.git'
+  "Plugin 'ryanpcmcquen/fix-vim-pasting'
+  "Plugin 'Valloric/YouCompleteMe'
 
-" add all your plugins here (note older versions of Vundle
-" used Bundle instead of Plugin)
+  " add all your plugins here (note older versions of Vundle
+  " used Bundle instead of Plugin)
 
-" ...
+  " ...
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+  " All of your Plugins must be added before the following line
+  call vundle#end()            " required
 endif
 filetype plugin indent on    " required
 "------------------------------------------------------------
@@ -359,10 +359,14 @@ if has('gui_running')
   set background=dark
   colorscheme solarized
 else
-  colorscheme zenburn
+  if !empty(glob("~/vim//bundle/Zenburn/colors/zenburn.vim"))
+    colorscheme zenburn
+  endif
 endif
 
-call togglebg#map("<F5>")
+if !empty(glob("~/.vim/bundle/Vundle.vim"))
+  call togglebg#map("<F5>")
+endif
 
 
 
