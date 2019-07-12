@@ -134,10 +134,6 @@ if [ -f "~/.bashrc_local" ]; then
 	. "~/.bashrc_local"
 fi
 
-if [ -f "${SCONF}/vimrc" ]; then
-    svi () { sudo vim -u "${SCONF}/vimrc" $@; }
-fi
-
 if [ -f "${SCONF}/aliases" ]; then
 	. "${SCONF}/aliases"
 fi
@@ -154,31 +150,6 @@ if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
     gnome-shell-extensions-enable-defaults () { for i in $(cat ~/.config/gnome-shell-extensions-default.list); do gnome-shell-extension-tool -e $i;done; }
 fi
 
-
-sshs() {
-    MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
-    TMPBASHCONFIG=$($MKTMPCMD)
-    FILELIST=("${SCONF}/aliases" "${HOME}/.aliases" "${SCONF}/PS1")
-    for f in ${FILELIST[*]}; do
-        if [ -e $f ]; then
-            echo add $f to tmpconfig
-            cat "$f" >> "${TMPBASHCONFIG}";
-        fi
-    done
-    if [ $# -ge 1 ]; then
-        if [ -e "${TMPBASHCONFIG}" ] ; then
-            REMOTETMPBASHCONFIG=$(ssh $@ "$MKTMPCMD")
-            ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
-            #rm "${TMPBASHCONFIG}"
-          
-            ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm ${REMOTETMPBASHCONFIG}"
-        else
-            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
-        fi
-    else
-        ssh
-    fi
-}
 
 #complete -F _ssh sshs
 # set PATH so it includes user's private bin if it exists

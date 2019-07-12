@@ -76,3 +76,36 @@ mkcd () {
     mkdir -p "$1"
     cd "$1"
 }
+
+sshs() {
+    MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
+    TMPBASHCONFIG=$($MKTMPCMD)
+    FILELIST=("${SCONF}/aliases" "${HOME}/.aliases" "${SCONF}/PS1")
+    for f in ${FILELIST[*]}; do
+        if [ -e $f ]; then
+            echo add $f to tmpconfig
+            cat "$f" >> "${TMPBASHCONFIG}";
+        fi
+    done
+    if [ $# -ge 1 ]; then
+        if [ -e "${TMPBASHCONFIG}" ] ; then
+            REMOTETMPBASHCONFIG=$(ssh $@ "$MKTMPCMD")
+            REMOTETMPVIMCONFIG=$(ssh $@ "$MKTMPCMD")
+            ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+            ssh $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
+            #rm "${TMPBASHCONFIG}"
+          
+            ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm ${REMOTETMPBASHCONFIG}"
+        else
+            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
+        fi
+    else
+        ssh
+    fi
+}
+
+
+if [ -f "${SCONF}/vimrc" ]; then
+    svi () { sudo vim -u "${SCONF}/vimrc" $@; }
+fi
+
