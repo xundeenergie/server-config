@@ -66,9 +66,7 @@ case $TERM in
     *term*)
         if [ -d "${SCONF}" ]; then
             cd  "${SCONF}"
-            for i in $(git remote origin);do
-                git remote remove $i
-            done
+            git remote remove origin
             if [ $( git remote get-url origin|grep -q ${GIT_HTTP_PROTOCOL}${GIT_SERVER} ; echo $?) -gt 0 ]; then
                 git remote set-url origin --add "${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_HTTP_PATH}${GIT_REPOPATH}"
                 git remote set-url origin --add "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
