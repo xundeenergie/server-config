@@ -68,11 +68,11 @@ case $TERM in
             cd  "${SCONF}"
             if [ $(git remote | grep -q origin ; exit $?) ] ;then
                 git remote remove origin
-            fi
-            if [ $( git remote get-url origin|grep -q ${GIT_HTTP_PROTOCOL}${GIT_SERVER} ; echo $?) -gt 0 ]; then
                 git remote add origin "${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_HTTP_PATH}${GIT_REPOPATH}"
-                git remote set-url --add origin "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
             fi
+            git remote set-url --add origin "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
+#            if [ $( git remote get-url origin|grep -q ${GIT_HTTP_PROTOCOL}${GIT_SERVER} ; echo $?) -gt 0 ]; then
+#            fi
             if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
                 sync_config
                 . ${SCONF}/functions.sh
