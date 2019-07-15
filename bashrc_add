@@ -66,7 +66,7 @@ case $TERM in
     *term*)
         if [ -d "${SCONF}" ]; then
             cd  "${SCONF}"
-            if [ $(git remote | grep -q origin ; exit $?) ] ;then
+            if [ $(git remote | grep -q origin ; echo $?) ] ;then
                 git remote remove origin
                 git remote add origin "${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_HTTP_PATH}${GIT_REPOPATH}"
             fi
