@@ -49,12 +49,16 @@ fi
 # DEBUG 1
 # DEBUG 2
 git-mergedetachedheadtomaster () {
-    set -x
-    r=$(git show-ref --heads|awk '{print $1}')
-    echo branch: $r
-    git checkout master 
-    git merge $r
-    set +x
+#    set -x
+#    r=$(git show-ref --heads|awk '{print $1}')
+#    echo branch: $r
+#    git checkout master 
+#    git merge $r
+#    set +x
+    git checkout -b tmp
+    git branch -f master tmp
+    git branch -d tmp
+    git push origin master
 }
 
 git-pushdetachedhead () {
