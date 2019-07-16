@@ -114,8 +114,9 @@ EOF
 }
 
 VIMRC="${SCONF}/vimrc"
+
 if [ -f "${VIMRC}" ]; then
-    svi () {sudo vim -u "${VIMRC}" $@; }
+    svi () { sudo vim -u "${VIMRC}" $@; }
 fi
 
 showbashrc () {
