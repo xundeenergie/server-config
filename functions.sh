@@ -78,7 +78,8 @@ mkcd () {
 }
 
 sshs() {
-    MKTMPCMD="mktemp /tmp/${USER}.${APP}.XXXXXXXX.conf"
+    MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
+    VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
     FILELIST=( "${SCONF}/functions.sh" "${SCONF}/aliases" "${HOME}/.aliases" "${SCONF}/PS1" )
     for f in ${FILELIST[*]}; do
@@ -90,10 +91,8 @@ sshs() {
     
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
-            APP=bashrc
             REMOTETMPBASHCONFIG=$(ssh $@ "$MKTMPCMD")
-            APP=vimrc
-            REMOTETMPVIMCONFIG=$(ssh $@ "$MKTMPCMD")
+            REMOTETMPVIMCONFIG=$(ssh $@ "$VIMMKTMPCMD")
             # Add additional aliases to bashrc for remote-machine
             cat << EOF >> "${TMPBASHCONFIG}"
 alias vi='vim -u ${REMOTETMPVIMCONFIG}'
