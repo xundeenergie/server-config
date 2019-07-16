@@ -111,9 +111,13 @@ EOF
     fi
 }
 
-
-if [ -f "${SCONF}/vimrc" ]; then
-    svi () { sudo vim -u "${SCONF}/vimrc" $@; }
+if [ -z ${REMOTETMPVIMCONFIG+x} ]; then
+    VIMRC="${SCONF}/vimrc"
+else
+    VIMRC=${REMOTETMPVIMCONFIG}
+fi
+if [ -f "${VIMRC}" ]; then
+    svi () { sudo vim -u "${VIMRC}" $@; }
 fi
 
 showbashrc () {
