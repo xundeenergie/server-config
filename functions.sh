@@ -123,6 +123,6 @@ svi () {
     fi
 }
 
-showbashrc () {
+getbashrcfile () {
     cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}'
 }
