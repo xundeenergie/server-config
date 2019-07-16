@@ -78,7 +78,7 @@ mkcd () {
 }
 
 sshs() {
-    MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
+    MKTMPCMD="mktemp /tmp/${USER}.${APP}.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
     FILELIST=( "${SCONF}/functions.sh" "${SCONF}/aliases" "${HOME}/.aliases" "${SCONF}/PS1" )
     for f in ${FILELIST[*]}; do
@@ -98,7 +98,9 @@ alias vi='vim -u ${REMOTETMPVIMCONFIG}'
 alias vim='vim -u ${REMOTETMPVIMCONFIG}'
 alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'
 EOF
+            APP=bashrc
             ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+            APP=vimrc
             ssh $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
           
             ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}"
@@ -111,14 +113,15 @@ EOF
     fi
 }
 
-echo ${REMOTETMPVIMCONFIG}
-if [ -z ${REMOTETMPVIMCONFIG+x} ]; then
-    VIMRC="${SCONF}/vimrc"
-else
-    VIMRC=${REMOTETMPVIMCONFIG}
-fi
 if [ -f "${VIMRC}" ]; then
-    svi () { sudo vim -u "${VIMRC}" $@; }
+    svi () {
+        echo ${REMOTETMPVIMCONFIG}
+        if [ -z ${REMOTETMPVIMCONFIG+x} ]; then
+            VIMRC="${SCONF}/vimrc"
+        else
+            VIMRC=${REMOTETMPVIMCONFIG}
+        fi
+        sudo vim -u "${VIMRC}" $@; }
 fi
 
 showbashrc () {
