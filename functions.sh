@@ -98,6 +98,7 @@ sshs() {
 alias vi='vim -u ${REMOTETMPVIMCONFIG}'
 alias vim='vim -u ${REMOTETMPVIMCONFIG}'
 alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'
+export VIMRC="${REMOTETMPVIMCONFIG}"
 EOF
             ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
             ssh $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
@@ -112,16 +113,10 @@ EOF
     fi
 }
 
-#if [ -f "${VIMRC}" ]; then
-    svi () {
-        echo ${REMOTETMPVIMCONFIG}
-        if [ -z ${REMOTETMPVIMCONFIG+x} ]; then
-            VIMRC="${SCONF}/vimrc"
-        else
-            VIMRC=${REMOTETMPVIMCONFIG}
-        fi
+VIMRC="${SCONF}/vimrc"
+if [ -f "${VIMRC}" ]; then
         sudo vim -u "${VIMRC}" $@; }
-#fi
+fi
 
 showbashrc () {
     awk -F "\000" '{print $3}' /proc/$$/cmdline
