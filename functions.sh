@@ -111,6 +111,7 @@ EOF
     fi
 }
 
+echo ${REMOTETMPVIMCONFIG}
 if [ -z ${REMOTETMPVIMCONFIG+x} ]; then
     VIMRC="${SCONF}/vimrc"
 else
