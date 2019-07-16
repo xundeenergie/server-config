@@ -47,10 +47,12 @@ if [ -e "${SCONF}/bashrc_local" ]; then
 fi
 
 git-mergedetachedheadtomaster () {
+    set -x
     r=$(git show-ref --heads|awk '{print $1}')
     echo branch: $r
     git checkout master 
     git merge $r
+    set +x
 }
 
 git-pushdetachedhead () {
