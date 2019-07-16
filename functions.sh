@@ -47,6 +47,7 @@ if [ -e "${SCONF}/bashrc_local" ]; then
 fi
 
 # DEBUG 1
+# DEBUG 2
 git-mergedetachedheadtomaster () {
     set -x
     r=$(git show-ref --heads|awk '{print $1}')
