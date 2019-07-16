@@ -22,7 +22,7 @@ create_symlinks() {
 }
 
 setproxy () {
-    set -x
+#    set -x
     unsetproxy
     if [ -f ~/.config/proxycreds_"${1}" ]; then
         echo proxycreds_$1 exist: $?
@@ -34,7 +34,7 @@ setproxy () {
     fi
 
     export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PROXY_PORT}"
-    set +x
+#    set +x
 }
 
 unsetproxy () {
