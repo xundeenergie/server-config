@@ -113,7 +113,7 @@ EOF
     fi
 }
 
-if [ -f "${VIMRC}" ]; then
+#if [ -f "${VIMRC}" ]; then
     svi () {
         echo ${REMOTETMPVIMCONFIG}
         if [ -z ${REMOTETMPVIMCONFIG+x} ]; then
@@ -122,7 +122,7 @@ if [ -f "${VIMRC}" ]; then
             VIMRC=${REMOTETMPVIMCONFIG}
         fi
         sudo vim -u "${VIMRC}" $@; }
-fi
+#fi
 
 showbashrc () {
     awk -F "\000" '{print $3}' /proc/$$/cmdline
