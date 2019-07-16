@@ -46,6 +46,7 @@ if [ -e "${SCONF}/bashrc_local" ]; then
         . "${SCONF}/bashrc_local"
 fi
 
+# DEBUG 1
 git-mergedetachedheadtomaster () {
     set -x
     r=$(git show-ref --heads|awk '{print $1}')
