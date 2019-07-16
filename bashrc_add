@@ -123,8 +123,8 @@ esac
 
 #######################################################################################
 # User specific aliases and function
-if [ -f "~/.bashrc_local" ]; then
-	. "~/.bashrc_local"
+if [ -f ~/.bashrc_local ]; then
+	. ~/.bashrc_local
 fi
 
 if [ -f "${SCONF}/aliases" ]; then
