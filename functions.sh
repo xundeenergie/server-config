@@ -91,8 +91,8 @@ sshs() {
     
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
-            REMOTETMPBASHCONFIG=$(ssh $@ "$MKTMPCMD")
-            REMOTETMPVIMCONFIG=$(ssh $@ "$VIMMKTMPCMD")
+            REMOTETMPBASHCONFIG=$(ssh -o VisualHostKey=no $@ "$MKTMPCMD")
+            REMOTETMPVIMCONFIG=$(ssh -o VisualHostKey=no $@ "$VIMMKTMPCMD")
             # Add additional aliases to bashrc for remote-machine
             cat << EOF >> "${TMPBASHCONFIG}"
 alias vi='vim -u ${REMOTETMPVIMCONFIG}'
