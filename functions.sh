@@ -25,11 +25,11 @@ setproxy () {
 #    set -x
     unsetproxy
     if [ -f ~/.config/proxycreds_"${1}" ]; then
-        echo proxycreds_$1 exist: $?
+        echo proxycreds_$1 existing
         source ~/.config/proxycreds_"${1}"
         export PROXY_CREDS="${PROXY_USER}:${PROXY_PASS}@"
     else
-        echo proxycreds_$1 not exist: $?
+        echo proxycreds_$1 not existing
         export PROXY_CREDS=""
     fi
 
