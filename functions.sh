@@ -115,9 +115,13 @@ EOF
 
 VIMRC="${SCONF}/vimrc"
 
-if [ -f ${VIMRC} ]; then
-    svi () { sudo vim -u "${VIMRC}" $@; }
-fi
+svi () { 
+    if [ -f ${VIMRC} ]; then
+        sudo vim -u "${VIMRC}" $@; 
+    else
+        sudo vim $@
+    fi
+}
 
 showbashrc () {
     cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}'
