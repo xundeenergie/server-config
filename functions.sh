@@ -100,8 +100,8 @@ alias vim='vim -u ${REMOTETMPVIMCONFIG}'
 alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'
 export VIMRC="${REMOTETMPVIMCONFIG}"
 EOF
-            ssh $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
-            ssh $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
+            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
           
             ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}"
             rm "${TMPBASHCONFIG}"
