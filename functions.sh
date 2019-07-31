@@ -109,8 +109,9 @@ export VIMRC="${REMOTETMPVIMCONFIG}"
 EOF
             ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
             ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
-          
-            ssh -t $@ "bash --rcfile ${REMOTETMPBASHCONFIG}; rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}"
+            RCMD="
+            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
+            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
             rm "${TMPBASHCONFIG}"
         else
             echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
