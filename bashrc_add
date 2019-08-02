@@ -3,11 +3,20 @@
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
+GIT_GIT_PROTOCOL="git://"
 GIT_HTTP_PROTOCOL="http://"
 GIT_SSH_PROTOCOL="git@"
 GIT_SERVER="git.schuerz.at"
-GIT_REPOPATH="/public/server-config.git"
+GIT_REPO_NAME="server-config.git"
+GIT_REPO_PATH_HTTP="/public/"
+GIT_REPO_PATH_SSH="/public/"
+GIT_REPO_PATH_GIT=""
 GIT_SSH_PATH=""
+
+GIT_REMOTE_GIT="${GIT_GIT_PROTOCOL}${GIT_SERVER}:${GIT_REPO_PATH_GIT}${GIT_REPO_NAME}"
+GIT_REMOTE_SSH="${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_REPO_PATH_SSH}${GIT_REPO_NAME}"
+GIT_REMOTE_HTTP="${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_REPO_PATH_HTTP}${GIT_REPO_NAME}"
+
 #GIT_SSH_PATH="/srv/repos"
 SC=server-config
 SCONF="${HOME}/${SC}"
@@ -69,9 +78,10 @@ case $TERM in
             cd  "${SCONF}"
             if [ $(git remote | grep -q origin ; echo $?) ] ;then
                 git remote remove origin
-                git remote add origin "${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_HTTP_PATH}${GIT_REPOPATH}"
+                #git remote add origin "${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_HTTP_PATH}${GIT_REPOPATH}"
+                git remote add origin "${GIT_REMOTE_GIT}"
             fi
-            git remote set-url --add origin "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
+            #git remote set-url --add origin "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
 #            if [ $( git remote get-url origin|grep -q ${GIT_HTTP_PROTOCOL}${GIT_SERVER} ; echo $?) -gt 0 ]; then
 #            fi
             if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
@@ -84,7 +94,8 @@ case $TERM in
             fi
         else
             echo "Create Server-Config and configure git"
-            git clone "${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPOPATH}" 2>>"${LOGFILE}"
+            #git clone "${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPOPATH}" 2>>"${LOGFILE}"
+            git clone "${GIT_REMOTE_GIT}" 2>>"${LOGFILE}"
             #git clone "https://github.com/xundeenergie/server-config.git"
             
             cd  "${SCONF}"
@@ -99,7 +110,8 @@ case $TERM in
             git config user.name ${FULLNAME}
 
             #git config push.default simple
-            git remote set-url origin --add "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
+            #git remote set-url origin --add "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
+            git remote set-url origin --add "${GIT_REMOTE_GIT}"
             
             # set upstream for local master
             git branch -u origin/master
