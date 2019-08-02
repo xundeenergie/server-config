@@ -101,7 +101,8 @@ case $TERM in
             #git config push.default simple
             git remote set-url origin --add "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
             
-
+            # set upstream for local master
+            git branch -u origin/master
 
             #git config credential.helper 'store'
             
