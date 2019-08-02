@@ -98,23 +98,24 @@ sshs() {
     
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
-            REMOTETMPBASHCONFIG=$(ssh -o VisualHostKey=no $@ "$MKTMPCMD")
-            REMOTETMPVIMCONFIG=$(ssh -o VisualHostKey=no $@ "$VIMMKTMPCMD")
-            # Add additional aliases to bashrc for remote-machine
-            cat << EOF >> "${TMPBASHCONFIG}"
+           REMOTETMPBASHCONFIG=$(ssh -o VisualHostKey=no $@ "$MKTMPCMD")
+           REMOTETMPVIMCONFIG=$(ssh -o VisualHostKey=no $@ "$VIMMKTMPCMD")
+           # Add additional aliases to bashrc for remote-machine
+           cat << EOF >> "${TMPBASHCONFIG}"
 alias vi='vim -u ${REMOTETMPVIMCONFIG}'
 alias vim='vim -u ${REMOTETMPVIMCONFIG}'
 alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'
 export VIMRC="${REMOTETMPVIMCONFIG}"
 EOF
-            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
-            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
-            RCMD="
-            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
-            ssh -t $@ "$RCMD; title $USER@$HOST; bash --rcfile ${REMOTETMPBASHCONFIG}"
-            rm "${TMPBASHCONFIG}"
+           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
+           RCMD="
+           trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
+           ssh -t $@ "$RCMD; title $USER@$HOST; bash --rcfile ${REMOTETMPBASHCONFIG}&"
+           title $USER@$HOST
+           rm "${TMPBASHCONFIG}"
         else
-            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
+           echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
         fi
     else
         ssh
