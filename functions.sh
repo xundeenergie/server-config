@@ -111,7 +111,7 @@ EOF
             ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
             RCMD="
             trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
-            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
+            ssh -t $@ "$RCMD; title $USER@$HOST; bash --rcfile ${REMOTETMPBASHCONFIG}"
             rm "${TMPBASHCONFIG}"
         else
             echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
@@ -133,4 +133,26 @@ svi () {
 
 getbashrcfile () {
     cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}'
+}
+
+
+# Functions to set the correct title of the terminal
+function title()
+{
+   # change the title of the current window or tab
+   echo -ne "\033]0;$*\007"
+}
+
+function ssh()
+{
+   /usr/bin/ssh "$@"
+   # revert the window title after the ssh command
+   title $USER@$HOST
+}
+
+function su()
+{
+   /bin/su "$@"
+   # revert the window title after the su command
+   title $USER@$HOST
 }
