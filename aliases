@@ -1,13 +1,14 @@
 #Persönliche Aliases
 
+# usefull commands
+alias fuck='sudo $(history -p \!\!)'
+alias wosis='which $(history -p \!\!)' 
+
+# paketmanagement
 alias aptupgrade='/usr/bin/apt update && /usr/bin/apt dist-upgrade'
 alias apt-get-key='sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys'
-alias bkpcheck='sudo du -sch /mnt/backup/prod-ml/MarkLogic/*/* && sudo grep "Finishing backup" /var/opt/MarkLogic/Logs/ErrorLog*.txt | grep "$(date +"%Y%m%d" -d "last sunday")"'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias cd..='cd ..'
-alias cp='cp -i --reflink=auto'
+
+# docker and docker-compose
 alias dcdown='docker-compose down'
 alias dclogs='docker-compose logs -f'
 alias dcup='docker-compose up --build -d'
@@ -19,54 +20,101 @@ alias diclean='docker images | grep '\''<none>'\'' | grep -P '\''[1234567890abcd
 alias dclean='docker ps -a | grep -v '\''CONTAINER\|_config\|_data\|_run'\'' | cut -c-12 | xargs docker rm'
 # Kill all running containers.
 alias dockerkillall='docker kill $(docker ps -q)'
-
 # Delete all stopped containers.
 alias dockercleanc='printf "\n>>> Deleting stopped containers\n\n" && docker rm $(docker ps -a -q)'
-
 # Delete all untagged images.
 alias dockercleani='printf "\n>>> Deleting untagged images\n\n" && docker rmi $(docker images -q -f dangling=true)'
-
 # Delete all stopped containers and untagged images.
 alias dockerclean='dockercleanc || true && dockercleani'
 
-alias dir='ls -l $LS_OPTIONS'
-alias fuck='sudo -i $(history -p \!\!)'
-alias getrelease='cat /etc/*release'
+# git
 alias git-getbranchauthors="git for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' | sort -k5n -k2M -k3n -k4n"
+
+# xdg-user-dirs
+alias godesktop='[ -e $(xdg-user-dir DESKTOP) ] && cd $(xdg-user-dir DESKTOP)'
+alias godoc='[ -e $(xdg-user-dir DOCUMENTS) ] && cd $(xdg-user-dir DOCUMENTS)'
+alias godownload='[ -e $(xdg-user-dir DOWNLOAD) ] && cd $(xdg-user-dir DOWNLOAD'
+alias gomusic='[ -e $(xdg-user-dir MUSIC) ] && cd $(xdg-user-dir MUSIC)'
+alias gopublic='[ -e $(xdg-user-dir PUBLICSHARE) ] && cd $(xdg-user-dir PUBLICSHARE)'
+alias gotempl='[ -e $(xdg-user-dir TEMPLATES) ] && cd $(xdg-user-dir TEMPLATES)'
+alias govideo='[ -e $(xdg-user-dir VIDEOS) ] && cd $(xdg-user-dir VIDEOS)'
+
+# some special locations
 alias godebian='cd ~/debian'
 alias gofvwm='cd /home/jakob/src/fvwmverve/'
 alias gofvwmsys='cd /usr/share/fvwm-verve/'
-alias golocbak='cd /var/cache/btrfs_pool_SYSTEM/'
-alias gomusic='cd ~/Musik'
-alias gopic='cd ~/Bilder'
-alias gorembak='cd /var/cache/backup/$HOSTNAME/'
+alias goserverconfig='cd $HOME/server-config'
+alias goxund='cd /home/jakob/xundeenergie.at/'
+
+# system-dirs
 alias gosystemd='cd /etc/systemd/system/'
 alias goudevrules='cd /etc/udev/rules.d/'
 alias gousrlocal='cd /usr/local/bin/'
-alias govemma='cd /home/jakob/Arbeiten/VEMMA'
-alias goxund='cd /home/jakob/xundeenergie.at/'
+
+# btrfs-backup
+alias golocbak='cd /var/cache/btrfs_pool_SYSTEM/'
+alias gorembak='cd /var/cache/backup/$HOSTNAME/'
+alias lslocbak='ls -alF /var/cache/btrfs_pool_SYSTEM/'
+alias lsrembak='ls -alF /var/cache/backup/$HOSTNAME/'
+
+# common commands
+alias ....='cd ../../..'
+alias ...='cd ../..'
+alias ..='cd ..'
+alias cd..='cd ..'
+alias cp='cp -i --reflink=auto'
+alias dir='ls -l $LS_OPTIONS'
 alias grep='grep --color'
-alias jq='jq -C'
 alias la='ls -la $LS_OPTIONS'
 alias ll='ls -l $LS_OPTIONS'
 alias l='ls -alF $LS_OPTIONS'
 alias ls-l='ls -l $LS_OPTIONS'
-alias lslocbak='ls -alF /var/cache/btrfs_pool_SYSTEM/'
-alias lsrembak='ls -alF /var/cache/backup/$HOSTNAME/'
 alias md='mkdir -p'
-alias me='owndisk mount'
+alias rd=rmdir
+
+# tests
+alias testmail='echo testemail von $USER am $(date)|mail -s "TESTEMAIL $USER $(date)"'
+
+# logging
+alias tailmail='tail -f /var/log/mail.log /var/log/exim4/mainlog'
+alias tdemsg='watch -n1 "dmesg|tail -n20"'
+alias tsys='tail -f /var/log/syslog /var/log/dmesg'
+
+# infos, stati
+alias getrelease='cat /etc/*release'
 alias mkbackupinfo='mkbackup -Vi list SNP BKP SRC'
-alias m=mount
 alias myip='curl "http://icanhazip.com/"'
+alias netzwerk='watch "route; echo iwconfig; iwconfig 2> /dev/null ;echo; echo ifconfig; ifconfig 2> /dev/null; echo; echo arp -a; arp -a; echo EOF"'
+
+# Applications
+alias jq='jq -C'
 alias ncmpcpp='ncmpcpp -h "${MPD_HOST}" -p "${MPD_PORT}"'
 alias nedit='LC_ALL=ISO-8850-15;export LC_ALL;nedit -fn win8x15 -xrm "*fontList:win8x15"'
-alias netzwerk='watch "route; echo iwconfig; iwconfig 2> /dev/null ;echo; echo ifconfig; ifconfig 2> /dev/null; echo; echo arp -a; arp -a; echo EOF"'
 alias o='less -r'
-alias rd=rmdir
+alias totem='VDPAU_DRIVER=va_gl totem'
+alias unetbootin='export QT_X11_NO_MITSHM=1 unetbootin'
+alias vi='/usr/bin/vim'
+alias vlc='VDPAU_DRIVER=va_gl vlc'
+
+# mount/unmount
+alias me='owndisk mount'
+alias m=mount
+alias mxxx='encfs ~/.x ~/X'
+alias ue='owndisk umount'
+alias umxx='fusermount -u ~/X'
+alias u=umount
+
+# rock64
+alias rock64='sudo  minicom -D /dev/ttyUSB0 --color=on'
+alias rock64='sudo  minicom -D /dev/ttyUSB0 -b 1500000--color=on'
+
+# openvpn
 alias ovpnrestart='sudo systemctl restart openvpn-client@${HOSTNAME}.service'
 alias ovpnstart='sudo systemctl start openvpn-client@${HOSTNAME}.service'
-alias ovpnstop='sudo systemctl stop openvpn-client@${HOSTNAME}.service'
 alias ovpnstatus='sudo systemctl status openvpn-client@${HOSTNAME}.service'
+alias ovpnstop='sudo systemctl stop openvpn-client@${HOSTNAME}.service'
+
+# systemd
 alias scdr='systemctl --system daemon-reload'
 alias scpo='systemctl poweroff'
 alias scrb='systemctl reboot'
@@ -76,17 +124,4 @@ alias scs='systemctl start'
 alias scstp='systemctl stop'
 alias scst='systemctl status'
 alias sc='systemctl'
-alias sda='systemd-analyze plot > bootchart.svg | eog bootchart.svg'
-alias tdemsg='watch -n1 "dmesg|tail -n20"'
-alias testmail='echo testemail von $USER am $(date)|mail -s "TESTEMAIL $USER $(date)"'
-alias tmail='tail -f /var/log/mail.log /var/log/exim4/mainlog'
-alias totem='VDPAU_DRIVER=va_gl totem'
-alias tsys='tail -f /var/log/syslog'
-alias ue='owndisk umount'
-alias unetbootin='export QT_X11_NO_MITSHM=1 unetbootin'
-alias u=umount
-alias vlc='VDPAU_DRIVER=va_gl vlc'
-alias wbackup="watch '/bin/mount|grep \"backup\\|mars\"; echo;echo;systemctl|grep backup;echo;echo;ls /dev/mapper/*|grep mars'"
-alias vi='/usr/bin/vim'
-alias rock64='sudo  minicom -D /dev/ttyUSB0 --color=on'
-alias rock64='sudo  minicom -D /dev/ttyUSB0 -b 1500000--color=on'
+alias sda='systemd-analyze plot > /tmp/bootchart.svg &&  eog /tmp/bootchart.svg&'
