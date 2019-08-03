@@ -132,6 +132,16 @@ svi () {
     fi
 }
 
+vim-plugins-update () {
+    vim -c "PluginUpdate" -c ":qa!"
+    
+}
+
+vim-plugins-install () {
+    vim -c "PluginInstall" -c ":qa!"
+    
+}
+
 getbashrcfile () {
     cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}'
 }
