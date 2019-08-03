@@ -21,7 +21,7 @@ SC=server-config
 SCONF="${HOME}/${SC}"
 LOGDIR="./logs"
 LOGFILE="${LOGDIR}/git.log"
-GITCHECKOUT_SCRIPT_OPTIONS="-h"
+if [ -z ${GITCHECKOUT_SCRIPT_OPTIONS+x} ]; then GITCHECKOUT_SCRIPT_OPTIONS="-h"; fi
 GIT_TIMEOUT=5s
 
 
