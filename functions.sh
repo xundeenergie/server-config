@@ -1,9 +1,10 @@
 create_symlinks() {
 
-    SCONFDIR="$1"
-    DIR="$(basename ${SCONFDIR})"
-    cd  "${SCONFDIR}"
-    #echo "DIR SCONFDIR $DIR $SCONFDIR"
+    echo SERVERCONFIG_BASE: $SERVERCONFIG_BASE
+    SERVERCONFIG_BASEDIR="$1"
+    DIR="$(basename ${SERVERCONFIG_BASEDIR})"
+    cd  "${SERVERCONFIG_BASEDIR}"
+    #echo "DIR SERVERCONFIG_BASEDIR $DIR $SERVERCONFIG_BASEDIR"
     git config credential.helper 'cache --timeout=300'
     #Anlegen von Symlinks
     rm -rf ~/.vimrc ~/.vim ~/bashrc_add ~/.gitconfig ~/.tmux.conf ~/.tmux
@@ -42,8 +43,8 @@ unsetproxy () {
     unset PROXY_{CREDS,USER,PASS,SERVER,PORT}
 }
 
-if [ -e "${SCONF}/bashrc_local" ]; then
-        . "${SCONF}/bashrc_local"
+if [ -e "${SERVERCONFIG_BASE}/bashrc_local" ]; then
+        . "${SERVERCONFIG_BASE}/bashrc_local"
 fi
 
 # DEBUG 2
@@ -88,7 +89,7 @@ sshs() {
     MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
     VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
-    FILELIST=( "${SCONF}/functions.sh" "${SCONF}/aliases" "${HOME}/.aliases" "${SCONF}/PS1" )
+    FILELIST=( "${SERVERCONFIG_BASE}/functions.sh" "${SERVERCONFIG_BASE}/aliases" "${HOME}/.aliases" "${SERVERCONFIG_BASE}/PS1" )
     for f in ${FILELIST[*]}; do
         if [ -e $f ]; then
             echo add $f to tmpconfig
@@ -108,7 +109,7 @@ alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'
 export VIMRC="${REMOTETMPVIMCONFIG}"
 EOF
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
-           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SCONF}/vimrc"
+           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
            ssh -t $@ "$RCMD; title $USER@$HOST; bash --rcfile ${REMOTETMPBASHCONFIG}&"
@@ -122,7 +123,7 @@ EOF
     fi
 }
 
-VIMRC="${SCONF}/vimrc"
+VIMRC="${SERVERCONFIG_BASE}/vimrc"
 
 svi () { 
     if [ -f ${VIMRC} ]; then
@@ -140,6 +141,14 @@ vim-plugins-update () {
 vim-plugins-install () {
     vim -c "PluginInstall" -c ":qa!"
     
+}
+
+vim-repair-vundle () {
+    cd $SERVERCONFIG_BASE
+    cd vim/bundle
+    pwd
+    echo rm -rf Vundle.vim
+    echo git clone  "${GIT_GIT_PROTOCOL}${GIT_SERVER}/Vim/Vundle.vim.git"
 }
 
 getbashrcfile () {
