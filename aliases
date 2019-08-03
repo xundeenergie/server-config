@@ -29,6 +29,7 @@ alias dockerclean='dockercleanc || true && dockercleani'
 
 # git
 alias git-getbranchauthors="git for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' | sort -k5n -k2M -k3n -k4n"
+alias gcm='git checkout master'
 
 # xdg-user-dirs
 alias godesktop='[ -e $(xdg-user-dir DESKTOP) ] && cd $(xdg-user-dir DESKTOP)'
