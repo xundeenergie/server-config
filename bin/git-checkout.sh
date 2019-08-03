@@ -28,7 +28,7 @@ case $1 in
         PRE=""
         ;;
 esac
-git fetch -p  2>>"${LOGFILE}"|| { echo fetch failed; exit 1; }
+git fetch origin -p  2>>"${LOGFILE}"|| { echo fetch failed; exit 1; }
 #git submodule update --remote --merge 2>>"${LOGFILE}"|| { echo update submodules failed: continue ; }
 git submodule init 1>>"${LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
 git submodule sync 1>>"${LOGFILE}" 2>&1|| { echo sync submodules failed; exit 1; }
