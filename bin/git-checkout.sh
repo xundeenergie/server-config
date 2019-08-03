@@ -11,11 +11,13 @@
 # notes         :                                                                               #
 #################################################################################################
 
-LOGDIR="./logs"
-LOGFILE="${LOGDIR}/git.log"
-[ -d "${LOGDIR}" ] || mkdir -p "${LOGDIR}"
+echo SERVERCONFIG_LOGFILE: $SERVERCONFIG_LOGFILE
+echo SERVERCONFIG_BASE: $SERVERCONFIG_BASE
+SERVERCONFIG_LOGDIR="./logs"
+SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
+[ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
 
-cat << EOF >> "${LOGFILE}"
+cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 +-----BEGINN $(date) -------------------------------+
 EOF
 
@@ -28,22 +30,22 @@ case $1 in
         PRE=""
         ;;
 esac
-git fetch origin -p  2>>"${LOGFILE}"|| { echo fetch failed; exit 1; }
-#git submodule update --remote --merge 2>>"${LOGFILE}"|| { echo update submodules failed: continue ; }
-git submodule init 1>>"${LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
-git submodule sync 1>>"${LOGFILE}" 2>&1|| { echo sync submodules failed; exit 1; }
-git submodule foreach "git branch -u origin/master master"  1>>"${LOGFILE}" 2>&1|| { echo set-upstream submodules failed; exit 1; }
-git submodule update --recursive --remote --merge 1>>"${LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
+git fetch origin -p  2>>"${SERVERCONFIG_LOGFILE}"|| { echo fetch failed; exit 1; }
+#git submodule update --remote --merge 2>>"${SERVERCONFIG_LOGFILE}"|| { echo update submodules failed: continue ; }
+git submodule init 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
+git submodule sync 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo sync submodules failed; exit 1; }
+git submodule foreach "git branch -u origin/master master"  1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo set-upstream submodules failed; exit 1; }
+git submodule update --recursive --remote --merge 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
 
 if git diff-index --ignore-submodules --exit-code HEAD -- >/dev/null ; then
-    cat << EOF >> "${LOGFILE}"
+    cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 Check for local changes:
     no changes in local repo
 EOF
     #echo "checkout origin/master as detached HEAD"
-    git checkout ${PRE}master 1>>"${LOGFILE}" 2>>"${LOGFILE}"|| exit 2
+    git checkout ${PRE}master 1>>"${SERVERCONFIG_LOGFILE}" 2>>"${SERVERCONFIG_LOGFILE}"|| exit 2
 else
-    cat << EOF >> "${LOGFILE}"
+    cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 Check for local changes:
     Ich habe lokale Änderungen festgestellt
     um die Änderung zurückzusetzen bitte
@@ -58,11 +60,11 @@ Check for local changes:
 
     Die Änderungen sind:
 EOF
-    git diff-index HEAD --|awk '{print $5, $6}' >>  "${LOGFILE}"
-    git diff-index -p HEAD -- >> "${LOGFILE}"
+    git diff-index HEAD --|awk '{print $5, $6}' >>  "${SERVERCONFIG_LOGFILE}"
+    git diff-index -p HEAD -- >> "${SERVERCONFIG_LOGFILE}"
 
-    echo "Lokale Änderungen festgestellt: Siehe Logfile $(pwd)/${LOGFILE}" >&2
-cat << EOF >> "${LOGFILE}"
+    echo "Lokale Änderungen festgestellt: Siehe Logfile ${SERVERCONFIG_LOGFILE}" >&2
+cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 
 +-----ENDE $(date) ---------------------------------+
  
@@ -71,7 +73,7 @@ EOF
 
 fi
 
-cat << EOF >> "${LOGFILE}"
+cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 
 +-----ENDE $(date) ---------------------------------+
  

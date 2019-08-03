@@ -17,22 +17,23 @@ GIT_REMOTE_SSH="${GIT_SSH_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_SSH}${GIT_REPO_N
 GIT_REMOTE_HTTP="${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_HTTP}${GIT_REPO_NAME}"
 
 #GIT_SSH_PATH="/srv/repos"
-SC=server-config
-SCONF="${HOME}/${SC}"
-LOGDIR="${SCONF}/logs"
-LOGFILE="${LOGDIR}/git.log"
+SERVERCONFIG_SUBPATH=server-config
+SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
+SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
+SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
 GIT_TIMEOUT=5s
 
+export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE
 
 #----------------------------------------
-[ -d "${LOGDIR}" ] || mkdir -p "${LOGDIR}"
+[ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
 # eigentlich sinnloss, denn serverconfig.local könnte man ja direkt in ~/.bashrc vor dem sourcen von bashrc_add einfügen... 
-[ -f "${SCONF}/serverconfig.local.conf" ] && . "${SCONF}/serverconfig.local.conf"
+[ -f "${SERVERCONFIG_BASE}/serverconfig.local.conf" ] && . "${SERVERCONFIG_BASE}/serverconfig.local.conf"
 
 sync_config () {
     local nok=""
     local gco=""
-    cd  "${SCONF}"
+    cd  "${SERVERCONFIG_BASE}"
     if which git >/dev/null; then
         echo -n "Sync config with ${GIT_SERVER}: " 1>&2
     	#git pull > /dev/null 2>&1
@@ -44,7 +45,7 @@ sync_config () {
         else
             gco="$GITCHECKOUT_SCRIPT_OPTIONS"
         fi
-        ./bin/git-checkout.sh ${gco}|| nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+        ./bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
         printf '%s\n' "${nok}synced" 1>&2
 
 cat << EOF >&2
@@ -79,8 +80,8 @@ EOF
 #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
 case $TERM in
     *term*)
-        if [ -d "${SCONF}" ]; then
-            cd  "${SCONF}"
+        if [ -d "${SERVERCONFIG_BASE}" ]; then
+            cd  "${SERVERCONFIG_BASE}"
             if [ $(git remote | grep -q origin ; echo $?) ] ;then
                 git remote remove origin
                 #git remote add origin "${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_HTTP_PATH}${GIT_REPOPATH}"
@@ -91,19 +92,19 @@ case $TERM in
 #            fi
             if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
                 sync_config
-                . ${SCONF}/functions.sh
-                create_symlinks "$SCONF"
+                . ${SERVERCONFIG_BASE}/functions.sh
+                create_symlinks "$SERVERCONFIG_BASE"
             else 
                 echo "${GIT_SERVER}" not reachable >&2;
                 echo profile not syncing >&2;
             fi
         else
             echo "Create Server-Config and configure git"
-            #git clone "${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPOPATH}" 2>>"${LOGFILE}"
-            git clone "${GIT_REMOTE_GIT}" 2>>"${LOGFILE}"
+            #git clone "${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPOPATH}" 2>>"${SERVERCONFIG_LOGFILE}"
+            git clone "${GIT_REMOTE_GIT}" 2>>"${SERVERCONFIG_LOGFILE}"
             #git clone "https://github.com/xundeenergie/server-config.git"
             
-            cd  "${SCONF}"
+            cd  "${SERVERCONFIG_BASE}"
 
             # Initialize Vundle as preconfigured Submodule
             git submodule update --init --recursive
@@ -125,9 +126,9 @@ case $TERM in
             
             sync_config
 
-            . ${SCONF}/functions.sh
+            . ${SERVERCONFIG_BASE}/functions.sh
             
-            create_symlinks "$SCONF"
+            create_symlinks "$SERVERCONFIG_BASE"
 
             # Install vim Plugins
             #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
@@ -138,7 +139,7 @@ case $TERM in
         ;;
 esac
 
-. ${SCONF}/functions.sh
+. ${SERVERCONFIG_BASE}/functions.sh
 
 ######################################################################################
 # ls is not in color on all systems
@@ -151,16 +152,16 @@ if [ -f ~/.bashrc_local ]; then
 	. ~/.bashrc_local
 fi
 
-if [ -f "${SCONF}/aliases" ]; then
-	. "${SCONF}/aliases"
+if [ -f "${SERVERCONFIG_BASE}/aliases" ]; then
+	. "${SERVERCONFIG_BASE}/aliases"
 fi
 
 if [ -f ~/.aliases ]; then
 	. ~/.aliases
 fi
 
-if [ -f "${SCONF}/PS1" ]; then
-	. "${SCONF}/PS1"
+if [ -f "${SERVERCONFIG_BASE}/PS1" ]; then
+	. "${SERVERCONFIG_BASE}/PS1"
 fi
 
 if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
