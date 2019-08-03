@@ -21,7 +21,7 @@ SC=server-config
 SCONF="${HOME}/${SC}"
 LOGDIR="./logs"
 LOGFILE="${LOGDIR}/git.log"
-if [ -z ${GITCHECKOUT_SCRIPT_OPTIONS+x} ]; then GITCHECKOUT_SCRIPT_OPTIONS="-h"; fi
+#if [ -z ${GITCHECKOUT_SCRIPT_OPTIONS+x} ]; then GITCHECKOUT_SCRIPT_OPTIONS="-h"; fi
 echo GITCHECKOUT_SCRIPT_OPTIONS: $GITCHECKOUT_SCRIPT_OPTIONS
 GIT_TIMEOUT=5s
 
@@ -39,9 +39,11 @@ sync_config () {
         # this are now:
         #   -h for headless repo
         if [ -z ${GITCHECKOUT_SCRIPT_OPTIONS+x} ]; then
+            echo  detached head checkout
             GITCHECKOUT_SCRIPT_OPTIONS="-h"
             ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} || nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
         else
+            echo normal checkout
             ./bin/git-checkout.sh || nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
         fi
         #echo -n synced 1>&2
