@@ -38,7 +38,12 @@ sync_config () {
         # GITCHECKOUT_SCRIPT_OPTIONS are options for bin/git-checkout.sh
         # this are now:
         #   -h for headless repo
-        ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} || nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+        if [ -z ${GITCHECKOUT_SCRIPT_OPTIONS+x} ]; then
+            GITCHECKOUT_SCRIPT_OPTIONS="-h"; fi
+            ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} || nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+        else
+            ./bin/git-checkout.sh || nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+        fi
         #echo -n synced 1>&2
         printf '%s\n' "${nok}synced" 1>&2
 
