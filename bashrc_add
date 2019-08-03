@@ -49,7 +49,12 @@ sync_config () {
             fi
         else
             echo normal checkout
-            ./bin/git-checkout.sh || nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+            ./bin/git-checkout.sh #|| nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+            res=$?
+            echo res: $res
+            if [ $res -gt 0 ] ; then
+                nok="not "
+            fi
         fi
         #echo -n synced 1>&2
         printf '%s\n' "${nok}synced" 1>&2
