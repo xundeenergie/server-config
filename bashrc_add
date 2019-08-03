@@ -45,6 +45,7 @@ sync_config () {
             res=$?
             echo res: $res
             if [ $res -gt 0 ] ; then
+                echo not ok why 1
                 nok="not "
             fi
         else
@@ -53,6 +54,7 @@ sync_config () {
             res=$?
             echo res: $res
             if [ $res -gt 0 ] ; then
+                echo not ok why 2
                 nok="not "
             fi
         fi
