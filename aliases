@@ -5,8 +5,11 @@ alias fuck='sudo $(history -p \!\!)'
 alias wosis='which $(history -p \!\!)' 
 
 # paketmanagement
+# -- apt
 alias aptupgrade='/usr/bin/apt update && /usr/bin/apt dist-upgrade'
 alias apt-get-key='sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys'
+# -- dnf
+alias dnfupgrade='dnf upgrade'
 
 # docker and docker-compose
 alias dcdown='docker-compose down'
