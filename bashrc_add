@@ -39,7 +39,7 @@ sync_config () {
         # this are now:
         #   -h for headless repo
         if [ -z ${GITCHECKOUT_SCRIPT_OPTIONS+x} ]; then
-            echo  detached head checkout
+            echo  detached head checkout $(pwd)
             GITCHECKOUT_SCRIPT_OPTIONS="-h"
             ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} #|| nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
             res=$?
@@ -49,7 +49,7 @@ sync_config () {
                 nok="not "
             fi
         else
-            echo normal checkout
+            echo normal checkout $(pwd)
             ./bin/git-checkout.sh #|| nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
             res=$?
             echo res: $res
