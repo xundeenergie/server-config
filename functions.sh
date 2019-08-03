@@ -144,11 +144,15 @@ vim-plugins-install () {
 }
 
 vim-repair-vundle () {
-    cd $SERVERCONFIG_BASE
-    cd vim/bundle
-    pwd
-    echo rm -rf Vundle.vim
-    echo git clone  "${GIT_GIT_PROTOCOL}${GIT_SERVER}/Vim/Vundle.vim.git"
+    if [ -z ${SERVERCONFIG_BASE+x} ]; then   
+        echo "SERVERCONFIG_BASE nicht gesetzt. Eventuell noch einmal ausloggen und wieder einloggen"
+    else
+        cd $SERVERCONFIG_BASE
+        cd vim/bundle
+        pwd
+        echo rm -rf Vundle.vim
+        echo git clone  "${GIT_GIT_PROTOCOL}${GIT_SERVER}/Vim/Vundle.vim.git"
+    fi
 }
 
 getbashrcfile () {
