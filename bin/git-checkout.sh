@@ -11,8 +11,6 @@
 # notes         :                                                                               #
 #################################################################################################
 
-echo SERVERCONFIG_LOGFILE: $SERVERCONFIG_LOGFILE
-echo SERVERCONFIG_BASE: $SERVERCONFIG_BASE
 SERVERCONFIG_LOGDIR="./logs"
 SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
 [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
