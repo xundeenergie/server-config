@@ -41,7 +41,11 @@ sync_config () {
         if [ -z ${GITCHECKOUT_SCRIPT_OPTIONS+x} ]; then
             echo  detached head checkout
             GITCHECKOUT_SCRIPT_OPTIONS="-h"
-            ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} || nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+            ./bin/git-checkout.sh ${GITCHECKOUT_SCRIPT_OPTIONS} #|| nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+            res=$?
+            if [ $res -gt 0 ] ; then
+                nok="not "
+            fi
         else
             echo normal checkout
             ./bin/git-checkout.sh || nok="not " 1>>"${LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
