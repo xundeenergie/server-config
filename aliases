@@ -77,7 +77,7 @@ alias md='mkdir -p'
 alias rd=rmdir
 
 # tests
-alias testmail='echo testemail von $USER am $(date)|mail -s "TESTEMAIL $USER $(date)"'
+alias testmail='echo testemail von ${USER}@${HOSTNAME} am $(date)|mail -s "TESTEMAIL ${USER}@${HOSTNAME} $(date)"'
 
 # logging
 alias tailmail='tail -f /var/log/mail.log /var/log/exim4/mainlog'
