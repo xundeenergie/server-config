@@ -57,8 +57,9 @@ git-mergedetachedheadtomaster () {
 #    set +x
     git checkout -b tmp
     git branch -f master tmp
+    git checkout master
     git branch -d tmp
-    git push origin master
+    #git push origin master
 }
 
 git-pushdetachedhead () {
