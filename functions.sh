@@ -168,12 +168,12 @@ function title()
    echo -ne "\033]0;$*\007"
 }
 
-function ssh()
-{
-   /usr/bin/ssh "$@"
-   # revert the window title after the ssh command
-   title $USER@$HOST
-}
+#function ssh()
+#{
+#   /usr/bin/ssh "$@"
+#   # revert the window title after the ssh command
+#   title $USER@$HOST
+#}
 
 function su()
 {
