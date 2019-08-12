@@ -133,3 +133,7 @@ alias sda='systemd-analyze plot > /tmp/bootchart.svg &&  eog /tmp/bootchart.svg&
 # remote control
 alias virgooff='ssh virgo sudo systemctl poweroff'
 alias virgoreboot='ssh virgo sudo systemctl reboot'
+
+#  nextcloud
+alias nextcloud-add-missing-indices='docker exec -ti nc_app_1 php occ db:add-missing-indices'
+alias nextcloud-upgrade='docker-compose down && docker image rm nc_app:latest nc_web:latest && docker-compose pull && docker-compose up --build -d'
