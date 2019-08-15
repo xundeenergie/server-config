@@ -422,15 +422,6 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 "  "return "a:ret"
 "  return ""
 "endfunction
-"
-"
-"execute "set <f28>=\<Esc>[200~"
-"execute "set <f29>=\<Esc>[201~"
-"map <expr> <f28> XTermPasteBegin("i")
-"imap <expr> <f28> XTermPasteBegin("")
-"vmap <expr> <f28> XTermPasteBegin("c")
-"cmap <f28> <nop>
-"cmap <f29> <nop>
 
 " write .netrwhist to cache-dir instead of ~/.vim to prevent configcheckout
 " problems
