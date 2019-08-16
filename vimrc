@@ -39,6 +39,7 @@ if !empty(glob("~/.vim/bundle/Vundle.vim"))
   Plugin 'git://git.schuerz.at/Vim/SimpylFold.git'
   Plugin 'git://git.schuerz.at/Vim/syntastic.git'
   Plugin 'git://git.schuerz.at/Vim/ctrlp.vim.git'
+  Plugin 'scrooloose/nerdtree'
   Plugin 'git://git.schuerz.at/Vim/vim-nerdtree-tabs.git'
   Plugin 'git://git.schuerz.at/Vim/vim-fugitive.git'
   Plugin 'git://git.schuerz.at/Vim/powerline.git', {'rtp': 'powerline/bindings/vim/'}
@@ -426,4 +427,5 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 " write .netrwhist to cache-dir instead of ~/.vim to prevent configcheckout
 " problems
 let g:netrw_home=$XDG_CACHE_HOME.'/vim'
+let g:nerdtree_tabs_open_on_console_startup=1
 
