@@ -444,4 +444,15 @@ let g:NERDTreeIndicatorMapCustom = {
     \ }
 
 " (a heavy feature may cost much more time)
-let g:NERDTreeShowIgnoredStatus = 1 
+"let g:NERDTreeShowIgnoredStatus = 1 
+
+"If the {lhs} key sequence of a map command starts with the string "<Leader>", 
+"then Vim replaces it with the key set in the 'mapleader' variable. 
+"The default setting for the 'mapleader' variable is backslash ('\'). 
+"Note that 'mapleader' is a Vim variable and not a Vim option. 
+"The value of this variable can be changed using the 'let' command. For example, 
+"to set it to '_' (underscore), you can use the following command in your vimrc file: 
+let mapleader = "_"
+
+map <Leader>n <plug>NERDTreeTabsToggle<CR>
+
