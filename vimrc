@@ -41,6 +41,7 @@ if !empty(glob("~/.vim/bundle/Vundle.vim"))
   Plugin 'git://git.schuerz.at/Vim/ctrlp.vim.git'
   Plugin 'scrooloose/nerdtree'
   Plugin 'git://git.schuerz.at/Vim/vim-nerdtree-tabs.git'
+  Plugin 'Xuyuanp/nerdtree-git-plugin'
   Plugin 'git://git.schuerz.at/Vim/vim-fugitive.git'
   Plugin 'git://git.schuerz.at/Vim/powerline.git', {'rtp': 'powerline/bindings/vim/'}
   Plugin 'git://git.schuerz.at/Vim/vim-togglebg.git'
