@@ -430,3 +430,18 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 let g:netrw_home=$XDG_CACHE_HOME.'/vim'
 let g:nerdtree_tabs_open_on_console_startup=1
 
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+" (a heavy feature may cost much more time)
+let g:NERDTreeShowIgnoredStatus = 1 
