@@ -115,7 +115,7 @@ EOF
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
            #ssh -t $@ "$RCMD; title $USER@$HOST; bash --rcfile ${REMOTETMPBASHCONFIG}&"
            #title $USER@$HOST
-           ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}&"
+           ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
            rm "${TMPBASHCONFIG}"
         else
            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
