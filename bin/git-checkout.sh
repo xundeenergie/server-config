@@ -44,7 +44,7 @@ if git diff-index --ignore-submodules --exit-code HEAD -- >/dev/null ; then
     cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 Check for local changes:
     no changes in local repo
-    git checkout repo ${PRE}master
+    echo git checkout repo ${PRE}master
 EOF
     #echo "checkout origin/master as detached HEAD"
     git checkout ${PRE}master 1>>"${SERVERCONFIG_LOGFILE}" 2>>"${SERVERCONFIG_LOGFILE}"|| exit 2
