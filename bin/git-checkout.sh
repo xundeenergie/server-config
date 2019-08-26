@@ -30,10 +30,15 @@ case $1 in
 esac
 git fetch origin -p  2>>"${SERVERCONFIG_LOGFILE}"|| { echo fetch failed; exit 1; }
 #git submodule update --remote --merge 2>>"${SERVERCONFIG_LOGFILE}"|| { echo update submodules failed: continue ; }
-git submodule init 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
-git submodule sync 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo sync submodules failed; exit 1; }
-git submodule foreach "git branch -u origin/master master"  1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo set-upstream submodules failed; exit 1; }
-git submodule update --recursive --remote --merge 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
+#git submodule init 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
+#git submodule sync 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo sync submodules failed; exit 1; }
+#git submodule foreach "git branch -u origin/master master"  1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo set-upstream submodules failed; exit 1; }
+#git submodule update --recursive --remote --merge 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
+
+git submodule init 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed; }
+git submodule sync 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo sync submodules failed; }
+git submodule foreach "git branch -u origin/master master"  1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo set-upstream submodules failed; }
+git submodule update --recursive --remote --merge 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed; }
 
 if git diff-index --ignore-submodules --exit-code HEAD -- >/dev/null ; then
     cat << EOF >> "${SERVERCONFIG_LOGFILE}"
