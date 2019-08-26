@@ -16,6 +16,29 @@ GIT_REMOTE_GIT="${GIT_GIT_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_GIT}${GIT_REPO_N
 GIT_REMOTE_SSH="${GIT_SSH_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_SSH}${GIT_REPO_NAME}"
 GIT_REMOTE_HTTP="${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_HTTP}${GIT_REPO_NAME}"
 
+GIT_REMOTE_DEFAULT="${GIT_REMOTE_GIT}"
+
+# If GIT_REMOTE is set in ~/.bashrc before sourcing this file, take value from ~/.bashrc
+# If set GIT_REMOTE_PROTOCOL in ~/.bashrc before sourcing this file, you cange choose one of the above 
+# defined values for a specific host
+
+if [ -z ${GIT_REMOTE+x} ]; then
+    case $GIT_REMOTE_PROTOCOL in
+        git)
+            GIT_REMOTE="${GIT_REMOTE_GIT}"
+            ;;
+        ssh)
+            GIT_REMOTE="${GIT_REMOTE_SSH}"
+            ;;
+        http)
+            GIT_REMOTE="${GIT_REMOTE_HTTP}"
+            ;;
+        *)
+            GIT_REMOTE="$(GIT_REMOTE_DEFAULT)"
+            ;;
+        esac
+fi
+
 #GIT_SSH_PATH="/srv/repos"
 SERVERCONFIG_SUBPATH=server-config
 SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
