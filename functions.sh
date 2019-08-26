@@ -108,14 +108,22 @@ alias vi='vim -u ${REMOTETMPVIMCONFIG}'
 alias vim='vim -u ${REMOTETMPVIMCONFIG}'
 alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'
 export VIMRC="${REMOTETMPVIMCONFIG}"
+title "$USER@$HOSTNAME: $PWD"
+echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
            #ssh -t $@ "$RCMD; title $USER@$HOST; bash --rcfile ${REMOTETMPBASHCONFIG}&"
-           #title $USER@$HOST
+           read -r -d '' RCMD <<-'EOF'
+           trap "rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}" EXIT; 
+EOF
            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
+#           ssh -t $@ "$RCMD; \
+#               bash --rcfile ${REMOTETMPBASHCONFIG}"
+           #ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}; tmux set-window-option automatic-rename 'on' 1>/dev/null"
+
            rm "${TMPBASHCONFIG}"
         else
            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
@@ -169,12 +177,12 @@ function title()
    echo -ne "\033]0;$*\007"
 }
 
-#function ssh()
-#{
-#   /usr/bin/ssh "$@"
-#   # revert the window title after the ssh command
-#   title $USER@$HOST
-#}
+function sshx()
+{
+   /usr/bin/ssh "$@"
+   # revert the window title after the ssh command
+   title $USER@$HOST
+}
 
 function su()
 {
