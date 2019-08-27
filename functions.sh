@@ -209,3 +209,4 @@ cat << EOF
     # vim:
         C+[hjkl]    vim: change splitted windows
 EOF
+}
