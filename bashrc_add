@@ -71,15 +71,15 @@ sync_config () {
         ./bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
         printf '%s\n' "${nok}synced" 1>&2
 
-cat << EOF >&2
-
----------------------------------------------------
-if you want to update submodules, change dir an run
-cd ~/server-config
-git submodule update --remote --merge
-cd ~
----------------------------------------------------
-EOF
+#cat << EOF >&2
+#
+#---------------------------------------------------
+#if you want to update submodules, change dir an run
+#cd ~/server-config
+#git submodule update --remote --merge
+#cd ~
+#---------------------------------------------------
+#EOF
 
     else
         echo "git not installed, no configuration possible, please install git" >&2
@@ -227,7 +227,7 @@ fi
 
 cd ${HOME}
 
-unset -f pathmunge
+unset -f pathmunge GIT_REMOTE  GIT_REMOTE_PROTOCOL
 
 # Add ~/server-config/bin to PATH
 #PATH="${HOME}/server-config/bin:${PATH}"
