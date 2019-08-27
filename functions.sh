@@ -197,7 +197,7 @@ function su()
    title $USER@$HOST
 }
 
-function help() 
+function usage() 
 {
 cat << EOF
     Keyboard-shortcuts:
