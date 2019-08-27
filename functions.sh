@@ -108,6 +108,7 @@ alias vi='vim -u ${REMOTETMPVIMCONFIG}'
 alias vim='vim -u ${REMOTETMPVIMCONFIG}'
 alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'
 export VIMRC="${REMOTETMPVIMCONFIG}"
+export BASHRC="${REMOTETMPBASHCONFIG}"
 title "$USER@$HOSTNAME: $PWD"
 echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
@@ -167,6 +168,10 @@ vim-repair-vundle () {
 
 getbashrcfile () {
     cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}'
+}
+
+getvimrcfile () {
+    echo $VIMRC
 }
 
 
