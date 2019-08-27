@@ -2,7 +2,7 @@
 	helper = cache --timeout=1200
 [user]
 	name = Jakobus Schürz
-	email = jakobus.schuerz@ebcont.com
+	email = jakobus.schuerz@schuerz.at
 [push]
 	default = simple
 [core]
