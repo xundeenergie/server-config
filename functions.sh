@@ -168,6 +168,7 @@ vim-repair-vundle () {
 
 getbashrcfile () {
     cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}'
+    echo $BASHRC
 }
 
 getvimrcfile () {
@@ -195,3 +196,16 @@ function su()
    # revert the window title after the su command
    title $USER@$HOST
 }
+
+function help() 
+{
+cat << EOF
+    Keyboard-shortcuts:
+
+    # tmux:
+        C+Cursor    tmux window change size
+        M+[hjkl]    tmux: change splitted windows
+
+    # vim:
+        C+[hjkl]    vim: change splitted windows
+EOF
