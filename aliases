@@ -3,6 +3,9 @@
 # usefull commands
 alias fuck='sudo $(history -p \!\!)'
 alias wosis='which $(history -p \!\!)' 
+alias fix='reset; stty sane; tput rs1; clear; echo -e "\033c"' # Fix terminal aber binary output
+
+
 
 # paketmanagement
 # -- apt
