@@ -13,7 +13,8 @@
 	last = log -1 HEAD
 	unstage = reset HEAD --
 	visual = !gitk
-	tree = log --graph --all
+        tree = log --oneline --decorate --graph --all
+	treefull = log --graph --all
 	hist = log --pretty=format:'%h %ad | %s%d [%an : %cn]' --graph --date=short
 	fixcached = rm -r --cached .
 [merge]
