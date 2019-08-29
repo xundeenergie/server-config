@@ -114,12 +114,12 @@ echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
-#           RCMD="
-#           trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
+           RCMD="
+           trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
            #ssh -t $@ "$RCMD; title $USER@$HOST; bash --rcfile ${REMOTETMPBASHCONFIG}&"
-           read -r -d '' RCMD <<-'EOF'
-           trap "rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}" EXIT
-EOF
+#           read -r -d '' RCMD <<-'EOF'
+#           trap "rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}" EXIT
+#EOF
            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
 #           ssh -t $@ "$RCMD; \
 #               bash --rcfile ${REMOTETMPBASHCONFIG}"
