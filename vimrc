@@ -9,6 +9,7 @@
 set nocompatible              " required
 filetype off                  " required
 
+let g:NERDTreeDirArrows = 1
 
 if !empty(glob("~/.vim/bundle/Vundle.vim"))
   " set the runtime path to include Vundle and initialize
@@ -40,8 +41,8 @@ if !empty(glob("~/.vim/bundle/Vundle.vim"))
   Plugin 'https://git.schuerz.at/public/Vim/syntastic.git'
   Plugin 'https://git.schuerz.at/public/Vim/ctrlp.vim.git'
   Plugin 'scrooloose/nerdtree'
-  Plugin 'https://git.schuerz.at/public/Vim/vim-nerdtree-tabs.git'
   Plugin 'Xuyuanp/nerdtree-git-plugin'
+  Plugin 'https://git.schuerz.at/public/Vim/vim-nerdtree-tabs.git'
   Plugin 'https://git.schuerz.at/public/Vim/vim-fugitive.git'
   Plugin 'https://git.schuerz.at/public/Vim/powerline.git', {'rtp': 'powerline/bindings/vim/'}
   Plugin 'https://git.schuerz.at/public/Vim/vim-togglebg.git'
