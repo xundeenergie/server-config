@@ -225,9 +225,10 @@ EOF
         tmux attach-session
 fi
 
+unset -f pathmunge
+unset -v GIT_REMOTE  GIT_REMOTE_PROTOCOL
 cd ${HOME}
 
-unset -f pathmunge GIT_REMOTE  GIT_REMOTE_PROTOCOL
 
 # Add ~/server-config/bin to PATH
 #PATH="${HOME}/server-config/bin:${PATH}"
