@@ -204,9 +204,9 @@ cat << EOF
 
     # tmux:
         C+Cursor    tmux window change size
-        M+[hjkl]    tmux: change splitted windows
+        M+[hjkl]    tmux change splitted windows
 
     # vim:
-        C+[hjkl]    vim: change splitted windows
+        C+[hjkl]    vim change splitted windows
 EOF
 }
