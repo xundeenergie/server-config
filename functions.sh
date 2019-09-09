@@ -59,6 +59,7 @@ git-mergedetachedheadtomaster () {
     git branch -f master tmp
     git checkout master
     git branch -d tmp
+    git commit -m "Merged detached head into master" .
     #git push origin master
 }
 
