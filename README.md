@@ -23,13 +23,16 @@ curl -o bashrc_add "https://git.schuerz.at/?p=server-config.git;a=blob_plain;f=b
 ```
 
 ## Lokale Configuration
-Die Datei - so vorhanden -  ~/server-config/serverconfig.local.conf wird gesourced.
-Die Variablen werden in Bash-Syntax definiert. Also in Hochkommas und Leerzeichengetrennt
-Momentan verwendete Variablen darin sind:
+in ~/.bashrc werden vor der Zeile zum Einbinden der Serverconfig die Variablen eingefügt um damit ein hostspezifisches Verhalten zu steuern
 GITCHECKOUT_SCRIPT_OPTIONS=
 Mögliche Optionen:
     * -h
 Verwendung: Damit kann man angeben, ob ein headless Repo erzeugt wird. Ohne -h folgt das Repo origin/master
+GIT_REMOTE=
+Mögliche Optionen:
+    * git - (default) Gitprotokoll ist git (Auf manchen Umgebungen kann der dazu notwenidge Port gesperrt sein)
+    * http - wenn git nicht möglich ist, kann das http/https Protokoll verwendet werden. (ist langsamer als git, jedoch ist fast überall Port 80 oder 440 freigeschaltet)
+    * ssh - Wenn auch schreibend auf das Repo zugegriffen werden soll, so muss Privatekey, Pubkey (und wenn konfiguriert Certifikate mit den notwendigen Principals) vorhanden sein, dann kann das ssh-Prodokoll verwendet werden.
 
 
 ## Einbinden von bashrc_add in die bash 
