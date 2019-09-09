@@ -17,6 +17,8 @@
 	treefull = log --graph --all
 	hist = log --pretty=format:'%h %ad | %s%d [%an : %cn]' --graph --date=short
 	fixcached = rm -r --cached .
+        delete-last-commit = reset --soft HEAD~1
+        purge-last-commit = reset --hard HEAD~1
 [merge]
 	conflictstyle = diff3
 	tool = vimdiff
