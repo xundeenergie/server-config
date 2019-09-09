@@ -106,14 +106,14 @@ case $TERM in
         if [ -d "${SERVERCONFIG_BASE}" ]; then
             cd  "${SERVERCONFIG_BASE}"
             if [ $(git remote | grep -q origin ; echo $?) ] ;then
-                echo git remote remove origin
+                #echo git remote remove origin
                 git remote remove origin
                 #git remote add origin "${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_HTTP_PATH}${GIT_REPOPATH}"
                 #git remote add origin "${GIT_REMOTE_GIT}"
-                echo git remote add origin "${GIT_REMOTE}"
+                #echo git remote add origin "${GIT_REMOTE}"
                 git remote add origin "${GIT_REMOTE}"
             else
-                echo git remote add origin "${GIT_REMOTE}"
+                #echo git remote add origin "${GIT_REMOTE}"
                 git remote add origin "${GIT_REMOTE}"
             fi
             #git remote set-url --add origin "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
