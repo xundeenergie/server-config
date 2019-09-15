@@ -230,5 +230,6 @@ unset -v GIT_REMOTE  GIT_REMOTE_PROTOCOL
 cd ${HOME}
 
 
+PDSH_RCMD_TYPE=ssh
 # Add ~/server-config/bin to PATH
 #PATH="${HOME}/server-config/bin:${PATH}"
