@@ -231,10 +231,9 @@ function tmuxsplit() {
             echo no session specified return
             ;;
     esac
-    echo SESSION: ${SESS}
     tmux new-session -d
 
-    [ -e ~/.local/share/tmux/sessions/${SESS[0]}.session ] \
-        && tmux source-file ~/.local/share/tmux/sessions/${SESS}.session
+    [ -e ${SESS[0]} ] \
+        && tmux source-file ${SESS}
     tmux attach-session -d
 }
