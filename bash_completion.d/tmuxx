@@ -3,7 +3,7 @@
 
 function _keys() {
     KEYS=""
-    for KEY_DIR in ${TMUX_COMPLETION_DIRS[*]};do
+    for KEY_DIR in ${TMUX_SESSION_DIRS[*]};do
         KEYS=${KEYS}" $(find ${KEY_DIR}/* -type f|awk -F ${KEY_DIR}/ '{print $2}'|sed 's/\.session$//')"
     done
     echo $KEYS
