@@ -7,7 +7,7 @@ function _keys() {
     for KEY_DIR in ${KEY_DIRS[*]};do
         KEYS=${KEYS}" $(find ${KEY_DIR}/* -type f|awk -F ${KEY_DIR}/ '{print $2}'|sed 's/\.session$//')"
     done
-    return $KEYS
+    echo $KEYS
 }
 function _keyfiles() {
     COMPREPLY=()
