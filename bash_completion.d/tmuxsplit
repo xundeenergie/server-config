@@ -1,12 +1,21 @@
 #!/bin/bash
 
-export KEY_DIR=~/.local/share/tmux/sessions
+export KEY_DIRS=("~/.local/share/tmux/sessions", "~/.tmux/sessions")
+
+function _keys() {
+    KEYS=""
+    for KEY_DIR in ${KEY_DIRS[*]};do
+        KEYS=${KEYS}" $(find ${KEY_DIR}/* -type f|awk -F ${KEY_DIR}/ '{print $2}'|sed 's/\.session$//')"
+    done
+    return $KEYS
+}
 function _keyfiles() {
     COMPREPLY=()
     local CUR KEYS
     CUR="${COMP_WORDS[COMP_CWORD]}"
-    KEYS="$(find ${KEY_DIR}/* -type f|awk -F ${KEY_DIR}/ '{print $2}'|sed 's/\.session$//')"
+    #KEYS="$(find ${KEY_DIR}/* -type f|awk -F ${KEY_DIR}/ '{print $2}'|sed 's/\.session$//')"
+    KEYS=_keys
     COMPREPLY=( $(compgen -W "${KEYS}" -- ${CUR}) )
     return 0
 }
-complete -F _keyfiles tmuxsplit
+complete -F _keyfiles tmuxsplit tmux
