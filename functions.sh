@@ -232,7 +232,7 @@ function tmuxsplit() {
             ;;
     esac
     tmux new-session -d
-    [ -e ~/.local/share/tmux/sessions/$1.session ] && tmux source-file
-~/.local/share/tmux/sessions/$1.session
+    [ -e ~/.local/share/tmux/sessions/${SESS}.session ] && tmux source-file
+~/.local/share/tmux/sessions/${SESS}.session
     tmux attach-session -d
 }
