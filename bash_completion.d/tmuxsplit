@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export KEY_DIRS=("~/.local/share/tmux/sessions", "~/.tmux/sessions")
+export KEY_DIRS=(~/.local/share/tmux/sessions ~/.tmux/sessions)
 
 function _keys() {
     KEYS=""
