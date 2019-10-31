@@ -233,6 +233,7 @@ function tmuxsplit() {
     esac
     tmux new-session -d
 
+    echo SESS: ${SESS[0]}
     [ -e ${SESS[0]} ] \
         && tmux source-file ${SESS}
     tmux attach-session -d
