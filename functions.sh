@@ -222,7 +222,7 @@ function pdsh-update-hetzner()
         done > ~/.dsh/group/hetzner-servers
 }
 
-function tmuxsplit() {
+function tmuxx() {
     case $# in
         1)
             SESS=($(find ${TMUX_SESSION_DIRS[*]} -mindepth 1 -name "$1.session"))
