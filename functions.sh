@@ -214,7 +214,8 @@ EOF
 
 function pdsh-update-hetzner()
 {
-    curl -s -H "Authorization: Bearer $(pass hetzner.com/api-token | head -n1)" https://api.hetzner.cloud/v1/servers \
+    curl -s -H "Authorization: Bearer $(pass hetzner.com/api-token | head -n1)" \
+        https://api.hetzner.cloud/v1/servers \
         | /usr/bin/jq '.servers[].public_net.ipv4.ip'|sed -e 's/\"//g' \
         |while read i; do 
             dig -x $i | awk '$0 !~ /^;/ && $4 == "PTR" {print $5}' 
@@ -232,7 +233,7 @@ function tmuxsplit() {
             ;;
     esac
     tmux new-session -d
-    [ -e ~/.local/share/tmux/sessions/${SESS}.session ] && tmux source-file
-~/.local/share/tmux/sessions/${SESS}.session
+    [ -e ~/.local/share/tmux/sessions/${SESS}.session ] \
+        && tmux source-file ~/.local/share/tmux/sessions/${SESS}.session
     tmux attach-session -d
 }
