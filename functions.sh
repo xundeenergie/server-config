@@ -224,15 +224,15 @@ function pdsh-update-hetzner()
 
 function tmuxsplit() {
     case $# in
-        1) SESS=$1
-            ;;
-        2) SESS=$1-$2
+        1)
+            SESS=$(find $TMUX_SESSION_DIRS -mindepth 1 -name "$1.session")
             ;;
         *)
             echo no session specified return
             ;;
     esac
     tmux new-session -d
+
     [ -e ~/.local/share/tmux/sessions/${SESS}.session ] \
         && tmux source-file ~/.local/share/tmux/sessions/${SESS}.session
     tmux attach-session -d
