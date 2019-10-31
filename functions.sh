@@ -225,7 +225,7 @@ function pdsh-update-hetzner()
 function tmuxsplit() {
     case $# in
         1)
-            SESS=($(find $TMUX_SESSION_DIRS -mindepth 1 -name "$1.session"))
+            SESS=($(find ${TMUX_SESSION_DIRS[*]} -mindepth 1 -name "$1.session"))
             ;;
         *)
             echo no session specified return
