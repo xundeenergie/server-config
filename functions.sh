@@ -220,3 +220,19 @@ function pdsh-update-hetzner()
             dig -x $i | awk '$0 !~ /^;/ && $4 == "PTR" {print $5}' 
         done > ~/.dsh/group/hetzner-servers
 }
+
+function tmuxsplit() {
+    case $# in
+        1) SESS=$1
+            ;;
+        2) SESS=$1-$2
+            ;;
+        *)
+            echo no session specified return
+            ;;
+    esac
+    tmux new-session -d
+    [ -e ~/.local/share/tmux/sessions/$1.session ] && tmux source-file
+~/.local/share/tmux/sessions/$1.session
+    tmux attach-session -d
+}
