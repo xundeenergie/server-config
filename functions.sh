@@ -225,16 +225,13 @@ function pdsh-update-hetzner()
 function tmuxx() {
     case $# in
         1)
-            SESS=($(find ${TMUX_SESSION_DIRS[*]} -mindepth 1 -name "$1.session"))
+            SESS=($(find ${TMUX_SESSION_DIRS[*]} -mindepth 1 -name "$1.session" 2>/dev/null ))
             ;;
         *)
             echo no session specified return
             ;;
     esac
     tmux new-session -d
-
-    echo SESS: ${SESS[0]}
-    [ -e ${SESS[0]} ] \
-        && tmux source-file ${SESS}
+    [ -e ${SESS[0]} ] && tmux source-file ${SESS[0]}
     tmux attach-session -d
 }
