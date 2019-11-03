@@ -4,7 +4,8 @@
 function _keys() {
     KEYS=""
     for KEY_DIR in ${TMUX_SESSION_DIRS[*]};do
-        KEYS=${KEYS}" $(find ${KEY_DIR}/* -type f|awk -F ${KEY_DIR}/ '{print $2}'|sed 's/\.session$//')"
+        #KEYS=${KEYS}" $(find ${KEY_DIR}/* -type f|awk -F ${KEY_DIR}/ '{print $2}'|sed 's/\.session$//')"
+        KEYS=$(find ${TMUX_SESSION_DIRS[*]} -type f -name "*.session" -exec basename {} \; 2>/dev/null |sed 's/\.session$//')
     done
     echo $KEYS
 }
