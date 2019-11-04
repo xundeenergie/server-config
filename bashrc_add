@@ -121,8 +121,8 @@ case $TERM in
             fi
             
             # Update Userinformations for git
-            git config user.email ${USERNAME}
-            git config user.name ${FULLNAME}
+            git config user.email "${USERNAME}"
+            git config user.name "${FULLNAME}"
 
             # set upstream only if not detached
             [ $(git rev-parse --abbrev-ref HEAD) != "HEAD" ] && git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
@@ -144,8 +144,8 @@ case $TERM in
             cd  "${SERVERCONFIG_BASE}"
             [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
 
-            git config user.email ${USERNAME}
-            git config user.name ${FULLNAME}
+            git config user.email "${USERNAME}"
+            git config user.name "${FULLNAME}"
 
             # Initialize Vundle as preconfigured Submodule
             git submodule update --init --recursive
