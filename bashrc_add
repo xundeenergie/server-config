@@ -127,7 +127,7 @@ case $TERM in
             
             echo git remote 4: $(git remote)
             echo git branch 4: $(git rev-parse --abbrev-ref HEAD)
-            #git branch --set-upstream-to=origin/master
+            [ $(git rev-parse --abbrev-ref HEAD) != "HEAD" ] && git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
             echo git remote 5: $(git remote)
             echo git branch 5: $(git rev-parse --abbrev-ref HEAD)
 
