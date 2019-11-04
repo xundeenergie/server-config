@@ -104,7 +104,7 @@ sync_config () {
 #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
 case $TERM in
     *term*)
-        if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1; echo $?) ]; then
+        if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1) ]; then
         #if [ -d "${SERVERCONFIG_BASE}" ]; then
             echo "Update ${SERVERCONFIG_BASE}"
             cd  "${SERVERCONFIG_BASE}"
