@@ -367,7 +367,7 @@ else
   endif
 endif
 
-if !empty(glob("~/.vim/bundle/Vundle.vim"))
+if !empty(glob("~/.vim/bundle/vim-togglebg"))
   call togglebg#map("<F5>")
 endif
 
