@@ -108,25 +108,18 @@ case $TERM in
             cd  "${SERVERCONFIG_BASE}"
             [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
             if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
-                echo git
-                echo git update
-                echo git remote 1: $(git remote)
-                #[ $(git remote |grep -v origin) ] && echo remote origin
-                #git remote remove origin
+                echo "Update ${SERVERCONFIG_BASE}"
                 git remote set-url origin "${GIT_REMOTE}" 
             
             else
-                echo nogit 
-                echo git init, fetch, checkout
+                echo "Init ${SERVERCONFIG_BASE}"
                 git init
             fi
             
-            echo git remote 4: $(git remote)
-            echo git branch 4: $(git rev-parse --abbrev-ref HEAD)
+            # set upstream only if not detached
             [ $(git rev-parse --abbrev-ref HEAD) != "HEAD" ] && git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
-            echo git remote 5: $(git remote)
-            echo git branch 5: $(git rev-parse --abbrev-ref HEAD)
 
+            # sync repo with origin if git is reachable 
             if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
                 sync_config
                 . ${SERVERCONFIG_BASE}/functions.sh
@@ -136,8 +129,6 @@ case $TERM in
                 echo profile not syncing >&2;
             fi
         else
-            echo nodir
-            echo git clone
             echo "Clone ${SERVERCONFIG_BASE} and configure git"
 
             git clone "${GIT_REMOTE}" "${SERVERCONFIG_BASE}"
@@ -146,6 +137,7 @@ case $TERM in
             [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
 
             # TODO: set username and fullname to login-users values
+            echo USERNAME: $USERNAME
             USERNAME="jakobus.schuerz"
             FULLNAME="Jakobus Schürz"
             
