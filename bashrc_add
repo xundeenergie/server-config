@@ -110,17 +110,17 @@ case $TERM in
             if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
                 echo git
                 echo git update
-                git remote remove origin
-                git remote add origin "${GIT_REMOTE}"
-                git branch --set-upstream-to=origin/master 
+                [ $(git remote |grep -v origin) ] && git remote remove origin
             
             else
                 echo nogit 
                 echo git init, fetch, checkout
                 git init
-                git remote add origin "${GIT_REMOTE}"
-                git branch --set-upstream-to=origin/master 
             fi
+            
+            git remote add origin "${GIT_REMOTE}"
+            git branch --set-upstream-to=origin/master 
+
             if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
                 sync_config
                 . ${SERVERCONFIG_BASE}/functions.sh
