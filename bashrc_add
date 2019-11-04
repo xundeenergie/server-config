@@ -51,7 +51,6 @@ TMUX_SESSION_DIRS=(~/.local/share/tmux/sessions ~/.tmux/sessions)
 export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE TMUX_SESSION_DIRS
 
 #----------------------------------------
-[ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
 # eigentlich sinnloss, denn serverconfig.local könnte man ja direkt in ~/.bashrc vor dem sourcen von bashrc_add einfügen... 
 [ -f "${SERVERCONFIG_BASE}/serverconfig.local.conf" ] && . "${SERVERCONFIG_BASE}/serverconfig.local.conf"
 
@@ -108,6 +107,7 @@ case $TERM in
         if [ git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 ]; then
         #if [ -d "${SERVERCONFIG_BASE}" ]; then
             cd  "${SERVERCONFIG_BASE}"
+            [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
             if [ $(git remote | grep -q origin ; echo $?) ] ;then
                 #echo git remote remove origin
                 git remote remove origin
@@ -137,6 +137,7 @@ case $TERM in
             #git clone "https://github.com/xundeenergie/server-config.git"
             
             cd  "${SERVERCONFIG_BASE}"
+            [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
 
             # Initialize Vundle as preconfigured Submodule
             git submodule update --init --recursive
