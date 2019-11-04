@@ -106,6 +106,7 @@ case $TERM in
     *term*)
         if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1; echo $?) ]; then
         #if [ -d "${SERVERCONFIG_BASE}" ]; then
+            echo "Update ${SERVERCONFIG_BASE}"
             cd  "${SERVERCONFIG_BASE}"
             [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
             if [ $(git remote | grep -q origin ; echo $?) ] ;then
