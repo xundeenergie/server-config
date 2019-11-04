@@ -110,7 +110,9 @@ case $TERM in
             if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
                 echo git
                 echo git update
+                git remote
                 [ $(git remote |grep -v origin) ] && git remote remove origin
+                git remote
             
             else
                 echo nogit 
@@ -118,6 +120,7 @@ case $TERM in
                 git init
             fi
             
+            git remote
             git remote add origin "${GIT_REMOTE}"
             git branch --set-upstream-to=origin/master 
 
