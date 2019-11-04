@@ -112,11 +112,11 @@ case $TERM in
             cd  "${SERVERCONFIG_BASE}"
             [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
             if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
-                echo "Update ${SERVERCONFIG_BASE}"
+                echo "Update ${SERVERCONFIG_BASE}" >&2
                 git remote set-url origin "${GIT_REMOTE}" 
             
             else
-                echo "Init ${SERVERCONFIG_BASE}"
+                echo "Init ${SERVERCONFIG_BASE}" >&2
                 git init
             fi
             
@@ -137,7 +137,7 @@ case $TERM in
                 echo profile not syncing >&2;
             fi
         else
-            echo "Clone ${SERVERCONFIG_BASE} and configure git"
+            echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
 
             git clone "${GIT_REMOTE}" "${SERVERCONFIG_BASE}"
 
