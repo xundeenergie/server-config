@@ -114,8 +114,10 @@ case $TERM in
                 [ $(git remote |grep -v origin) ] && echo remote origin
                 git remote remove origin
                 echo git remote 2: $(git remote)
+                echo git branch 2: $(git rev-parse --abbrev-ref HEAD)
                 git remote add -t master -m master origin "${GIT_REMOTE}" 
                 echo git remote 3: $(git remote)
+                echo git branch 3: $(git rev-parse --abbrev-ref HEAD)
             
             else
                 echo nogit 
