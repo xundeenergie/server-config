@@ -137,9 +137,8 @@ case $TERM in
             [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
 
             # TODO: set username and fullname to login-users values
-            echo USERNAME: $USERNAME
-            USERNAME="jakobus.schuerz"
-            FULLNAME="Jakobus Schürz"
+            USERNAME="$USER"
+            FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
             
             git config user.email ${USERNAME}
             git config user.name ${FULLNAME}
