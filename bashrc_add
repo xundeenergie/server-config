@@ -39,6 +39,23 @@ if [ -z ${GIT_REMOTE+x} ]; then
         esac
 fi
 
+if [ -z ${GIT_REMOTE_PUSH+x} ]; then
+    case $GIT_REMOTE_PUSH_PROTOCOL in
+        git)
+            GIT_REMOTE_PUSH="${GIT_REMOTE_GIT}"
+            ;;
+        ssh)
+            GIT_REMOTE_PUSH="${GIT_REMOTE_SSH}"
+            ;;
+        http)
+            GIT_REMOTE_PUSH="${GIT_REMOTE_HTTP}"
+            ;;
+        *)
+            GIT_REMOTE_PUSH="${GIT_REMOTE_DEFAULT}"
+            ;;
+        esac
+fi
+
 #GIT_SSH_PATH="/srv/repos"
 SERVERCONFIG_SUBPATH=server-config
 SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
@@ -158,6 +175,7 @@ case $TERM in
             #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
             vim -c "PluginInstall" -c ":qa!"
         fi
+        [ -z ${GIT_REMOTE_PUSH+x} ] || git remote set-url --push origin "${GIT_REMOTE_PUSH}" 
         ;;
     *screen*)
         ;;
