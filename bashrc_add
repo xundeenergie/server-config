@@ -111,7 +111,6 @@ sync_config () {
         [ -e bin/${i} ] && install bin/"${i}" "${TARGETDIR}/${i}"
     done
 
-    cd ${HOME}
 }
 
 
@@ -176,6 +175,7 @@ case $TERM in
             vim -c "PluginInstall" -c ":qa!"
         fi
         [ -z ${GIT_REMOTE_PUSH+x} ] || git remote set-url --push origin "${GIT_REMOTE_PUSH}" 
+        cd ${HOME}
         ;;
     *screen*)
         ;;
