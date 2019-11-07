@@ -112,11 +112,11 @@ case $TERM in
             cd  "${SERVERCONFIG_BASE}"
             [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
             if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
-                echo "Update ${SERVERCONFIG_BASE}" >&2
+                #echo "Update ${SERVERCONFIG_BASE}" >&2
                 git remote set-url origin "${GIT_REMOTE}" 
             
             else
-                echo "Init ${SERVERCONFIG_BASE}" >&2
+                #echo "Init ${SERVERCONFIG_BASE}" >&2
                 git init
             fi
             
@@ -137,7 +137,7 @@ case $TERM in
                 echo profile not syncing >&2;
             fi
         else
-            echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
+            #echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
 
             git clone "${GIT_REMOTE}" "${SERVERCONFIG_BASE}"
 
@@ -158,71 +158,6 @@ case $TERM in
             #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
             vim -c "PluginInstall" -c ":qa!"
         fi
-
-
-#        if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
-#            echo "Update ${SERVERCONFIG_BASE}"
-#            cd  "${SERVERCONFIG_BASE}"
-#            [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-#            if [ $(git remote | grep -q origin ; echo $?) ] ;then
-#                #echo git remote remove origin
-#                git remote remove origin
-#                #git remote add origin "${GIT_HTTP_PROTOCOL}${GIT_SERVER}:${GIT_HTTP_PATH}${GIT_REPOPATH}"
-#                #git remote add origin "${GIT_REMOTE_GIT}"
-#                #echo git remote add origin "${GIT_REMOTE}"
-#                git remote add origin "${GIT_REMOTE}"
-#            else
-#                #echo git remote add origin "${GIT_REMOTE}"
-#                git remote add origin "${GIT_REMOTE}"
-#            fi
-#            #git remote set-url --add origin "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
-##            if [ $( git remote get-url origin|grep -q ${GIT_HTTP_PROTOCOL}${GIT_SERVER} ; echo $?) -gt 0 ]; then
-##            fi
-#            if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
-#                sync_config
-#                . ${SERVERCONFIG_BASE}/functions.sh
-#                create_symlinks "$SERVERCONFIG_BASE"
-#            else 
-#                echo "${GIT_SERVER}" not reachable >&2;
-#                echo profile not syncing >&2;
-#            fi
-#        else
-#            echo "Clone ${SERVERCONFIG_BASE} and configure git"
-#            #git clone "${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPOPATH}" 2>>"${SERVERCONFIG_LOGFILE}"
-#            git clone "${GIT_REMOTE}"
-#            #git clone "https://github.com/xundeenergie/server-config.git"
-#            
-#            cd  "${SERVERCONFIG_BASE}"
-#            [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-#
-#            # Initialize Vundle as preconfigured Submodule
-#            git submodule update --init --recursive
-#
-#            USERNAME="jakobus.schuerz"
-#            FULLNAME="Jakobus Schürz"
-#            
-#            git config user.email ${USERNAME}
-#            git config user.name ${FULLNAME}
-#
-#            #git config push.default simple
-#            #git remote set-url origin --add "${GIT_SSH_PROTOCOL}${GIT_SERVER}:${GIT_SSH_PATH}${GIT_REPOPATH}"
-#            git remote set-url origin --add "${GIT_REMOTE}"
-#            
-#            # set upstream for local master
-#            git branch -u origin/master
-#
-#            #git config credential.helper 'store'
-#            
-#            sync_config
-#
-#            . ${SERVERCONFIG_BASE}/functions.sh
-#            
-#            create_symlinks "$SERVERCONFIG_BASE"
-#
-#            # Install vim Plugins
-#            #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
-#            vim -c "PluginInstall" -c ":qa!"
-#        fi
         ;;
     *screen*)
         ;;
@@ -258,10 +193,7 @@ if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
 fi
 
 
-#complete -F _ssh sshs
-# set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-    #PATH="$HOME/bin:$PATH"
     pathmunge "$HOME/bin"
     export PATH
 fi
@@ -279,7 +211,6 @@ if test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}
         Press CTRL+C to cancel screen startup
 
 EOF
-        #systemctl --user start vnc@5901.service
         sleep 2
         #screen -UxR
         tmux attach-session
