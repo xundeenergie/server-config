@@ -169,12 +169,21 @@ vim-repair-vundle () {
 }
 
 getbashrcfile () {
-    cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}'
-    echo $BASHRC
+    if [ -z ${BASHRC+x} ] ; then
+        echo "bash uses default"
+    else
+        cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}'
+        #echo $BASHRC
+
+    fi
 }
 
 getvimrcfile () {
-    echo $VIMRC
+    if [ -z ${VIMRC+x} ] ; then
+        echo "vim uses default"
+    else
+        echo $VIMRC
+    fi
 }
 
 
