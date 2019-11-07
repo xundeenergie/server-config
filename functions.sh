@@ -108,6 +108,7 @@ sshs() {
 alias vi='vim -u ${REMOTETMPVIMCONFIG}'
 alias vim='vim -u ${REMOTETMPVIMCONFIG}'
 alias vimdiff='vimdiff -u ${REMOTETMPVIMCONFIG}'
+export LS_OPTIONS="${LS_OPTIONS}"
 export VIMRC="${REMOTETMPVIMCONFIG}"
 export BASHRC="${REMOTETMPBASHCONFIG}"
 title "$USER@$HOSTNAME: $PWD"
