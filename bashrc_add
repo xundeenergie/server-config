@@ -9,7 +9,7 @@ GIT_SSH_PROTOCOL="git@"
 GIT_SERVER="git.schuerz.at"
 GIT_REPO_NAME="server-config.git"
 GIT_REPO_PATH_HTTP="/public/"
-GIT_REPO_PATH_SSH=":/srv/repos/public/"
+GIT_REPO_PATH_SSH=":public/"
 GIT_REPO_PATH_GIT="/public/"
 
 GIT_REMOTE_GIT="${GIT_GIT_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_GIT}${GIT_REPO_NAME}"
