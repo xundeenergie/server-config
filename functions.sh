@@ -92,6 +92,22 @@ sshs() {
     VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
     FILELIST=( "${SERVERCONFIG_BASE}/functions.sh" "${SERVERCONFIG_BASE}/aliases" "${HOME}/.aliases" "${SERVERCONFIG_BASE}/PS1" )
+
+    # Read /etc/bashrc or /etc/bash.bashrc (depending on distribution) and /etc/profile.d/*.sh first
+    cat << EOF >> "${TMPBASHCONFIG}"
+    [ -e /etc/bashrc ] && . /etc/bashrc
+    [ -e /etc/bash.bashrc ] && . /etc/bash.bashrc
+    for i in /etc/profile.d/*.sh; do
+        if [ -r "$i" ];then
+            if [ "$PS1" ]; then
+                . "$i"
+            else
+                . "$i" >/dev/null
+            fi
+        fi
+    done
+EOF
+
     for f in ${FILELIST[*]}; do
         if [ -e $f ]; then
             echo add $f to tmpconfig
@@ -229,7 +245,7 @@ function pdsh-update-hetzner()
         | /usr/bin/jq '.servers[].public_net.ipv4.ip'|sed -e 's/\"//g' \
         |while read i; do 
             dig -x $i | awk '$0 !~ /^;/ && $4 == "PTR" {print $5}' 
-        done > ~/.dsh/group/hetzner-servers
+        done |sed -s -e 's/\.$//' > ~/.dsh/group/hetzner-servers
 }
 
 function tmuxx() {
