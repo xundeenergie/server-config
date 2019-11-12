@@ -194,11 +194,29 @@ getbashrcfile () {
     fi
 }
 
+catbashrcfile () {
+    if [ -z ${BASHRC+x} ] ; then
+        echo "bash uses default"
+    else
+        cat $(cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}')
+        #echo $BASHRC
+
+    fi
+}
+
 getvimrcfile () {
     if [ -z ${VIMRC+x} ] ; then
         echo "vim uses default"
     else
         echo $VIMRC
+    fi
+}
+
+catvimrcfile () {
+    if [ -z ${VIMRC+x} ] ; then
+        echo "vim uses default"
+    else
+        cat $VIMRC
     fi
 }
 
