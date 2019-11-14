@@ -102,6 +102,7 @@ alias totem='VDPAU_DRIVER=va_gl totem'
 alias unetbootin='export QT_X11_NO_MITSHM=1 unetbootin'
 alias vi='/usr/bin/vim'
 alias vlc='VDPAU_DRIVER=va_gl vlc'
+alias tmux='tmux -f ~/.tmux.conf'
 
 # mount/unmount
 alias me='owndisk mount'
