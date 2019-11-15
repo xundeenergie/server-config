@@ -9,7 +9,6 @@ vim/.VimballRecord
 serverconfig.local.conf
 tmux/*
 !tmux/sessions
-!tmux/plugins
 !tmux/plugins/tpm
 !tmux/tmux.conf
 !tmux/initial.conf
