@@ -277,6 +277,7 @@ function tmuxx() {
     esac
     TMUX='/usr/bin/tmux'
     $TMUX -f ~/.tmux.conf new-session -d
+    [ -e ${SESS[0]}.env ] && $TMUX setenv ${SESS[0]}.env
     [ -e ${SESS[0]} ] && $TMUX source-file ${SESS[0]}
     $TMUX attach-session -d
 }
