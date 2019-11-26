@@ -429,7 +429,8 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 " write .netrwhist to cache-dir instead of ~/.vim to prevent configcheckout
 " problems
 let g:netrw_home=$XDG_CACHE_HOME.'/vim'
-let g:nerdtree_tabs_open_on_console_startup=1
+"let g:nerdtree_tabs_open_on_console_startup=1
+let g:nerdtree_tabs_open_on_console_startup=0
 
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
