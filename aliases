@@ -137,6 +137,10 @@ alias sda='systemd-analyze plot > /tmp/bootchart.svg &&  eog /tmp/bootchart.svg&
 # remote control
 alias virgooff='ssh virgo sudo systemctl poweroff'
 alias virgoreboot='ssh virgo sudo systemctl reboot'
+alias aldebaranoff='ssh aldebaran sudo systemctl poweroff'
+alias aldebaransuspend='ssh aldebaran sudo systemctl suspend'
+alias aldebaranreboot='ssh aldebaran sudo systemctl reboot'
+
 
 #  nextcloud
 alias nextcloud-add-missing-indices='docker exec -ti nc_app_1 php occ db:add-missing-indices'
