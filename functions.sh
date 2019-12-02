@@ -158,7 +158,7 @@ EOF
 echo DEBUG1
            ssh -t -T -o VisualHostKey=no $@ "export TMPCFG=true; cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
 echo DEBUG2
-           ssh -t -o VisualHostKey=no $@ "export TMPCFG=true; cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
+           ssh -t -T -o VisualHostKey=no $@ "export TMPCFG=true; cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
 echo DEBUG3
            RCMD="export TMPCFG=true;
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
