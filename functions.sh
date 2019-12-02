@@ -97,12 +97,12 @@ sshserverconfig() {
 #    [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
 #    [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
     BASHRC="~/.bashrc"
-    echo "modify ${BASHRC}"
-    if grep -q bashrc_add "${BASHRC}" ;then
-        sed -i -e '/bashrc_add/d' "${BASHRC}"
+    echo "modify ~/.bashrc"
+    if grep -q bashrc_add ~/.bashrc ;then
+        sed -i -e '/bashrc_add/d' ~/.bashrc
     fi
     echo
-    printf "%s" "[ -f bashrc_add ] && . bashrc_add" | tee -a "${BASHRC}"
+    printf "%s" "[ -f bashrc_add ] && . bashrc_add" | tee -a ~/.bashrc
     echo
 
 EOF
