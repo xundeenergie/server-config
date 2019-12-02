@@ -5,6 +5,8 @@
 
 echo PS1: $PS1
 if [ -z ${PS1+x} ]; then
+    echo mit temporärer config
+else
     echo mit permanenter config
 
     GIT_GIT_PROTOCOL="git://"
@@ -187,8 +189,6 @@ if [ -z ${PS1+x} ]; then
 
     [ -e ${SERVERCONFIG_BASE} ] && . ${SERVERCONFIG_BASE}/functions.sh
 
-else
-    echo mit temporärer config
 fi
 
 ######################################################################################
