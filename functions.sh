@@ -94,9 +94,8 @@ sshserverconfig() {
     ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
     CMD="$SSH $@"
     $CMD /bin/bash << EOF
-#    [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
-#    [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
-    BASHRC="~/.bashrc"
+    [ -e /etc/bashrc ] && .  /etc/bashrc
+    [ -e /etc/bash.bashrc ] && . /etc/bash.bashrc
     echo "modify ~/.bashrc"
     if grep -q bashrc_add ~/.bashrc ;then
         sed -i -e '/bashrc_add/d' ~/.bashrc
@@ -116,8 +115,11 @@ sshs() {
 
     # Read /etc/bashrc or /etc/bash.bashrc (depending on distribution) and /etc/profile.d/*.sh first
     cat << EOF >> "${TMPBASHCONFIG}"
-    [ -e /etc/bashrc ] && . /etc/bashrc
-    [ -e /etc/bash.bashrc ] && . /etc/bash.bashrc
+    TMPCFG=true
+    [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
+    [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
+
+    sed -e '/bashrc_add/d' $BASHRC > $TMPBASH
     for i in /etc/profile.d/*.sh; do
         if [ -r "$i" ];then
             if [ "$PS1" ]; then
