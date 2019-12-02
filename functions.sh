@@ -167,7 +167,7 @@ echo DEBUG3
 #           trap "rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}" EXIT
 #EOF
 echo DEBUG4
-           ssh $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
+           ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
 #           ssh -t $@ "$RCMD; \
 #               bash --rcfile ${REMOTETMPBASHCONFIG}"
            #ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}; tmux set-window-option automatic-rename 'on' 1>/dev/null"

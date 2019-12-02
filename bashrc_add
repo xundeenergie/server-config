@@ -189,6 +189,11 @@ else
 
     [ -e ${SERVERCONFIG_BASE} ] && . ${SERVERCONFIG_BASE}/functions.sh
 
+    if [ -d "$HOME/bin" ] ; then
+        [ -e ${SERVERCONFIG_BASE} ] && pathmunge "$HOME/bin"
+        export PATH
+    fi
+
 fi
 
 ######################################################################################
@@ -218,11 +223,6 @@ if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
     gnome-shell-extensions-enable-defaults () { for i in $(cat ~/.config/gnome-shell-extensions-default.list); do gnome-shell-extension-tool -e $i;done; }
 fi
 
-
-if [ -d "$HOME/bin" ] ; then
-    [ -e ${SERVERCONFIG_BASE} ] && pathmunge "$HOME/bin"
-    export PATH
-fi
 
 
 #########################################################################################
