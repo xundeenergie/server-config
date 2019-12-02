@@ -154,8 +154,11 @@ export BASHRC="${REMOTETMPBASHCONFIG}"
 title "$USER@$HOSTNAME: $PWD"
 echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
+echo DEBUG1
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+echo DEBUG2
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
+echo DEBUG3
            RCMD="
            TMPCFG=true
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
@@ -163,6 +166,7 @@ EOF
 #           read -r -d '' RCMD <<-'EOF'
 #           trap "rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}" EXIT
 #EOF
+echo DEBUG4
            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
 #           ssh -t $@ "$RCMD; \
 #               bash --rcfile ${REMOTETMPBASHCONFIG}"
