@@ -156,9 +156,9 @@ title "$USER@$HOSTNAME: $PWD"
 echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
 echo DEBUG1
-           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+           ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
 echo DEBUG2
-           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
+           ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
 echo DEBUG3
            RCMD="export TMPCFG=true;
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
