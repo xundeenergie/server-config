@@ -115,12 +115,12 @@ sshs() {
 
     # Read /etc/bashrc or /etc/bash.bashrc (depending on distribution) and /etc/profile.d/*.sh first
     cat << EOF >> "${TMPBASHCONFIG}"
-    TMPBASH=\$\(mktemp\)
-    echo TMPBASH: $TMPBASH
+    #TMPBASH=\$(mktemp)
+    #echo TMPBASHX: \$TMPBASH
     [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
     [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
 
-    sed -e '/bashrc_add/d' ~/.bashrc > $TMPBASH
+    #sed -e '/bashrc_add/d' ~/.bashrc > \$TMPBASH
     for i in /etc/profile.d/*.sh; do
         if [ -r "$i" ];then
             if [ "$PS1" ]; then

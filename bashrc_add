@@ -184,7 +184,11 @@ case $TERM in
         ;;
 esac
 
-. ${SERVERCONFIG_BASE}/functions.sh
+if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
+    . ${SERVERCONFIG_BASE}/functions.sh
+else
+    return
+fi
 
 
 
