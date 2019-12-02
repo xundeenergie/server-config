@@ -5,9 +5,9 @@
 
 echo PS1: $PS1
 if [ -z ${PS1+x} ]; then
-    echo mit temporärer config
+    echo mit temporärer config 1>&2
 else
-    echo mit permanenter config
+    echo mit permanenter config 1>&2
 
     GIT_GIT_PROTOCOL="git://"
     GIT_HTTP_PROTOCOL="http://"
