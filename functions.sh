@@ -89,6 +89,7 @@ mkcd () {
 
 sshserverconfig() {
 
+    echo $@
    ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/functions.sh"
    CMD="$SSH $@"
    $CMD /bin/bash << EOF
