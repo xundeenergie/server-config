@@ -24,11 +24,11 @@ curl -o bashrc_add "https://git.schuerz.at/?p=server-config.git;a=blob_plain;f=b
 
 ## Lokale Configuration
 in ~/.bashrc werden vor der Zeile zum Einbinden der Serverconfig die Variablen eingefügt um damit ein hostspezifisches Verhalten zu steuern
-GITCHECKOUT_SCRIPT_OPTIONS=
+SERVERCONFIG_GITCHECKOUT_SCRIPT_OPTIONS=
 Mögliche Optionen:
     * -h
 Verwendung: Damit kann man angeben, ob ein headless Repo erzeugt wird. Ohne -h folgt das Repo origin/master
-GIT_REMOTE=
+SERVERCONFIG_GIT_REMOTE=
 Mögliche Optionen:
     * git - (default) Gitprotokoll ist git (Auf manchen Umgebungen kann der dazu notwenidge Port gesperrt sein)
     * http - wenn git nicht möglich ist, kann das http/https Protokoll verwendet werden. (ist langsamer als git, jedoch ist fast überall Port 80 oder 440 freigeschaltet)

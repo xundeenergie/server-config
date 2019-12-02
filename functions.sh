@@ -141,7 +141,7 @@ EOF
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
 echo DEBUGA
-           REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ TMPCFG=true /bin/bash -c "$MKTMPCMD")
+           REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ "$MKTMPCMD")
 echo DEBUGB
            REMOTETMPVIMCONFIG=$(ssh -t -o VisualHostKey=no $@ "$VIMMKTMPCMD")
            # Add additional aliases to bashrc for remote-machine
