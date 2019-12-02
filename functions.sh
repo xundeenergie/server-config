@@ -87,6 +87,22 @@ mkcd () {
     cd "$1"
 }
 
+sshserverconfig() {
+
+   ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/functions.sh"
+   CMD="$SSH $@"
+   $CMD /bin/Bash << EOF
+    echo "modify ~/.bashrc"
+    if grep -q bashrc_add .bashrc ;then
+        sed -i -e '/bashrc_add/d' .bashrc
+    fi
+    echo
+    printf "%s" "[ -f bashrc_add ] && . bashrc_add" | tee -a .bashrc
+    echo
+
+EOF
+
+}
 sshs() {
     MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
     VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
