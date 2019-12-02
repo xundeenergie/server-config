@@ -6,6 +6,8 @@
 echo TMPCFG: $TMPCFG
 if [ -z ${PS1+x} ]; then
     echo nicht mit temporärer config
+else
+    echo mit temporärer config
 
     GIT_GIT_PROTOCOL="git://"
     GIT_HTTP_PROTOCOL="http://"
@@ -186,8 +188,6 @@ if [ -z ${PS1+x} ]; then
     esac
 
     [ -e ${SERVERCONFIG_BASE} ] && . ${SERVERCONFIG_BASE}/functions.sh
-else
-    echo mit temporärer config
 fi
 
 ######################################################################################
