@@ -3,9 +3,9 @@
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
-echo TMPCFG: $TMPCFG
+echo PS1: $PS1
 if [ -z ${PS1+x} ]; then
-    echo nicht mit temporärer config
+    echo mit permanenter config
 
     GIT_GIT_PROTOCOL="git://"
     GIT_HTTP_PROTOCOL="http://"

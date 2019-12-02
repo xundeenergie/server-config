@@ -156,9 +156,9 @@ title "$USER@$HOSTNAME: $PWD"
 echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
 echo DEBUG1
-           ssh -tt -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
 echo DEBUG2
-           ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
+           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
 echo DEBUG3
            RCMD="export TMPCFG=true;
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
@@ -167,7 +167,7 @@ echo DEBUG3
 #           trap "rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}" EXIT
 #EOF
 echo DEBUG4
-           ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
+           ssh $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
 #           ssh -t $@ "$RCMD; \
 #               bash --rcfile ${REMOTETMPBASHCONFIG}"
            #ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}; tmux set-window-option automatic-rename 'on' 1>/dev/null"
