@@ -94,8 +94,8 @@ sshserverconfig() {
     ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
     CMD="$SSH $@"
     $CMD /bin/bash << EOF
-    [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
-    [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
+#    [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
+#    [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
     echo "modify ~/.bashrc"
     if grep -q bashrc_add "${BASHRC}" ;then
         sed -i -e '/bashrc_add/d' "${BASHRC}"
