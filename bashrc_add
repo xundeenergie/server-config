@@ -248,6 +248,8 @@ cd ${HOME}
 
 PDSH_RCMD_TYPE=ssh
 
-for i in $( ls "${SERVERCONFIG_BASH_COMPLETION}" ); do
-    . "${SERVERCONFIG_BASH_COMPLETION}/${i}"
-done
+if [ -e "${SERVERCONFIG_BASH_COMPLETION}" ]; then
+    for i in $( ls "${SERVERCONFIG_BASH_COMPLETION}" ); do
+        . "${SERVERCONFIG_BASH_COMPLETION}/${i}"
+    done
+fi
