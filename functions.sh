@@ -91,7 +91,7 @@ sshserverconfig() {
 
     SSH="/usr/bin/ssh"
     echo $@
-    ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/functions.sh"
+    ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
     CMD="$SSH $@"
     $CMD /bin/bash << EOF
     echo "modify ~/.bashrc"
