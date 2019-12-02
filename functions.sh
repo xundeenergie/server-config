@@ -91,7 +91,7 @@ sshserverconfig() {
 
     SSH="/usr/bin/ssh"
     echo $@
-    ssh -o VisualHostKey=no $@ "/bin/bash cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
+    ssh -t -o VisualHostKey=no $@ "/bin/bash cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
     CMD="TMPCFG=true
     $SSH $@"
     $CMD /bin/bash << EOF
@@ -142,9 +142,9 @@ EOF
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
 echo DEBUGA
-           REMOTETMPBASHCONFIG=$(ssh -o VisualHostKey=no $@ TMPCFG=true /bin/bash -c "$MKTMPCMD")
+           REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ TMPCFG=true /bin/bash -c "$MKTMPCMD")
 echo DEBUGB
-           REMOTETMPVIMCONFIG=$(ssh -o VisualHostKey=no $@ "$VIMMKTMPCMD")
+           REMOTETMPVIMCONFIG=$(ssh -t -o VisualHostKey=no $@ "$VIMMKTMPCMD")
            # Add additional aliases to bashrc for remote-machine
            cat << EOF >> "${TMPBASHCONFIG}"
 alias vi='vim -u ${REMOTETMPVIMCONFIG}'
@@ -157,9 +157,9 @@ title "$USER@$HOSTNAME: $PWD"
 echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
 echo DEBUG1
-           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+           ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
 echo DEBUG2
-           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
+           ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
 echo DEBUG3
            RCMD="
            TMPCFG=true
