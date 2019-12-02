@@ -156,22 +156,15 @@ title "$USER@$HOSTNAME: $PWD"
 echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
 echo DEBUG1
-           ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
 echo DEBUG2
-           ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
+           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
 echo DEBUG3
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
-           #ssh -t $@ "$RCMD; title $USER@$HOST; bash --rcfile ${REMOTETMPBASHCONFIG}&"
-#           read -r -d '' RCMD <<-'EOF'
-#           trap "rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}" EXIT
-#EOF
 echo DEBUG4
-           ssh -T $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
-#           ssh -t $@ "$RCMD; \
-#               bash --rcfile ${REMOTETMPBASHCONFIG}"
-           #ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}; tmux set-window-option automatic-rename 'on' 1>/dev/null"
-
+           ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
+echo DEBUG5
            rm "${TMPBASHCONFIG}"
         else
            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
