@@ -4,7 +4,7 @@
 # export SYSTEMD_PAGER=
 
 echo TMPCFG: $TMPCFG
-if [ -z ${TMPCFG+x} ]; then
+if [ -z ${PS1+x} ]; then
     echo nicht mit temporärer config
 
     GIT_GIT_PROTOCOL="git://"
