@@ -4,186 +4,191 @@
 # export SYSTEMD_PAGER=
 
 echo TMPCFG: $TMPCFG
+if [ -z ${TMPCFG+x} ]; then
+    echo nicht mit temporärer config
 
-GIT_GIT_PROTOCOL="git://"
-GIT_HTTP_PROTOCOL="http://"
-GIT_SSH_PROTOCOL="git@"
-GIT_SERVER="git.schuerz.at"
-GIT_REPO_NAME="server-config.git"
-GIT_REPO_PATH_HTTP="/public/"
-GIT_REPO_PATH_SSH=":public/"
-GIT_REPO_PATH_GIT="/public/"
+    GIT_GIT_PROTOCOL="git://"
+    GIT_HTTP_PROTOCOL="http://"
+    GIT_SSH_PROTOCOL="git@"
+    GIT_SERVER="git.schuerz.at"
+    GIT_REPO_NAME="server-config.git"
+    GIT_REPO_PATH_HTTP="/public/"
+    GIT_REPO_PATH_SSH=":public/"
+    GIT_REPO_PATH_GIT="/public/"
 
-GIT_REMOTE_GIT="${GIT_GIT_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_GIT}${GIT_REPO_NAME}"
-GIT_REMOTE_SSH="${GIT_SSH_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_SSH}${GIT_REPO_NAME}"
-GIT_REMOTE_HTTP="${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_HTTP}${GIT_REPO_NAME}"
+    GIT_REMOTE_GIT="${GIT_GIT_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_GIT}${GIT_REPO_NAME}"
+    GIT_REMOTE_SSH="${GIT_SSH_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_SSH}${GIT_REPO_NAME}"
+    GIT_REMOTE_HTTP="${GIT_HTTP_PROTOCOL}${GIT_SERVER}${GIT_REPO_PATH_HTTP}${GIT_REPO_NAME}"
 
-GIT_REMOTE_DEFAULT="${GIT_REMOTE_GIT}"
+    GIT_REMOTE_DEFAULT="${GIT_REMOTE_GIT}"
 
-# If GIT_REMOTE is set in ~/.bashrc before sourcing this file, take value from ~/.bashrc
-# If set GIT_REMOTE_PROTOCOL in ~/.bashrc before sourcing this file, you cange choose one of the above 
-# defined values for a specific host
+    # If GIT_REMOTE is set in ~/.bashrc before sourcing this file, take value from ~/.bashrc
+    # If set GIT_REMOTE_PROTOCOL in ~/.bashrc before sourcing this file, you cange choose one of the above 
+    # defined values for a specific host
 
-if [ -z ${GIT_REMOTE+x} ]; then
-    case $GIT_REMOTE_PROTOCOL in
-        git)
-            GIT_REMOTE="${GIT_REMOTE_GIT}"
-            ;;
-        ssh)
-            GIT_REMOTE="${GIT_REMOTE_SSH}"
-            ;;
-        http)
-            GIT_REMOTE="${GIT_REMOTE_HTTP}"
-            ;;
-        *)
-            GIT_REMOTE="${GIT_REMOTE_DEFAULT}"
-            ;;
-        esac
-fi
-
-if [ -z ${GIT_REMOTE_PUSH+x} ]; then
-    case $GIT_REMOTE_PUSH_PROTOCOL in
-        git)
-            GIT_REMOTE_PUSH="${GIT_REMOTE_GIT}"
-            ;;
-        ssh)
-            GIT_REMOTE_PUSH="${GIT_REMOTE_SSH}"
-            ;;
-        http)
-            GIT_REMOTE_PUSH="${GIT_REMOTE_HTTP}"
-            ;;
-        *)
-            GIT_REMOTE_PUSH="${GIT_REMOTE_DEFAULT}"
-            ;;
-        esac
-fi
-
-#GIT_SSH_PATH="/srv/repos"
-SERVERCONFIG_SUBPATH=server-config
-SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
-SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
-SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
-SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
-GIT_TIMEOUT=5s
-
-TMUX_SESSION_DIRS=(~/.local/share/tmux/sessions ~/.tmux/sessions)
-export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE TMUX_SESSION_DIRS
-
-#----------------------------------------
-# eigentlich sinnloss, denn serverconfig.local könnte man ja direkt in ~/.bashrc vor dem sourcen von bashrc_add einfügen... 
-[ -f "${SERVERCONFIG_BASE}/serverconfig.local.conf" ] && . "${SERVERCONFIG_BASE}/serverconfig.local.conf"
-
-sync_config () {
-    local nok=""
-    local gco=""
-    cd  "${SERVERCONFIG_BASE}"
-    if which git >/dev/null; then
-        echo -n "Sync config with ${GIT_SERVER}: " 1>&2
-    	#git pull > /dev/null 2>&1
-        # GITCHECKOUT_SCRIPT_OPTIONS are options for bin/git-checkout.sh
-        # this are now:
-        #   -h for headless repo
-        if [ -z ${GITCHECKOUT_SCRIPT_OPTIONS+x} ]; then
-            gco="-h"
-        else
-            gco="$GITCHECKOUT_SCRIPT_OPTIONS"
-        fi
-        ./bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
-        printf '%s\n' "${nok}synced" 1>&2
-
-#cat << EOF >&2
-#
-#---------------------------------------------------
-#if you want to update submodules, change dir an run
-#cd ~/server-config
-#git submodule update --remote --merge
-#cd ~
-#---------------------------------------------------
-#EOF
-
-    else
-        echo "git not installed, no configuration possible, please install git" >&2
-    	#curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
+    if [ -z ${GIT_REMOTE+x} ]; then
+        case $GIT_REMOTE_PROTOCOL in
+            git)
+                GIT_REMOTE="${GIT_REMOTE_GIT}"
+                ;;
+            ssh)
+                GIT_REMOTE="${GIT_REMOTE_SSH}"
+                ;;
+            http)
+                GIT_REMOTE="${GIT_REMOTE_HTTP}"
+                ;;
+            *)
+                GIT_REMOTE="${GIT_REMOTE_DEFAULT}"
+                ;;
+            esac
     fi
-    # Install some scripts to ~/bin
-    scripts=(configserver.sh git-checkout.sh)
-    TARGETDIR="${HOME}/bin"
-    [ -d ${TARGETDIR} ] || mkdir -p ${TARGETDIR}
-    for i in ${scripts[*]};do
-        [ -e bin/${i} ] && install bin/"${i}" "${TARGETDIR}/${i}"
-    done
 
-}
+    if [ -z ${GIT_REMOTE_PUSH+x} ]; then
+        case $GIT_REMOTE_PUSH_PROTOCOL in
+            git)
+                GIT_REMOTE_PUSH="${GIT_REMOTE_GIT}"
+                ;;
+            ssh)
+                GIT_REMOTE_PUSH="${GIT_REMOTE_SSH}"
+                ;;
+            http)
+                GIT_REMOTE_PUSH="${GIT_REMOTE_HTTP}"
+                ;;
+            *)
+                GIT_REMOTE_PUSH="${GIT_REMOTE_DEFAULT}"
+                ;;
+            esac
+    fi
 
+    #GIT_SSH_PATH="/srv/repos"
+    SERVERCONFIG_SUBPATH=server-config
+    SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
+    SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
+    SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
+    SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
+    GIT_TIMEOUT=5s
 
+    TMUX_SESSION_DIRS=(~/.local/share/tmux/sessions ~/.tmux/sessions)
+    export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE TMUX_SESSION_DIRS
 
+    #----------------------------------------
+    # eigentlich sinnloss, denn serverconfig.local könnte man ja direkt in ~/.bashrc vor dem sourcen von bashrc_add einfügen... 
+    [ -f "${SERVERCONFIG_BASE}/serverconfig.local.conf" ] && . "${SERVERCONFIG_BASE}/serverconfig.local.conf"
 
-#if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
-#if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
-case $TERM in
-    *term*)
-
-        USERNAME="$USER"
-        FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
-
-        if [ -d "${SERVERCONFIG_BASE}" ]; then
-            cd  "${SERVERCONFIG_BASE}"
-            [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-            if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
-                #echo "Update ${SERVERCONFIG_BASE}" >&2
-                git remote set-url origin "${GIT_REMOTE}" 
-            
+    sync_config () {
+        local nok=""
+        local gco=""
+        cd  "${SERVERCONFIG_BASE}"
+        if which git >/dev/null; then
+            echo -n "Sync config with ${GIT_SERVER}: " 1>&2
+            #git pull > /dev/null 2>&1
+            # GITCHECKOUT_SCRIPT_OPTIONS are options for bin/git-checkout.sh
+            # this are now:
+            #   -h for headless repo
+            if [ -z ${GITCHECKOUT_SCRIPT_OPTIONS+x} ]; then
+                gco="-h"
             else
-                #echo "Init ${SERVERCONFIG_BASE}" >&2
-                git init
+                gco="$GITCHECKOUT_SCRIPT_OPTIONS"
             fi
-            
-            # Update Userinformations for git
-            git config user.email "${USERNAME}"
-            git config user.name "${FULLNAME}"
+            ./bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+            printf '%s\n' "${nok}synced" 1>&2
 
-            # set upstream only if not detached
-            [ $(git rev-parse --abbrev-ref HEAD) != "HEAD" ] && git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
+    #cat << EOF >&2
+    #
+    #---------------------------------------------------
+    #if you want to update submodules, change dir an run
+    #cd ~/server-config
+    #git submodule update --remote --merge
+    #cd ~
+    #---------------------------------------------------
+    #EOF
 
-            # sync repo with origin if git is reachable 
-            if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
+        else
+            echo "git not installed, no configuration possible, please install git" >&2
+            #curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
+        fi
+        # Install some scripts to ~/bin
+        scripts=(configserver.sh git-checkout.sh)
+        TARGETDIR="${HOME}/bin"
+        [ -d ${TARGETDIR} ] || mkdir -p ${TARGETDIR}
+        for i in ${scripts[*]};do
+            [ -e bin/${i} ] && install bin/"${i}" "${TARGETDIR}/${i}"
+        done
+
+    }
+
+
+
+
+    #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
+    #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
+    case $TERM in
+        *term*)
+
+            USERNAME="$USER"
+            FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
+
+            if [ -d "${SERVERCONFIG_BASE}" ]; then
+                cd  "${SERVERCONFIG_BASE}"
+                [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
+                if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
+                    #echo "Update ${SERVERCONFIG_BASE}" >&2
+                    git remote set-url origin "${GIT_REMOTE}" 
+                
+                else
+                    #echo "Init ${SERVERCONFIG_BASE}" >&2
+                    git init
+                fi
+                
+                # Update Userinformations for git
+                git config user.email "${USERNAME}"
+                git config user.name "${FULLNAME}"
+
+                # set upstream only if not detached
+                [ $(git rev-parse --abbrev-ref HEAD) != "HEAD" ] && git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
+
+                # sync repo with origin if git is reachable 
+                if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
+                    sync_config
+                    . ${SERVERCONFIG_BASE}/functions.sh
+                    create_symlinks "$SERVERCONFIG_BASE"
+                else 
+                    echo "${GIT_SERVER}" not reachable >&2;
+                    echo profile not syncing >&2;
+                fi
+            else
+                #echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
+
+                git clone "${GIT_REMOTE}" "${SERVERCONFIG_BASE}"
+
+                cd  "${SERVERCONFIG_BASE}"
+                [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
+
+                git config user.email "${USERNAME}"
+                git config user.name "${FULLNAME}"
+
+                # Initialize Vundle as preconfigured Submodule
+                git submodule update --init --recursive
+
                 sync_config
                 . ${SERVERCONFIG_BASE}/functions.sh
                 create_symlinks "$SERVERCONFIG_BASE"
-            else 
-                echo "${GIT_SERVER}" not reachable >&2;
-                echo profile not syncing >&2;
+
+                # Install vim Plugins
+                #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
+                vim -c "PluginInstall" -c ":qa!"
             fi
-        else
-            #echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
+            [ -z ${GIT_REMOTE_PUSH+x} ] || git remote set-url --push origin "${GIT_REMOTE_PUSH}" 
+            cd ${HOME}
+            ;;
+        *screen*)
+            ;;
+    esac
 
-            git clone "${GIT_REMOTE}" "${SERVERCONFIG_BASE}"
-
-            cd  "${SERVERCONFIG_BASE}"
-            [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-
-            git config user.email "${USERNAME}"
-            git config user.name "${FULLNAME}"
-
-            # Initialize Vundle as preconfigured Submodule
-            git submodule update --init --recursive
-
-            sync_config
-            . ${SERVERCONFIG_BASE}/functions.sh
-            create_symlinks "$SERVERCONFIG_BASE"
-
-            # Install vim Plugins
-            #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
-            vim -c "PluginInstall" -c ":qa!"
-        fi
-        [ -z ${GIT_REMOTE_PUSH+x} ] || git remote set-url --push origin "${GIT_REMOTE_PUSH}" 
-        cd ${HOME}
-        ;;
-    *screen*)
-        ;;
-esac
-
-. ${SERVERCONFIG_BASE}/functions.sh
+    . ${SERVERCONFIG_BASE}/functions.sh
+else
+    echo mit temporärer config
+fi
 
 ######################################################################################
 # ls is not in color on all systems
