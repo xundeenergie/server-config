@@ -185,7 +185,7 @@ if [ -z ${TMPCFG+x} ]; then
             ;;
     esac
 
-    . ${SERVERCONFIG_BASE}/functions.sh
+    [ -e ${SERVERCONFIG_BASE} ] && . ${SERVERCONFIG_BASE}/functions.sh
 else
     echo mit temporärer config
 fi
@@ -202,7 +202,7 @@ if [ -f ~/.bashrc_local ]; then
 fi
 
 if [ -f "${SERVERCONFIG_BASE}/aliases" ]; then
-	. "${SERVERCONFIG_BASE}/aliases"
+	[ -e ${SERVERCONFIG_BASE} ] && . "${SERVERCONFIG_BASE}/aliases"
 fi
 
 if [ -f ~/.aliases ]; then
@@ -210,7 +210,7 @@ if [ -f ~/.aliases ]; then
 fi
 
 if [ -f "${SERVERCONFIG_BASE}/PS1" ]; then
-	. "${SERVERCONFIG_BASE}/PS1"
+	[ -e ${SERVERCONFIG_BASE} ] && . "${SERVERCONFIG_BASE}/PS1"
 fi
 
 if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
@@ -219,7 +219,7 @@ fi
 
 
 if [ -d "$HOME/bin" ] ; then
-    pathmunge "$HOME/bin"
+    [ -e ${SERVERCONFIG_BASE} ] && pathmunge "$HOME/bin"
     export PATH
 fi
 
