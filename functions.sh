@@ -91,8 +91,9 @@ sshserverconfig() {
 
     SSH="/usr/bin/ssh"
     echo $@
-    ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
-    CMD="$SSH $@"
+    ssh -o VisualHostKey=no $@ "/bin/bash cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
+    CMD="TMPCFG=true
+    $SSH $@"
     $CMD /bin/bash << EOF
     [ -e /etc/bashrc ] && .  /etc/bashrc
     [ -e /etc/bash.bashrc ] && . /etc/bash.bashrc
