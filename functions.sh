@@ -89,10 +89,11 @@ mkcd () {
 
 sshserverconfig() {
 
+    SSH="/usr/bin/ssh"
     echo $@
-   ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/functions.sh"
-   CMD="$SSH $@"
-   $CMD /bin/bash << EOF
+    ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/functions.sh"
+    CMD="$SSH $@"
+    $CMD /bin/bash << EOF
     echo "modify ~/.bashrc"
     if grep -q bashrc_add .bashrc ;then
         sed -i -e '/bashrc_add/d' .bashrc
