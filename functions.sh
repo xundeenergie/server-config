@@ -94,12 +94,14 @@ sshserverconfig() {
     ssh -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
     CMD="$SSH $@"
     $CMD /bin/bash << EOF
+    [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
+    [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
     echo "modify ~/.bashrc"
-    if grep -q bashrc_add .bashrc ;then
-        sed -i -e '/bashrc_add/d' .bashrc
+    if grep -q bashrc_add "${BASHRC}" ;then
+        sed -i -e '/bashrc_add/d' "${BASHRC}"
     fi
     echo
-    printf "%s" "[ -f bashrc_add ] && . bashrc_add" | tee -a .bashrc
+    printf "%s" "[ -f bashrc_add ] && . bashrc_add" | tee -a "${BASHRC}"
     echo
 
 EOF
@@ -151,6 +153,7 @@ EOF
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
+           TMPCFG=true
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
            #ssh -t $@ "$RCMD; title $USER@$HOST; bash --rcfile ${REMOTETMPBASHCONFIG}&"
 #           read -r -d '' RCMD <<-'EOF'

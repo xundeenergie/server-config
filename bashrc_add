@@ -3,6 +3,8 @@
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
+echo TMPCFG: $TMPCFG
+
 GIT_GIT_PROTOCOL="git://"
 GIT_HTTP_PROTOCOL="http://"
 GIT_SSH_PROTOCOL="git@"
