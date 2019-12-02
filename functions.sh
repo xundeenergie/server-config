@@ -115,7 +115,7 @@ sshs() {
 
     # Read /etc/bashrc or /etc/bash.bashrc (depending on distribution) and /etc/profile.d/*.sh first
     cat << EOF >> "${TMPBASHCONFIG}"
-    TMPBASH=\$(mktemp)
+    TMPBASH=\$\(mktemp\)
     echo TMPBASH: $TMPBASH
     [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
     [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
