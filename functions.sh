@@ -141,10 +141,9 @@ EOF
     
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
-echo DEBUGA
            REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ "$MKTMPCMD")
-echo DEBUGB
            REMOTETMPVIMCONFIG=$(ssh -t -o VisualHostKey=no $@ "$VIMMKTMPCMD")
+
            # Add additional aliases to bashrc for remote-machine
            cat << EOF >> "${TMPBASHCONFIG}"
 alias vi='vim -u ${REMOTETMPVIMCONFIG}'
@@ -156,16 +155,12 @@ export BASHRC="${REMOTETMPBASHCONFIG}"
 title "$USER@$HOSTNAME: $PWD"
 echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
-echo DEBUG1
+
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
-echo DEBUG2
            ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
-echo DEBUG3
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
-echo DEBUG4
            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
-echo DEBUG5
            rm "${TMPBASHCONFIG}"
         else
            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
