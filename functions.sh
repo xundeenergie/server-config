@@ -119,6 +119,7 @@ sshs() {
     #echo TMPBASHX: \$TMPBASH
     [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
     [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
+    . $BASHRC
 
     #sed -e '/bashrc_add/d' ~/.bashrc > \$TMPBASH
     for i in /etc/profile.d/*.sh; do
