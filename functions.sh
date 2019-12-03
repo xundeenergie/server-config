@@ -31,6 +31,7 @@ setproxy () {
         0)
             echo no proxy specified
             return
+            ;;
         *)
             echo to many arguments
             return
