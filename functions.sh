@@ -24,13 +24,26 @@ create_symlinks() {
 
 setproxy () {
 #    set -x
-    unsetproxy
-    if [ -f ~/.config/proxycreds_"${1}" ]; then
-        echo proxycreds_$1 existing
-        source ~/.config/proxycreds_"${1}"
+    case $# in
+        1)
+            SESS=($(find ${SETPROXY_CREDS_DIRS[*]} -mindepth 1 -name "$1.conf" 2>/dev/null ))
+            ;;
+        0)
+            echo no proxy specified
+            return
+        *)
+            echo to many arguments
+            return
+            ;;
+    esac
+    [ -e ${SESS[0]} ] && . ${SESS[0]}
+
+    if [ -e ${SESS[0]} ]; then
+        echo "${SESS[0]} existing"
+        source "${SESS[0]}"
         export PROXY_CREDS="${PROXY_USER}:${PROXY_PASS}@"
     else
-        echo proxycreds_$1 not existing
+        echo "${SESS[0]} not existing"
         export PROXY_CREDS=""
     fi
 
@@ -43,18 +56,7 @@ unsetproxy () {
     unset PROXY_{CREDS,USER,PASS,SERVER,PORT}
 }
 
-if [ -e "${SERVERCONFIG_BASE}/bashrc_local" ]; then
-        . "${SERVERCONFIG_BASE}/bashrc_local"
-fi
-
-# DEBUG 2
 git-mergedetachedheadtomaster () {
-#    set -x
-#    r=$(git show-ref --heads|awk '{print $1}')
-#    echo branch: $r
-#    git checkout master 
-#    git merge $r
-#    set +x
     git checkout -b tmp
     git branch -f master tmp
     git checkout master
@@ -65,7 +67,6 @@ git-mergedetachedheadtomaster () {
 
 git-pushdetachedhead () {
     git push origin HEAD:master
-
 }
 
 

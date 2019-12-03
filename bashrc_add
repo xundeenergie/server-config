@@ -66,6 +66,7 @@ SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
 GIT_TIMEOUT=5s
 
 TMUX_SESSION_DIRS=(~/.local/share/tmux/sessions ~/.tmux/sessions)
+SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
 export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE TMUX_SESSION_DIRS
 
 #----------------------------------------
