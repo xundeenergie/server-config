@@ -1,21 +1,21 @@
 #!/bin/bash
 
 
-function _keys() {
+function _proxycreds() {
     KEYS=""
     for KEY_DIR in ${SETPROXY_CREDS_DIRS[*]};do
-        KEYS=$(find ${SETPROXY_CREDS_DIRS[*]} -type f -name "*.conf" -exec basename {} \; 2>/dev/null |sed 's/\.conf$//')
+        KEYS="${KEYS} $(find ${KEY_DIR} -type f -name "*.conf" -exec basename {} \; 2>/dev/null |sed 's/\.conf$//')"
     done
     echo $KEYS
 }
 
-function _keyfiles() {
+function _proxyfiles() {
     COMPREPLY=()
     local CUR KEYS
     CUR="${COMP_WORDS[COMP_CWORD]}"
     #KEYS="$(find ${KEY_DIR}/* -type f|awk -F ${KEY_DIR}/ '{print $2}'|sed 's/\.session$//')"
-    KEYS=$(_keys)
+    KEYS=$(_proxycreds)
     COMPREPLY=( $(compgen -W "${KEYS}" -- ${CUR}) )
     return 0
 }
-complete -F _keyfiles setproxy
+complete -F _proxyfiles setproxy
