@@ -86,6 +86,7 @@ sync_config () {
         else
             gco="$SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
         fi
+        echo gco: $gco 2>&1
         ./bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
         printf '%s\n' "${nok}synced" 1>&2
 
