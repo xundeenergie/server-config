@@ -143,8 +143,8 @@ EOF
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
             RCMD="bash --noprofile --norc -c "
-           REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ "$MKTMPCMD")
-           REMOTETMPVIMCONFIG=$(ssh -t -o VisualHostKey=no $@ "$VIMMKTMPCMD")
+           REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ "$MKTMPCMD"| tr -d '[:space:]' )
+           REMOTETMPVIMCONFIG=$(ssh -t -o VisualHostKey=no $@ "$VIMMKTMPCMD"| tr -d '[:space:]')
            echo REMOTETMPBASHCONFIG: $REMOTETMPBASHCONFIG
 
            # Add additional aliases to bashrc for remote-machine
