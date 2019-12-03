@@ -141,8 +141,9 @@ EOF
     
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
-           REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ "$MKTMPCMD")
-           REMOTETMPVIMCONFIG=$(ssh -t -o VisualHostKey=no $@ "$VIMMKTMPCMD")
+            RCMD="bash --noprofile --norc -c "
+           REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ "$RCMD $MKTMPCMD")
+           REMOTETMPVIMCONFIG=$(ssh -t -o VisualHostKey=no $@ "$RCMD $VIMMKTMPCMD")
 
            # Add additional aliases to bashrc for remote-machine
            cat << EOF >> "${TMPBASHCONFIG}"
@@ -156,8 +157,8 @@ title "$USER@$HOSTNAME: $PWD"
 echo bash-config: ${REMOTETMPBASHCONFIG}
 EOF
 
-           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
-           ssh -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
+           ssh -o VisualHostKey=no $@ "$RCMD cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+           ssh -o VisualHostKey=no $@ "$RCMD cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"

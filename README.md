@@ -28,7 +28,8 @@ SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS=
 Mögliche Optionen:
     * -h
 Verwendung: Damit kann man angeben, ob ein headless Repo erzeugt wird. Ohne -h folgt das Repo origin/master
-SERVERCONFIG_GIT_REMOTE=
+SERVERCONFIG_GIT_REMOTE_PROTOCOL
+SERVERCONFIG_GIT_REMOTE_PUSH_PROTOCOL
 Mögliche Optionen:
     * git - (default) Gitprotokoll ist git (Auf manchen Umgebungen kann der dazu notwenidge Port gesperrt sein)
     * http - wenn git nicht möglich ist, kann das http/https Protokoll verwendet werden. (ist langsamer als git, jedoch ist fast überall Port 80 oder 440 freigeschaltet)
