@@ -113,7 +113,7 @@ sshs() {
     MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
     VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
-    FILELIST=( "${SERVERCONFIG_BASE}/functions.sh" "${SERVERCONFIG_BASE}/aliases" "${HOME}/.aliases" "${SERVERCONFIG_BASE}/PS1" )
+    FILELIST=( "${SERVERCONFIG_BASE}/functions.sh" "${SERVERCONFIG_BASE}/aliases" "${HOME}/.aliases" "${SERVERCONFIG_BASE}/PS1" "${SERVERCONFIG_BASE}/bash_completion.d/*" )
 
     # Read /etc/bashrc or /etc/bash.bashrc (depending on distribution) and /etc/profile.d/*.sh first
     cat << EOF >> "${TMPBASHCONFIG}"
