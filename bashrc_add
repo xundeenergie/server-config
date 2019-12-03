@@ -3,6 +3,7 @@
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
+echo "bashrc_add sourced" 1>&2
 GIT_GIT_PROTOCOL="git://"
 GIT_HTTP_PROTOCOL="http://"
 GIT_SSH_PROTOCOL="git@"
@@ -86,7 +87,7 @@ sync_config () {
         else
             gco="$SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
         fi
-        echo gco: $gco 2>&1
+        #echo gco: $gco 2>&1
         ./bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
         printf '%s\n' "${nok}synced" 1>&2
 
