@@ -37,7 +37,7 @@ setproxy () {
             return
             ;;
     esac
-    [ -e ${SESS[0]} ] && . ${SESS[0]}
+    #[ -e ${SESS[0]} ] && . ${SESS[0]}
 
     if [ -e ${SESS[0]} ]; then
         echo "${SESS[0]} existing"
