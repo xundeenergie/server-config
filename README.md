@@ -24,7 +24,7 @@ curl -o bashrc_add "https://git.schuerz.at/?p=server-config.git;a=blob_plain;f=b
 
 ## Lokale Configuration
 in ~/.bashrc werden vor der Zeile zum Einbinden der Serverconfig die Variablen eingefügt um damit ein hostspezifisches Verhalten zu steuern
-SERVERCONFIG_GITCHECKOUT_SCRIPT_OPTIONS=
+SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS=
 Mögliche Optionen:
     * -h
 Verwendung: Damit kann man angeben, ob ein headless Repo erzeugt wird. Ohne -h folgt das Repo origin/master

@@ -81,10 +81,10 @@ sync_config () {
         # SERVERCONFIG_GITCHECKOUTSCRIPT_OPTIONS are options for bin/git-checkout.sh
         # this are now:
         #   -h for headless repo
-        if [ -z ${SERVERCONFIG_GITCHECKOUTSCRIPT_OPTIONS+x} ]; then
+        if [ -z ${SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS+x} ]; then
             gco="-h"
         else
-            gco="$SERVERCONFIG_GITCHECKOUTSCRIPT_OPTIONS"
+            gco="$SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
         fi
         ./bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
         printf '%s\n' "${nok}synced" 1>&2
