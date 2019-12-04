@@ -65,7 +65,7 @@ SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
 SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
 GIT_TIMEOUT=5s
 
-TMUX_SESSION_DIRS=(~/.local/share/tmux/sessions ~/.tmux/sessions)
+TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
 SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
 export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE TMUX_SESSION_DIRS
 
@@ -219,14 +219,6 @@ fi
 if [ -f "${SERVERCONFIG_BASE}/PS1" ]; then
 	[ -e ${SERVERCONFIG_BASE} ] && . "${SERVERCONFIG_BASE}/PS1"
 fi
-
-gnome-shell-extensions-enable-defaults () { 
-    if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
-        for i in $(cat ~/.config/gnome-shell-extensions-default.list); do 
-            gnome-shell-extension-tool -e $i;
-        done; 
-    fi
-}
 
 
 

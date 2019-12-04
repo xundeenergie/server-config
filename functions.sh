@@ -110,8 +110,12 @@ EOF
 
 }
 sshs() {
+
+    [ -z ${TMUX_SESSION_DIRS+x} ] && TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
+    [ -z ${SETPROXY_CREDS_DIRS+x} ] && SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
     MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
     VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
+#    BASHCOMPLETIONMKTMPCMD="mktemp -d /tmp/${USER}.vimrc.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
     FILELIST=( "${SERVERCONFIG_BASE}/functions.sh" "${SERVERCONFIG_BASE}/aliases" "${HOME}/.aliases" "${SERVERCONFIG_BASE}/PS1" "${SERVERCONFIG_BASE}/bash_completion.d/*" )
 
@@ -147,7 +151,7 @@ EOF
             RCMD="bash --noprofile --norc -c "
            REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ "$MKTMPCMD"| tr -d '[:space:]' )
            REMOTETMPVIMCONFIG=$(ssh -t -o VisualHostKey=no $@ "$VIMMKTMPCMD"| tr -d '[:space:]')
-           echo REMOTETMPBASHCONFIG: $REMOTETMPBASHCONFIG
+#           REMOTETMPBASHCOMPLETIONCONFIG=$(ssh -t -o VisualHostKey=no $@ "$BASHCOMPLETIONMKTMPCMD"| tr -d '[:space:]')
 
            # Add additional aliases to bashrc for remote-machine
            cat << EOF >> "${TMPBASHCONFIG}"
@@ -158,7 +162,7 @@ export LS_OPTIONS="${LS_OPTIONS}"
 export VIMRC="${REMOTETMPVIMCONFIG}"
 export BASHRC="${REMOTETMPBASHCONFIG}"
 title "$USER@$HOSTNAME: $PWD"
-echo bash-config: ${REMOTETMPBASHCONFIG}
+
 EOF
 
            ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
@@ -303,3 +307,14 @@ function tmuxx() {
     [ -e ${SESS[0]} ] && $TMUX source-file ${SESS[0]}
     $TMUX attach-session -d
 }
+
+
+gnome-shell-extensions-enable-defaults () { 
+    if [ -f ~/.config/gnome-shell-extensions-default.list ]; then
+        for i in $(cat ~/.config/gnome-shell-extensions-default.list); do 
+            #gnome-shell-extension-tool -e $i;
+            gnome-extensions enable $i;
+        done; 
+    fi
+}
+
