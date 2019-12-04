@@ -1,3 +1,7 @@
+# Initialize variables, if not set
+[ -z ${TMUX_SESSION_DIRS+x} ] && TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
+[ -z ${SETPROXY_CREDS_DIRS+x} ] && SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
+
 create_symlinks() {
 
     #echo SERVERCONFIG_BASE: $SERVERCONFIG_BASE
@@ -111,8 +115,6 @@ EOF
 }
 sshs() {
 
-    [ -z ${TMUX_SESSION_DIRS+x} ] && TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
-    [ -z ${SETPROXY_CREDS_DIRS+x} ] && SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
     MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
     VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
 #    BASHCOMPLETIONMKTMPCMD="mktemp -d /tmp/${USER}.vimrc.XXXXXXXX.conf"
