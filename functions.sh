@@ -117,19 +117,15 @@ sshs() {
 
     MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
     VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
-#    BASHCOMPLETIONMKTMPCMD="mktemp -d /tmp/${USER}.vimrc.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
     FILELIST=( "${SERVERCONFIG_BASE}/functions.sh" "${SERVERCONFIG_BASE}/aliases" "${HOME}/.aliases" "${SERVERCONFIG_BASE}/PS1" "${SERVERCONFIG_BASE}/bash_completion.d/*" )
 
     # Read /etc/bashrc or /etc/bash.bashrc (depending on distribution) and /etc/profile.d/*.sh first
     cat << EOF >> "${TMPBASHCONFIG}"
-    #TMPBASH=\$(mktemp)
-    #echo TMPBASHX: \$TMPBASH
     [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
     [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
     . \$BASHRC
 
-    #sed -e '/bashrc_add/d' ~/.bashrc > \$TMPBASH
     for i in /etc/profile.d/*.sh; do
         if [ -r "$i" ];then
             if [ "$PS1" ]; then
