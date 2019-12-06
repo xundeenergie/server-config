@@ -1,0 +1,29 @@
+#!/bin/bash
+
+KINIT=/usr/bin/kinit
+case $0 in
+    kinit-net)
+        echo "NET"
+        REALM="BMI-NET.LOCAL"
+        PKEY="bmi/bmi-net"
+        ;;
+    kinit-dev)
+        echo "DEV"
+        REALM="BMI-DEV.BMI.INTRA.GV.AT"
+        PKEY="bmi/bmi-dev"
+        ;;
+    *)
+        exit 1
+        ;;
+esac
+
+ki () {
+    local PW=$(pass "${PKEY}" | head -n1)
+    local USER=$(pass "${PKEY}" | grep login | sed -e 's/^login: //' )
+    ${KINIT} -R "${USER}@${REALM}" <<!
+${PW}
+!
+}
+
+ki
+
