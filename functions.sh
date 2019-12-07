@@ -1,7 +1,7 @@
 # Initialize variables, if not set
 [ -z ${TMUX_SESSION_DIRS+x} ] && TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
 [ -z ${SETPROXY_CREDS_DIRS+x} ] && SETPROXY_CREDS_DIRS=(~/.config/proxycreds.d)
-[ -z ${KERBEROS_CONF_DIRS+x} ] && KERBEROS_CONF_DIRS=(~/.config/kerberos-conf.d)
+[ -z ${KERBEROS_CONFIG_DIRS+x} ] && KERBEROS_CONFIG_DIRS=(~/.config/kerberos-conf.d)
 
 create_symlinks() {
 
@@ -90,7 +90,7 @@ setproxy () {
 
 kinit-custom () {
 
-    CONFIG=$(get_first_config KERBEROS_CONF_DIRS ${KERBEROS_CONF_DIRS} $@)
+    CONFIG=$(get_first_config KERBEROS_CONFIG_DIRS ${KERBEROS_CONFIG_DIRS} $@)
 
     ret=$?
     [ $ret -gt 0 ] && return $ret
