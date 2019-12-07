@@ -1,7 +1,8 @@
 #!/bin/bash
 
 KINIT=/usr/bin/kinit
-case $0 in
+echo $0
+case $(basename $0) in
     kinit-net)
         echo "NET"
         REALM="BMI-NET.LOCAL"
@@ -18,6 +19,7 @@ case $0 in
 esac
 
 ki () {
+    pass "${PKEY}" 1>/dev/null 2>&1 || exit 2
     local PW=$(pass "${PKEY}" | head -n1)
     local USER=$(pass "${PKEY}" | grep login | sed -e 's/^login: //' )
     ${KINIT} -R "${USER}@${REALM}" <<!
