@@ -4,7 +4,7 @@
 function _kerberosconfig() {
     KEYS=""
     for KEY_DIR in ${KERBEROS_CONFIG_DIRS[*]};do
-        KEYS="${KEYS} $(find ${KERBEROS_CONFIG_DIRS[*]} -type f -name "*.conf" -exec basename {} \; 2>/dev/null )"
+        KEYS="${KEYS} $(find ${KERBEROS_CONFIG_DIRS[*]} -type f -name "*.conf" -exec basename {} \; 2>/dev/null |sed 's/\.conf$//' )"
     done
     echo $KEYS
 #    echo $(find ${KERBEROS_CONFIG_DIRS[*]} -type f -name "*.conf" -exec basename {} \; -exec sed 's/\.conf$//' \; 2>/dev/null )
