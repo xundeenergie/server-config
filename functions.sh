@@ -1,6 +1,7 @@
 # Initialize variables, if not set
 [ -z ${TMUX_SESSION_DIRS+x} ] && TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
-[ -z ${SETPROXY_CREDS_DIRS+x} ] && SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
+[ -z ${SETPROXY_CREDS_DIRS+x} ] && SETPROXY_CREDS_DIRS=(~/.config/proxycreds.d)
+[ -z ${KERBEROS_CONF_DIRS+x} ] && KERBEROS_CONF_DIRS=(~/.config/kerberos-conf.d)
 
 create_symlinks() {
 
@@ -26,34 +27,99 @@ create_symlinks() {
 
 }
 
-setproxy () {
-#    set -x
+get_first_config () {
+    # usage: 
+    #           get_first_config <array_with_config_dirs> configfilename_without_.config
+    # returns the first occurance of configfilename in all config_dirs 
+
+    CONFIG_DIR_ARRAY=$1
+    echo $# 1>&2
     case $# in
-        1)
-            SESS=($(find ${SETPROXY_CREDS_DIRS[*]} -mindepth 1 -name "$1.conf" 2>/dev/null ))
+        0|1|2)
+            echo "Too few arguments" 1>&2
+            echo are you sure, $1 is defined? 1>&2
+            return 1
             ;;
-        0)
-            echo no proxy specified
-            return
+        3)
+            [ -z ${CONFIG_DIR_ARRAY} ] && return 1
+            CONF=$(find ${CONFIG_DIR_ARRAY[*]} -mindepth 1 -name "$1.conf" -print -quit 2>/dev/null )
+            [ -z ${CONF+x} ] && { echo "No config found in config-dirs" 1>&2; return 2; }
             ;;
         *)
-            echo to many arguments
-            return
+            echo "Too many arguments" 1>&2
+            return 3
             ;;
     esac
+
+}
+
+setproxy () {
+#    set -x
+#    case $# in
+#        0)
+#            echo too few arguments
+#            return
+#            ;;
+#        1)
+#            [ -z ${SETPROXY_CREDS_DIRS} ] && return 1
+#            SESS=($(find ${SETPROXY_CREDS_DIRS[*]} -mindepth 1 -name "$1.conf" 2>/dev/null ))
+#            ;;
+#        *)
+#            echo to many arguments
+#            return
+#            ;;
+#    esac
     #[ -e ${SESS[0]} ] && . ${SESS[0]}
 
-    if [ -e ${SESS[0]} ]; then
-        echo "${SESS[0]} existing"
-        source "${SESS[0]}"
+    CONFIG=$(get_first_config SETPROXY_CREDS_DIRS ${SETPROXY_CREDS_DIRS} $@)
+    ret=$?
+    [ $ret -gt 0 ] && return $ret
+
+    if [ -e ${CONFIG[0]} ]; then
+        echo "${CONFIG[0]} existing"
+        source "${CONFIG[0]}"
         export PROXY_CREDS="${PROXY_USER}:${PROXY_PASS}@"
     else
-        echo "${SESS[0]} not existing"
+        echo "${CONFIG[0]} not existing"
         export PROXY_CREDS=""
     fi
 
     export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PROXY_PORT}"
 #    set +x
+}
+
+kinit-custom () {
+
+    CONFIG=$(get_first_config KERBEROS_CONF_DIRS ${KERBEROS_CONF_DIRS} $@)
+
+    ret=$?
+    [ $ret -gt 0 ] && return $ret
+
+    echo CONFIG: ${CONFIG[*]}
+
+    if [ -e ${CONFIG[0]} ]; then
+        echo "${CONFIG[0]} existing"
+        source "${CONFIG[0]}"
+    else
+        echo "${CONFIG[0]} not existing"
+        return 1
+    fi
+
+    [ -z ${PKEY+x} ] || return 2
+    pass "${PKEY}" 1>/dev/null 2>&1 || return 3
+    local KERBEROS_PASSWORD=$(pass "${PKEY}" | head -n1)
+    local KERBEROS_USER=$(pass "${PKEY}" | grep login | sed -e 's/^login: //' )
+    echo KERBEROS_PASSWORD: $KERBEROS_PASSWORD
+    echo KERBEROS_USER: $KERBEROS_USER
+
+    if [ -z ${KERBEROS_USER+x} ];then
+        echo "no kerberos user found -> exit"
+        return 4
+    else
+        ${KINIT} -R "${KERBEROS_USER}@${REALM}" <<!
+${KERBEROS_PASSWORD}
+!
+    fi
 }
 
 unsetproxy () {
