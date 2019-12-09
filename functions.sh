@@ -74,7 +74,7 @@ kinit-custom () {
         return 2
     fi
 
-    [ -z ${PKEY+x} ] || return 2
+    [ -z ${PKEY+x} ] && return 3
     pass "${PKEY}" 
     pass "${PKEY}" 1>/dev/null 2>&1 || return 3
     local KERBEROS_PASSWORD=$(pass "${PKEY}" | head -n1)
