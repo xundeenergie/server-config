@@ -188,20 +188,20 @@ sshs() {
 
     # Read /etc/bashrc or /etc/bash.bashrc (depending on distribution) and /etc/profile.d/*.sh first
     cat << EOF >> "${TMPBASHCONFIG}"
-    SSHS=true
-    [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
-    [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
-    . \$BASHRC
+SSHS=true
+[ -e /etc/bashrc ] && BASHRC=/etc/bashrc
+[ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
+. \$BASHRC
 
-    for i in /etc/profile.d/*.sh; do
-        if [ -r "$i" ];then
-            if [ "$PS1" ]; then
-                . "$i"
-            else
-                . "$i" >/dev/null
-            fi
+for i in /etc/profile.d/*.sh; do
+    if [ -r "$i" ];then
+        if [ "$PS1" ]; then
+            . "$i"
+        else
+            . "$i" >/dev/null
         fi
-    done
+    fi
+done
 EOF
 
     for f in ${FILELIST[*]}; do
