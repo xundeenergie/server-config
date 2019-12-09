@@ -122,7 +122,7 @@ sync_config () {
 
 #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
 #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
-if [ -z ${SSHS+x}; then
+if [ -z ${SSHS+x} ] ; then
     echo "Run with temporary config"
 else
     echo "Run with permanent config"
