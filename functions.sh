@@ -75,11 +75,10 @@ kinit-custom () {
     fi
 
     [ -z ${PKEY+x} ] && return 3
-    pass "${PKEY}" 
     pass "${PKEY}" 1>/dev/null 2>&1 || return 3
     local KERBEROS_PASSWORD=$(pass "${PKEY}" | head -n1)
     local KERBEROS_USER=$(pass "${PKEY}" | grep login | sed -e 's/^login: //' )
-    echo KERBEROS_PASSWORD: $KERBEROS_PASSWORD
+    #echo KERBEROS_PASSWORD: $KERBEROS_PASSWORD
     echo KERBEROS_USER: $KERBEROS_USER
 
     if [ -z ${KERBEROS_USER+x} ];then
@@ -89,6 +88,10 @@ kinit-custom () {
         kinit -R "${KERBEROS_USER}@${REALM}" <<!
 ${KERBEROS_PASSWORD}
 !
+        [ $? -gt 0 ] && kinit "${KERBEROS_USER}@${REALM}" <<!
+${KERBEROS_PASSWORD}
+!
+
     fi
 }
 
