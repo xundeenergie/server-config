@@ -1,7 +1,9 @@
 # Initialize variables, if not set
 [ -z ${TMUX_SESSION_DIRS+x} ] && TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
-[ -z ${SETPROXY_CREDS_DIRS+x} ] && SETPROXY_CREDS_DIRS=(~/.config/proxycreds.d)
-[ -z ${KERBEROS_CONFIG_DIRS+x} ] && KERBEROS_CONFIG_DIRS=(~/.config/kerberos-conf.d)
+[ -z ${SETPROXY_CREDS_DIRS+x} ] && SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
+[ -z ${KERBEROS_CONFIG_DIRS+x} ] && KERBEROS_CONFIG_DIRS=(~/.config/kerberos-conf)
+
+export TMUX_SESSION_DIRS SETPROXY_CREDS_DIRS KERBEROS_CONFIG_DIRS
 
 create_symlinks() {
 
@@ -59,6 +61,8 @@ setproxy () {
 
 kinit-custom () {
 
+    PASS=$(which pass 2>/dev/null || { echo "pass is not PATH or installed; return 127; })
+    KINIT=$(which KINIT 2>/dev/null || { echo "kinit is not PATH or installed; return 127; })
     local CONFIG
     if [ -z ${KERBEROS_CONFIG_DIRS+x} ] ; then
         echo "are you sure, KERBEROS_CONFIG_DIRS is defined?"
@@ -77,9 +81,9 @@ kinit-custom () {
     fi
 
     [ -z ${PKEY+x} ] && return 3
-    pass "${PKEY}" 1>/dev/null 2>&1 || return 3
-    local KERBEROS_PASSWORD=$(pass "${PKEY}" | head -n1)
-    local KERBEROS_USER=$(pass "${PKEY}" | grep login | sed -e 's/^login: //' )
+    $PASS "${PKEY}" 1>/dev/null 2>&1 || return 3
+    local KERBEROS_PASSWORD=$($PASS "${PKEY}" | head -n1)
+    local KERBEROS_USER=$($PASS "${PKEY}" | grep login | sed -e 's/^login: //' )
     #echo KERBEROS_PASSWORD: $KERBEROS_PASSWORD
     echo Get kerberos-ticket for: $KERBEROS_USER@$REALM
 
@@ -87,10 +91,10 @@ kinit-custom () {
         echo "no kerberos user found -> exit"
         return 4
     else
-        kinit -R "${KERBEROS_USER}@${REALM}" <<!
+        $KINIT -R "${KERBEROS_USER}@${REALM}" <<!
 ${KERBEROS_PASSWORD}
 !
-        [ $? -gt 0 ] && kinit "${KERBEROS_USER}@${REALM}" <<!
+        [ $? -gt 0 ] && $KINIT "${KERBEROS_USER}@${REALM}" <<!
 ${KERBEROS_PASSWORD}
 !
 
