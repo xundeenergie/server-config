@@ -4,6 +4,7 @@
 # export SYSTEMD_PAGER=
 
 echo "bashrc_add sourced" 1>&2
+echo SSHS: $SSHS
 GIT_GIT_PROTOCOL="git://"
 GIT_HTTP_PROTOCOL="http://"
 GIT_SSH_PROTOCOL="git@"
