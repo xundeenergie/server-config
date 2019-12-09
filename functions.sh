@@ -86,7 +86,7 @@ kinit-custom () {
         echo "no kerberos user found -> exit"
         return 4
     else
-        ${KINIT} -R "${KERBEROS_USER}@${REALM}" <<!
+        kinit -R "${KERBEROS_USER}@${REALM}" <<!
 ${KERBEROS_PASSWORD}
 !
     fi
