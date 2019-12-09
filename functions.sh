@@ -29,6 +29,7 @@ create_symlinks() {
 
 setproxy () {
 
+    local CONFIG
     case $# in
         0)
             echo too few arguments
@@ -58,6 +59,7 @@ setproxy () {
 
 kinit-custom () {
 
+    local CONFIG
     if [ -z ${KERBEROS_CONFIG_DIRS+x} ] ; then
         echo "are you sure, KERBEROS_CONFIG_DIRS is defined?"
         return 1
@@ -79,7 +81,7 @@ kinit-custom () {
     local KERBEROS_PASSWORD=$(pass "${PKEY}" | head -n1)
     local KERBEROS_USER=$(pass "${PKEY}" | grep login | sed -e 's/^login: //' )
     #echo KERBEROS_PASSWORD: $KERBEROS_PASSWORD
-    echo KERBEROS_USER: $KERBEROS_USER
+    echo Get kerberos-ticket for: $KERBEROS_USER@$REALM
 
     if [ -z ${KERBEROS_USER+x} ];then
         echo "no kerberos user found -> exit"
