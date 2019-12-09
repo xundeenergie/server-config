@@ -130,7 +130,7 @@ sync_config () {
             USERNAME="$USER"
             FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
 
-            if [ -d "${SERVERCONFIG_BASE}" ]; then
+            if [ -d "${SERVERCONFIG_BASE}" -a $(git -C "${SERVERCONFIG_BASE}" 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
                 cd  "${SERVERCONFIG_BASE}"
                 [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
                 if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
@@ -161,24 +161,29 @@ sync_config () {
             else
                 #echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
 
-                git clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
+                if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
+                    git clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
 
-                cd  "${SERVERCONFIG_BASE}"
-                [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
+                    cd  "${SERVERCONFIG_BASE}"
+                    [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
 
-                git config user.email "${USERNAME}"
-                git config user.name "${FULLNAME}"
+                    git config user.email "${USERNAME}"
+                    git config user.name "${FULLNAME}"
 
-                # Initialize Vundle as preconfigured Submodule
-                git submodule update --init --recursive
+                    # Initialize Vundle as preconfigured Submodule
+                    git submodule update --init --recursive
 
-                sync_config
-                . ${SERVERCONFIG_BASE}/functions.sh
-                create_symlinks "$SERVERCONFIG_BASE"
+                    sync_config
+                    . ${SERVERCONFIG_BASE}/functions.sh
+                    create_symlinks "$SERVERCONFIG_BASE"
 
-                # Install vim Plugins
-                #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
-                vim -c "PluginInstall" -c ":qa!"
+                    # Install vim Plugins
+                    #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
+                    vim -c "PluginInstall" -c ":qa!"
+                else 
+                    echo "${GIT_SERVER}" not reachable >&2;
+                    echo profile not cloning >&2;
+                fi
             fi
             [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ] || git remote set-url --push origin "${SERVERCONFIG_GIT_REMOTE_PUSH}" 
             cd ${HOME}

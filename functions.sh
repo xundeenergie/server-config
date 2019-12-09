@@ -215,7 +215,7 @@ EOF
            ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
            ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
-           trap \"rm -f ${!REMOTETMPBASHCONFIG} ${!REMOTETMPVIMCONFIG}\" EXIT " ;
+           trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
            rm "${TMPBASHCONFIG}"
         else
