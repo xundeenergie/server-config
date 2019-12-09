@@ -27,82 +27,51 @@ create_symlinks() {
 
 }
 
-get_first_config () {
-    # usage: 
-    #           get_first_config <array_with_config_dirs> configfilename_without_.config
-    # returns the first occurance of configfilename in all config_dirs 
+setproxy () {
 
-    CONFIG_DIR_ARRAY=$1
-    echo $# 1>&2
     case $# in
-        0|1|2)
-            echo "Too few arguments" 1>&2
-            echo are you sure, $1 is defined? 1>&2
-            return 1
-            ;;
-        3)
-            [ -z ${CONFIG_DIR_ARRAY} ] && return 1
-            CONF=$(find ${CONFIG_DIR_ARRAY[*]} -mindepth 1 -name "$1.conf" -print -quit 2>/dev/null )
-            [ -z ${CONF+x} ] && { echo "No config found in config-dirs" 1>&2; return 2; }
+        0)
+            echo too few arguments
+            return
             ;;
         *)
-            echo "Too many arguments" 1>&2
-            return 3
-            ;;
+            if [ -z ${SETPROXY_CREDS_DIRS+x} ] ; then
+                echo "are you sure, KERBEROS_CONFIG_DIRS is defined?"
+                return 1
+            else
+                CONFIG=$(find ${SETPROXY_CREDS_DIRS[*]} -mindepth 1 -name "$1.conf" -print -quit 2>/dev/null )
+            fi
+         ;;
     esac
 
-}
-
-setproxy () {
-#    set -x
-#    case $# in
-#        0)
-#            echo too few arguments
-#            return
-#            ;;
-#        1)
-#            [ -z ${SETPROXY_CREDS_DIRS} ] && return 1
-#            SESS=($(find ${SETPROXY_CREDS_DIRS[*]} -mindepth 1 -name "$1.conf" 2>/dev/null ))
-#            ;;
-#        *)
-#            echo to many arguments
-#            return
-#            ;;
-#    esac
-    #[ -e ${SESS[0]} ] && . ${SESS[0]}
-
-    CONFIG=$(get_first_config SETPROXY_CREDS_DIRS ${SETPROXY_CREDS_DIRS} $@)
-    ret=$?
-    [ $ret -gt 0 ] && return $ret
-
-    if [ -e ${CONFIG[0]} ]; then
-        echo "${CONFIG[0]} existing"
-        source "${CONFIG[0]}"
+    if [ -e ${CONFIG} ]; then
+        echo -n "${CONFIG} existing: "
+        source "${CONFIG}"
+        echo "sourced"
         export PROXY_CREDS="${PROXY_USER}:${PROXY_PASS}@"
     else
-        echo "${CONFIG[0]} not existing"
+        echo "${CONFIG} not existing"
         export PROXY_CREDS=""
     fi
-
     export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PROXY_PORT}"
-#    set +x
 }
 
 kinit-custom () {
 
-    CONFIG=$(get_first_config KERBEROS_CONFIG_DIRS ${KERBEROS_CONFIG_DIRS} $@)
-
-    ret=$?
-    [ $ret -gt 0 ] && return $ret
-
-    echo CONFIG: ${CONFIG[*]}
-
-    if [ -e ${CONFIG[0]} ]; then
-        echo "${CONFIG[0]} existing"
-        source "${CONFIG[0]}"
-    else
-        echo "${CONFIG[0]} not existing"
+    if [ -z ${KERBEROS_CONFIG_DIRS+x} ] ; then
+        echo "are you sure, KERBEROS_CONFIG_DIRS is defined?"
         return 1
+    else
+        CONFIG=$(find ${KERBEROS_CONFIG_DIRS[*]} -mindepth 1 -name "$1.conf" -print -quit 2>/dev/null )
+    fi
+    
+    if [ -e ${CONFIG} ]; then
+        echo -n "${CONFIG} existing: "
+        source "${CONFIG}"
+        echo "sourced"
+    else
+        echo "${CONFIG} not existing"
+        return 2
     fi
 
     [ -z ${PKEY+x} ] || return 2
