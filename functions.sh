@@ -94,9 +94,12 @@ kinit-custom () {
         $KINIT -R "${KERBEROS_USER}@${REALM}" <<!
 ${KERBEROS_PASSWORD}
 !
-        [ $? -gt 0 ] && $KINIT "${KERBEROS_USER}@${REALM}" <<!
+        if [ $? -gt 0 ] ; then
+            echo renew kerberos-ticket failed. try to get a new one
+            $KINIT "${KERBEROS_USER}@${REALM}" <<!
 ${KERBEROS_PASSWORD}
 !
+        fi
 
     fi
 }
