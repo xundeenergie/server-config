@@ -122,78 +122,83 @@ sync_config () {
 
 #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
 #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
-case $TERM in
-    *term*)
+if [ -z ${SSHS+x}; then
+    echo "Run with temporary config"
+else
+    echo "Run with permanent config"
+    case $TERM in
+        *term*)
 
-        USERNAME="$USER"
-        FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
+            USERNAME="$USER"
+            FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
 
-        if [ -d "${SERVERCONFIG_BASE}" ]; then
-            cd  "${SERVERCONFIG_BASE}"
-            [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-            if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
-                #echo "Update ${SERVERCONFIG_BASE}" >&2
-                git remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
-            
+            if [ -d "${SERVERCONFIG_BASE}" ]; then
+                cd  "${SERVERCONFIG_BASE}"
+                [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
+                if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
+                    #echo "Update ${SERVERCONFIG_BASE}" >&2
+                    git remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
+                
+                else
+                    #echo "Init ${SERVERCONFIG_BASE}" >&2
+                    git init
+                fi
+                
+                # Update Userinformations for git
+                git config user.email "${USERNAME}"
+                git config user.name "${FULLNAME}"
+
+                # set upstream only if not detached
+                [ $(git rev-parse --abbrev-ref HEAD) != "HEAD" ] && git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
+
+                # sync repo with origin if git is reachable 
+                if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
+                    sync_config
+                    . ${SERVERCONFIG_BASE}/functions.sh
+                    create_symlinks "$SERVERCONFIG_BASE"
+                else 
+                    echo "${GIT_SERVER}" not reachable >&2;
+                    echo profile not syncing >&2;
+                fi
             else
-                #echo "Init ${SERVERCONFIG_BASE}" >&2
-                git init
-            fi
-            
-            # Update Userinformations for git
-            git config user.email "${USERNAME}"
-            git config user.name "${FULLNAME}"
+                #echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
 
-            # set upstream only if not detached
-            [ $(git rev-parse --abbrev-ref HEAD) != "HEAD" ] && git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
+                git clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
 
-            # sync repo with origin if git is reachable 
-            if $( timeout --foreground "${GIT_TIMEOUT}"  git ls-remote >/dev/null  2>&1) ;then 
+                cd  "${SERVERCONFIG_BASE}"
+                [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
+
+                git config user.email "${USERNAME}"
+                git config user.name "${FULLNAME}"
+
+                # Initialize Vundle as preconfigured Submodule
+                git submodule update --init --recursive
+
                 sync_config
                 . ${SERVERCONFIG_BASE}/functions.sh
                 create_symlinks "$SERVERCONFIG_BASE"
-            else 
-                echo "${GIT_SERVER}" not reachable >&2;
-                echo profile not syncing >&2;
+
+                # Install vim Plugins
+                #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
+                vim -c "PluginInstall" -c ":qa!"
             fi
-        else
-            #echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
+            [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ] || git remote set-url --push origin "${SERVERCONFIG_GIT_REMOTE_PUSH}" 
+            cd ${HOME}
+            ;;
+        *screen*)
+            ;;
+        *dumb*)
+            return
+            ;;
+    esac
 
-            git clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
-
-            cd  "${SERVERCONFIG_BASE}"
-            [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-
-            git config user.email "${USERNAME}"
-            git config user.name "${FULLNAME}"
-
-            # Initialize Vundle as preconfigured Submodule
-            git submodule update --init --recursive
-
-            sync_config
-            . ${SERVERCONFIG_BASE}/functions.sh
-            create_symlinks "$SERVERCONFIG_BASE"
-
-            # Install vim Plugins
-            #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
-            vim -c "PluginInstall" -c ":qa!"
-        fi
-        [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ] || git remote set-url --push origin "${SERVERCONFIG_GIT_REMOTE_PUSH}" 
-        cd ${HOME}
-        ;;
-    *screen*)
-        ;;
-    *dumb*)
+    if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
+        . ${SERVERCONFIG_BASE}/functions.sh
+    else
         return
-        ;;
-esac
+    fi
 
-if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
-    . ${SERVERCONFIG_BASE}/functions.sh
-else
-    return
 fi
-
 
 
 ######################################################################################
