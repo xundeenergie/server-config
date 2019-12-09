@@ -61,8 +61,8 @@ setproxy () {
 
 kinit-custom () {
 
-    PASS=$(which pass 2>/dev/null || { echo "pass is not PATH or installed; return 127; })
-    KINIT=$(which KINIT 2>/dev/null || { echo "kinit is not PATH or installed; return 127; })
+    PASS=$(which pass 2>/dev/null || { echo "pass is not PATH or installed"; return 127; })
+    KINIT=$(which KINIT 2>/dev/null || { echo "kinit is not PATH or installed"; return 127; })
     local CONFIG
     if [ -z ${KERBEROS_CONFIG_DIRS+x} ] ; then
         echo "are you sure, KERBEROS_CONFIG_DIRS is defined?"
