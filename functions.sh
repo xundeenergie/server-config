@@ -230,11 +230,15 @@ title "$USER@$HOSTNAME: $PWD"
 
 EOF
 
+echo TEST 10
            ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+echo TEST 20
            ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
+echo TEST 30
            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
+echo TEST 40
            rm "${TMPBASHCONFIG}"
         else
            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
