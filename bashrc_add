@@ -122,8 +122,8 @@ sync_config () {
 
 #if $(ping -W 1 -c 1 github.com > /dev/null 2>&1) ;then 
 #if [ $(curl -sLI --connect-timeout 1 -m 1 "${GIT_HTTP_PROTOCOL}${GIT_SERVER}" |grep "HTTP/"|tail -n1|cut -d$' ' -f2 ) -eq 200 ] ;then 
-if [ -z ${SSHS+x}  ] ; then
-    echo "Run with permanent config"
+#if [ -z ${SSHS+x}  ] ; then
+#    echo "Run with permanent config"
     case $TERM in
         *term*)
 
@@ -186,12 +186,11 @@ if [ -z ${SSHS+x}  ] ; then
         *screen*)
             ;;
         *dumb*)
-            return
             ;;
     esac
-else
-    echo "Run with temporary config"
-fi
+#else
+#    echo "Run with temporary config"
+#fi
 
 if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
     . ${SERVERCONFIG_BASE}/functions.sh
