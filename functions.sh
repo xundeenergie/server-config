@@ -146,7 +146,7 @@ sshserverconfig() {
     SSH="/usr/bin/ssh"
     echo $@
     ssh -t -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
-    CMD="$SSH -t $@"
+    CMD="$SSH -T $@"
     $CMD /bin/bash << EOF
     [ -e /etc/bashrc ] && .  /etc/bashrc
     [ -e /etc/bash.bashrc ] && . /etc/bash.bashrc
@@ -196,9 +196,9 @@ EOF
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
             RCMD="bash --noprofile --norc -c "
-           REMOTETMPBASHCONFIG=$(ssh -t -o VisualHostKey=no $@ "$MKTMPCMD"| tr -d '[:space:]' )
-           REMOTETMPVIMCONFIG=$(ssh -t -o VisualHostKey=no $@ "$VIMMKTMPCMD"| tr -d '[:space:]')
-#           REMOTETMPBASHCOMPLETIONCONFIG=$(ssh -t -o VisualHostKey=no $@ "$BASHCOMPLETIONMKTMPCMD"| tr -d '[:space:]')
+           REMOTETMPBASHCONFIG=$(ssh -T -o VisualHostKey=no $@ "$MKTMPCMD"| tr -d '[:space:]' )
+           REMOTETMPVIMCONFIG=$(ssh -T -o VisualHostKey=no $@ "$VIMMKTMPCMD"| tr -d '[:space:]')
+#           REMOTETMPBASHCOMPLETIONCONFIG=$(ssh -T -o VisualHostKey=no $@ "$BASHCOMPLETIONMKTMPCMD"| tr -d '[:space:]')
 
            # Add additional aliases to bashrc for remote-machine
            cat << EOF >> "${TMPBASHCONFIG}"
@@ -212,15 +212,11 @@ title "$USER@$HOSTNAME: $PWD"
 
 EOF
 
-echo TEST 10
-           ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
-echo TEST 20
-           ssh -t -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
+           ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
+           ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
-           trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
-echo TEST 30
+           trap \"rm -f ${!REMOTETMPBASHCONFIG} ${!REMOTETMPVIMCONFIG}\" EXIT " ;
            ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
-echo TEST 40
            rm "${TMPBASHCONFIG}"
         else
            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
