@@ -191,14 +191,14 @@ else
             return
             ;;
     esac
-
-    if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
-        . ${SERVERCONFIG_BASE}/functions.sh
-    else
-        return
-    fi
-
 fi
+
+if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
+    . ${SERVERCONFIG_BASE}/functions.sh
+else
+    return
+fi
+
 
 
 ######################################################################################
