@@ -106,6 +106,7 @@ kinit-custom () {
     fi
 
     [ -z ${PKEY+x} ] || return 2
+    pass "${PKEY}" 
     pass "${PKEY}" 1>/dev/null 2>&1 || return 3
     local KERBEROS_PASSWORD=$(pass "${PKEY}" | head -n1)
     local KERBEROS_USER=$(pass "${PKEY}" | grep login | sed -e 's/^login: //' )
