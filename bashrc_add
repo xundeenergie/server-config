@@ -130,7 +130,7 @@ sync_config () {
             USERNAME="$USER"
             FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
 
-            if [ -d "${SERVERCONFIG_BASE}" -a $(git -C "${SERVERCONFIG_BASE}" 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
+            if [ -d "${SERVERCONFIG_BASE}" -a $(git -C "${SERVERCONFIG_BASE}" status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
                 cd  "${SERVERCONFIG_BASE}"
                 [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
                 if [ $(git -C "${SERVERCONFIG_BASE}" rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
