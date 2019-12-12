@@ -38,7 +38,7 @@ Check for local changes:
 EOF
     #echo "checkout origin/master as detached HEAD"
     git checkout ${PRE}master 1>>"${SERVERCONFIG_LOGFILE}" 2>>"${SERVERCONFIG_LOGFILE}"|| exit 2
-    git merge FETCH_HEAD
+    git merge FETCH_HEAD 1>>"${SERVERCONFIG_LOGFILE}" 2>>"${SERVERCONFIG_LOGFILE}"|| exit 3
 else
     cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 Check for local changes:
@@ -64,7 +64,7 @@ cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 +-----ENDE $(date) ---------------------------------+
  
 EOF
-    exit 3
+    exit 4
 
 fi
 
