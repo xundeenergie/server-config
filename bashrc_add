@@ -79,7 +79,7 @@ else
     echo SERVERCONFIG_BASE is set to $SERVERCONFIG_BASE
 fi
 
-SGIT='git -C ${SERVERCONFIG_BASE}' 
+SGIT="git -C ${SERVERCONFIG_BASE}" 
 export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
 
 #----------------------------------------
