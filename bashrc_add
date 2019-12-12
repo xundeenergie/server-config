@@ -73,6 +73,12 @@ SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
 
 #TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
 #SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
+if [ -z "${SERVERCONFIG_BASE+x}" ]; then
+    SERVERCONFIG_BASE is not set
+else
+    SERVERCONFIG_BASE is set
+fi
+
 SGIT='git -C ${SERVERCONFIG_BASE}' 
 export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
 
