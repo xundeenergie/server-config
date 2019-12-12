@@ -160,8 +160,10 @@ EOF
 }
 sshs() {
 
-    MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
-    VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
+    MKTMPCMD="mktemp ${XDG_RUNTIME_DIR}.bashrc.XXXXXXXX.conf"
+    VIMMKTMPCMD="mktemp ${XDG_RUNTIME_DIR}.vimrc.XXXXXXXX.conf"
+    #MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
+    #VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
     TMPBASHCONFIG=$($MKTMPCMD)
     FILELIST=( "${SERVERCONFIG_BASE}/functions.sh" "${SERVERCONFIG_BASE}/aliases" "${HOME}/.aliases" "${SERVERCONFIG_BASE}/PS1" "${SERVERCONFIG_BASE}/bash_completion.d/*" )
 
@@ -260,8 +262,6 @@ getbashrcfile () {
         echo "bash uses default"
     else
         cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}'
-        #echo $BASHRC
-
     fi
 }
 
@@ -269,9 +269,8 @@ catbashrcfile () {
     if [ -z ${BASHRC+x} ] ; then
         echo "bash uses default"
     else
-        cat $(cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}')
-        #echo $BASHRC
-
+        #cat $(cat /proc/$$/cmdline | xargs -0 echo|awk '{print $3}')
+        cat $(getbashrcfile)
     fi
 }
 
@@ -287,7 +286,8 @@ catvimrcfile () {
     if [ -z ${VIMRC+x} ] ; then
         echo "vim uses default"
     else
-        cat $VIMRC
+        #cat $VIMRC
+        cat $(getvimrcfile)
     fi
 }
 
