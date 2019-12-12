@@ -61,8 +61,10 @@ setproxy () {
 
 kinit-custom () {
 
-    PASS=$(which pass 2>/dev/null || exit 127 )
-    KINIT=$(which kinit 2>/dev/null || exit 127 )
+    local PKEY
+    local REALM
+    local PASS=$(which pass 2>/dev/null || exit 127 )
+    local KINIT=$(which kinit 2>/dev/null || exit 127 )
     local CONFIG
     if [ -z ${KERBEROS_CONFIG_DIRS+x} ] ; then
         echo "are you sure, KERBEROS_CONFIG_DIRS is defined?"
