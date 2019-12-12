@@ -66,10 +66,10 @@ fi
 #GIT_SSH_PATH="/srv/repos"
 [ -z "${SERVERCONFIG_SUBPATH+x}" ]     && SERVERCONFIG_SUBPATH=server-config
 [ -z "${SERVERCONFIG_BASE+x}" ]        && SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
-SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
 [ -z "${SERVERCONFIG_LOGDIR+x}" ]      && SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
 [ -z "${SERVERCONFIG_LOGFILE+x}" ]     && SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
 [ -z "${SERVERCONFIG_GIT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_TIMEOUT=5s
+SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
 
 SGIT="git -C ${SERVERCONFIG_BASE}" 
 export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
@@ -129,7 +129,7 @@ sync_config () {
             FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
 
             if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
-                cd  "${SERVERCONFIG_BASE}"
+                #cd  "${SERVERCONFIG_BASE}"
                 [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
                 if [ $( $SGIT rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
                     #echo "Update ${SERVERCONFIG_BASE}" >&2
