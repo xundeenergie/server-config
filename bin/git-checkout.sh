@@ -30,14 +30,15 @@ case $1 in
 esac
 git fetch origin -p  2>>"${SERVERCONFIG_LOGFILE}"|| { echo fetch failed; exit 1; }
 
-if git diff-index --ignore-submodules --exit-code HEAD -- >/dev/null ; then
+if git diff-index --ignore-submodules --exit-code HEAD -- >> "${SERVERCONFIG_LOGFILE}" ; then
     cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 Check for local changes:
     no changes in local repo
-    echo git checkout repo ${PRE}master
+    git checkout repo ${PRE}master
 EOF
     #echo "checkout origin/master as detached HEAD"
     git checkout ${PRE}master 1>>"${SERVERCONFIG_LOGFILE}" 2>>"${SERVERCONFIG_LOGFILE}"|| exit 2
+    git merge FETCH_HEAD
 else
     cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 Check for local changes:
