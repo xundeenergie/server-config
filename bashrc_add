@@ -71,14 +71,6 @@ SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
 [ -z "${SERVERCONFIG_LOGFILE+x}" ]     && SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
 [ -z "${SERVERCONFIG_GIT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_TIMEOUT=5s
 
-#TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
-#SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
-#if [ -z "${SERVERCONFIG_BASE+x}" ]; then
-#    echo SERVERCONFIG_BASE is not set
-#else
-#    echo SERVERCONFIG_BASE is set to $SERVERCONFIG_BASE
-#fi
-
 SGIT="git -C ${SERVERCONFIG_BASE}" 
 export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
 
