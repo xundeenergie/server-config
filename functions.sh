@@ -22,7 +22,7 @@ create_symlinks() {
     ln -sf "${DIR}/tmux" ~/.tmux
     ln -sf "${DIR}/tmux/tmux.conf" ~/.tmux.conf
 
-    git config core.hooksPath .githooks
+    $SGIT config core.hooksPath .githooks
     find .git/hooks -type l -exec rm {} \; && find .githooks -type f -exec ln -sf ../../{} .git/hooks/ \;
 
     cd ~-
@@ -119,11 +119,6 @@ git-mergedetachedheadtomaster () {
     git commit -m "Merged detached head into master" .
     #git push origin master
 }
-
-git-pushdetachedhead () {
-    git push origin HEAD:master
-}
-
 
 pathmunge () {
     case ":${PATH}:" in

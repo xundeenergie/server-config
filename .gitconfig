@@ -19,6 +19,7 @@
 	fixcached = rm -r --cached .
         delete-last-commit = reset --soft HEAD~1
         purge-last-commit = reset --hard HEAD~1
+        pushdetachedhead = push origin HEAD:master
 [merge]
 	conflictstyle = diff3
 	tool = vimdiff
