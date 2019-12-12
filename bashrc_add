@@ -76,7 +76,7 @@ SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
 if [ -z "${SERVERCONFIG_BASE+x}" ]; then
     echo SERVERCONFIG_BASE is not set
 else
-    echo SERVERCONFIG_BASE is set
+    echo SERVERCONFIG_BASE is set to $SERVERCONFIG_BASE
 fi
 
 SGIT='git -C ${SERVERCONFIG_BASE}' 
