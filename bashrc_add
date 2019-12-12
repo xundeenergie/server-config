@@ -133,7 +133,7 @@ sync_config () {
             if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
                 cd  "${SERVERCONFIG_BASE}"
                 [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-                if [ $SGIT rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
+                if [ $( $SGIT rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
                     #echo "Update ${SERVERCONFIG_BASE}" >&2
                     $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
                 
