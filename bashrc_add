@@ -84,7 +84,7 @@ export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
 sync_config () {
     local nok=""
     local gco=""
-    cd  "${SERVERCONFIG_BASE}"
+    #cd  "${SERVERCONFIG_BASE}"
     if which git >/dev/null; then
         echo -n "Sync config with ${SERVERCONFIG_GIT_SERVER}: " 1>&2
         #git pull > /dev/null 2>&1
@@ -115,12 +115,12 @@ sync_config () {
         #curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
     fi
     # Install some scripts to ~/bin
-    scripts=(configserver.sh git-checkout.sh)
-    TARGETDIR="${HOME}/bin"
-    [ -d ${TARGETDIR} ] || mkdir -p ${TARGETDIR}
-    for i in ${scripts[*]};do
-        [ -e bin/${i} ] && install bin/"${i}" "${TARGETDIR}/${i}"
-    done
+#    scripts=(configserver.sh git-checkout.sh)
+#    TARGETDIR="${HOME}/bin"
+#    [ -d ${TARGETDIR} ] || mkdir -p ${TARGETDIR}
+#    for i in ${scripts[*]};do
+#        [ -e bin/${i} ] && install bin/"${i}" "${TARGETDIR}/${i}"
+#    done
 
 }
 
@@ -181,8 +181,9 @@ sync_config () {
                     #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
                     vim -c "PluginInstall" -c ":qa!"
                 else 
-                    echo "${SERVERCONFIG_GIT_SERVER}" not reachable >&2;
-                    echo profile not cloning >&2;
+                    echo "${SERVERCONFIG_GIT_SERVER}" not reachable 1>&2;
+                    echo profile not cloning 1>&2;
+                    echo do you need a proxy? 1>&2
                 fi
             fi
             [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ] || $SGIT remote set-url --push origin "${SERVERCONFIG_GIT_REMOTE_PUSH}" 
@@ -247,7 +248,7 @@ fi
 
 
 # Go HOME
-cd ${HOME}
+#cd ${HOME}
 
 echo "bashrc_add sourced" 1>&2
 
