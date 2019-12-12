@@ -50,6 +50,20 @@ Diese Datei clont dieses Repo nach $HOME oder pullt es, wenn das Repo schon vorh
 
 Damit ist auch schon alles erledigt
 
+# Über ~/.bashrc manuell festlegbare Variablen und ihre Default-Werte, wenn nicht manuell gesetzt:
+SERVERCONFIG_SUBPATH=server-config
+SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
+SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
+SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
+SERVERCONFIG_GIT_TIMEOUT=5s
+
+SERVERCONFIG_GIT_SERVER="git.schuerz.at"
+SERVERCONFIG_GIT_REPO_NAME="server-config.git"
+SERVERCONFIG_GIT_REPO_PATH_HTTP="/public/"
+SERVERCONFIG_GIT_REPO_PATH_SSH=":public/"
+SERVERCONFIG_GIT_REPO_PATH_GIT="/public/"
+
+
 # Modifizierung mit Skript
 Wenn das auf mehreren Hosts ausgeführt werden muss, kann man auch das in diesem Repo in bin abgelegte Skript configserver.sh verwenden.
 Am besten dieses Skript nach ${HOME}/bin kopieren und ausführbar machen.
