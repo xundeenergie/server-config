@@ -160,8 +160,8 @@ EOF
 }
 sshs() {
 
-    local MKTMPCMD='mktemp ${XDG_RUNTIME_DIR}.bashrc.XXXXXXXX.conf'
-    local VIMMKTMPCMD='mktemp ${XDG_RUNTIME_DIR}.vimrc.XXXXXXXX.conf'
+    local MKTMPCMD='mktemp ${XDG_RUNTIME_DIR}/bashrc.XXXXXXXX.conf'
+    local VIMMKTMPCMD='mktemp ${XDG_RUNTIME_DIR}/vimrc.XXXXXXXX.conf'
     #MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
     #VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
     local TMPBASHCONFIG=$($MKTMPCMD)
