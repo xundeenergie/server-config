@@ -160,6 +160,7 @@ EOF
 }
 sshs() {
 
+    echo 'mktemp ${XDG_RUNTIME_DIR}/bashrc.XXXXXXXX.conf' 1>&2
     local MKTMPCMD='mktemp ${XDG_RUNTIME_DIR}/bashrc.XXXXXXXX.conf'
     local VIMMKTMPCMD='mktemp ${XDG_RUNTIME_DIR}/vimrc.XXXXXXXX.conf'
     #MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
@@ -195,7 +196,7 @@ EOF
     
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
-           local RCMD="bash --noprofile --norc -c "
+           local RCMD="/bin/bash --noprofile --norc -c "
            local REMOTETMPBASHCONFIG=$(ssh -T -o VisualHostKey=no $@ "$MKTMPCMD"| tr -d '[:space:]' )
            local REMOTETMPVIMCONFIG=$(ssh -T -o VisualHostKey=no $@ "$VIMMKTMPCMD"| tr -d '[:space:]')
 #           REMOTETMPBASHCOMPLETIONCONFIG=$(ssh -T -o VisualHostKey=no $@ "$BASHCOMPLETIONMKTMPCMD"| tr -d '[:space:]')
