@@ -1,7 +1,7 @@
 vim/.netrwhist
-!vim/bundle/
-vim/bundle/*
 vim/.VimballRecord
+vim/bundle/*
+!vim/bundle/Vundle.vim
 *.log
 *.swp
 *.orig
