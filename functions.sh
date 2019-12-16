@@ -250,7 +250,7 @@ vim-repair-vundle () {
         cd $SERVERCONFIG_BASE
         cd vim/bundle
         rm -rf Vundle.vim
-        git clone  "${GIT_GIT_PROTOCOL}${GIT_SERVER}/public/Vim/Vundle.vim.git"
+        git clone  "${SERVERCONFIG_GIT_GIT_PROTOCOL}${SERVERCONFIG_GIT_SERVER}/public/Vim/Vundle.vim.git"
         cd ~-
     fi
 }
