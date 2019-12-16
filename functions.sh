@@ -160,18 +160,15 @@ EOF
 }
 sshs() {
 
-    echo 'mktemp ${XDG_RUNTIME_DIR}/bashrc.XXXXXXXX.conf' 1>&2
-    local MKTMPCMD='mktemp ${XDG_RUNTIME_DIR}/bashrc.XXXXXXXX.conf'
-    local VIMMKTMPCMD='mktemp ${XDG_RUNTIME_DIR}/vimrc.XXXXXXXX.conf'
-    #MKTMPCMD="mktemp /tmp/${USER}.bashrc.XXXXXXXX.conf"
-    #VIMMKTMPCMD="mktemp /tmp/${USER}.vimrc.XXXXXXXX.conf"
-    local TMPBASHCONFIG=$($MKTMPCMD)
+#    MKTMPCMD='mktemp $(echo ${XDG_RUNTIME_DIR}/bashrc.XXXXXXXX.conf)'
+#    VIMMKTMPCMD="mktemp ${XDG_RUNTIME_DIR}/vimrc.XXXXXXXX.conf"
+
+    local TMPBASHCONFIG=$(mktemp -p ${XDG_RUNTIME_DIR} -t bashrc.XXXXXXXX --suffix=.conf)
     local FILELIST=( "${SERVERCONFIG_BASE}/functions.sh" "${SERVERCONFIG_BASE}/aliases" "${HOME}/.aliases" "${SERVERCONFIG_BASE}/PS1" "${SERVERCONFIG_BASE}/bash_completion.d/*" )
 
     # Read /etc/bashrc or /etc/bash.bashrc (depending on distribution) and /etc/profile.d/*.sh first
     cat << EOF >> "${TMPBASHCONFIG}"
-SSHS=true
-echo BLA >&2
+export SSHS=true
 [ -e /etc/bashrc ] && BASHRC=/etc/bashrc
 [ -e /etc/bash.bashrc ] && BASHRC=/etc/bash.bashrc
 . \$BASHRC
@@ -197,8 +194,8 @@ EOF
     if [ $# -ge 1 ]; then
         if [ -e "${TMPBASHCONFIG}" ] ; then
            local RCMD="/bin/bash --noprofile --norc -c "
-           local REMOTETMPBASHCONFIG=$(ssh -T -o VisualHostKey=no $@ "$MKTMPCMD"| tr -d '[:space:]' )
-           local REMOTETMPVIMCONFIG=$(ssh -T -o VisualHostKey=no $@ "$VIMMKTMPCMD"| tr -d '[:space:]')
+           local REMOTETMPBASHCONFIG=$(ssh -T -o VisualHostKey=no $@ "mktemp -p \${XDG_RUNTIME_DIR} -t bashrc.XXXXXXXX --suffix=.conf"| tr -d '[:space:]' )
+           local REMOTETMPVIMCONFIG=$(ssh -T -o VisualHostKey=no $@ "mktemp -p \${XDG_RUNTIME_DIR} -t vimrc.XXXXXXXX --suffix=.conf"| tr -d '[:space:]')
 #           REMOTETMPBASHCOMPLETIONCONFIG=$(ssh -T -o VisualHostKey=no $@ "$BASHCOMPLETIONMKTMPCMD"| tr -d '[:space:]')
 
            # Add additional aliases to bashrc for remote-machine
