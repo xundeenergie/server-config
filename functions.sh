@@ -140,10 +140,9 @@ mkcd () {
 
 sshserverconfig() {
 
-    SSH="/usr/bin/ssh"
-    echo $@
-    ssh -t -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
-    CMD="$SSH -T $@"
+    local SSH="/usr/bin/ssh"
+    $SSH -T -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
+    local CMD="$SSH -T $@"
     $CMD /bin/bash << EOF
     [ -e /etc/bashrc ] && .  /etc/bashrc
     [ -e /etc/bash.bashrc ] && . /etc/bash.bashrc
