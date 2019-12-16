@@ -161,7 +161,8 @@ sync_config () {
                 echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
 
 #                if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
-                    $SGIT clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
+                    #$SGIT clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
+                    git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
 
                     #cd "${SERVERCONFIG_BASE}"
 
