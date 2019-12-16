@@ -6,7 +6,10 @@
 	path = tmux/plugins/tpm
         #url = https://github.com/tmux-plugins/tpm
 	url = http://git.schuerz.at/public/tmux-plugins/tpm.git
-[submodule "tmux/tmux-themepack"]
-	path = tmux/tmux-themepack
+[submodule "tmux/plugins/tmux-themepack"]
+	path = tmux/plugins/tmux-themepack
         #url =  https://github.com/jimeh/tmux-themepack.git
 	url = http://git.schuerz.at/public/tmux-plugins/tmux-themepack.git
+[submodule "tmux/plugins/tmux-sensible"]
+	path = tmux/plugins/tmux-sensible
+	url = git://git.schuerz.at/public/tmux-plugins/tmux-sensible.git

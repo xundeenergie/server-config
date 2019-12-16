@@ -168,9 +168,7 @@ sync_config () {
 
                     [ -d "${SERVERCONFIG_BASE}" ] && mkdir -p "${SERVERCONFIG_LOGDIR}"
 
-                    echo TEST 10
                     $SGIT config user.email "${USERNAME}"
-                    echo TEST 20
                     $SGIT config user.name "${FULLNAME}"
 
                     # Initialize Vundle as preconfigured Submodule

@@ -2,15 +2,9 @@ vim/.netrwhist
 !vim/bundle/
 vim/bundle/*
 vim/.VimballRecord
-!vim/bundle/Vundle.vim
 *.log
 *.swp
 *.orig
 serverconfig.local.conf
-tmux/*
-!tmux/sessions
-!tmux/plugins/tpm
-!tmux/tmux.conf
-!tmux/initial.conf
 bashrc_local
 .local_scripts
