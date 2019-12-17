@@ -81,11 +81,13 @@ EOF
 #$SGIT submodule foreach "$SGIT branch -u origin/master master"  1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo set-upstream submodules failed; exit 1; }
 #$SGIT submodule update --recursive --remote --merge 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed; exit 1; }
 
+echo "update submodules" >&2
 $SGIT submodule init 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed on ini; }
 $SGIT submodule sync 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo sync submodules failed on sync; }
 $SGIT submodule foreach "git checkout master"  1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo checkout master submodules failed on set upstream; }
 $SGIT submodule foreach "git branch -u origin/master master"  1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo set-upstream submodules failed on set upstream; }
 $SGIT submodule update --recursive --remote --merge 1>>"${SERVERCONFIG_LOGFILE}" 2>&1|| { echo update submodules failed on update; }
+echo "submodules updated" >&2
 
 cat << EOF >> "${SERVERCONFIG_LOGFILE}"
 

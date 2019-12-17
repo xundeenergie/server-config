@@ -96,6 +96,7 @@ sync_config () {
             gco="$SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
         fi
         #echo gco: $gco 2>&1
+        echo "git-checkout" >&2
         ${SERVERCONFIG_BASE}/bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
         printf '%s\n' "${nok}synced" 1>&2
 
@@ -175,8 +176,10 @@ sync_config () {
                     #$SGIT submodule update --init --recursive
                     #$SGIT submodule foreach 'git checkout master'
 
+                    echo "sync config" >&2
                     sync_config
                     . ${SERVERCONFIG_BASE}/functions.sh
+                    echo "config synced, functions.sh sourced" >&2
                     create_symlinks "$SERVERCONFIG_BASE"
 
                     # Install vim Plugins
