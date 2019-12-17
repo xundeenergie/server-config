@@ -9,4 +9,4 @@
 	url = http://git.schuerz.at/public/tmux-plugins/tmux-themepack.git
 [submodule "tmux/plugins/tmux-sensible"]
 	path = tmux/plugins/tmux-sensible
-	url = git://git.schuerz.at/public/tmux-plugins/tmux-sensible.git
+	url = http://git.schuerz.at/public/tmux-plugins/tmux-sensible.git
