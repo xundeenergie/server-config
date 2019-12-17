@@ -172,8 +172,8 @@ sync_config () {
                     $SGIT config user.name "${FULLNAME}"
 
                     # Initialize Vundle as preconfigured Submodule
-                    $SGIT submodule update --init --recursive
-                    $SGIT submodule foreach 'git checkout master'
+                    #$SGIT submodule update --init --recursive
+                    #$SGIT submodule foreach 'git checkout master'
 
                     sync_config
                     . ${SERVERCONFIG_BASE}/functions.sh
