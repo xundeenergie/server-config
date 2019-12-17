@@ -166,7 +166,7 @@ sync_config () {
 
                     #cd "${SERVERCONFIG_BASE}"
 
-                    [ -d "${SERVERCONFIG_BASE}" ] && mkdir -p "${SERVERCONFIG_LOGDIR}"
+                    [ -d "${SERVERCONFIG_BASE}" ] && { echo create ${SERVERCONFIG_LOGDIR} >&2; mkdir -p "${SERVERCONFIG_LOGDIR}"; }
 
                     $SGIT config user.email "${USERNAME}"
                     $SGIT config user.name "${FULLNAME}"
