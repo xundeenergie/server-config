@@ -79,6 +79,14 @@ export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
 # eigentlich sinnloss, denn serverconfig.local könnte man ja direkt in ~/.bashrc vor dem sourcen von bashrc_add einfügen... 
 [ -f "${SERVERCONFIG_BASE}/serverconfig.local.conf" ] && . "${SERVERCONFIG_BASE}/serverconfig.local.conf"
 
+ckrepo () {
+    if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
+        return 0
+    else 
+        return 1
+    fi
+
+}
 
 sync_config () {
     local nok=""
@@ -133,10 +141,14 @@ sync_config () {
             if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
                 #cd "${SERVERCONFIG_BASE}"
                 [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-                if [ $( $SGIT rev-parse --git-dir > /dev/null 2>&1 && echo 0 || echo 1 ) ]; then
+                if $SGIT rev-parse --git-dir > /dev/null 2>&1 ; then
                     #echo "Update ${SERVERCONFIG_BASE}" >&2
                     $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
-                
+                    if ckrepo ; then
+                        echo Repo ok
+                    else
+                        SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_HTTP}"
+                    fi
                 else
                     #echo "Init ${SERVERCONFIG_BASE}" >&2
                     $SGIT init
@@ -150,7 +162,7 @@ sync_config () {
                 [ $($SGIT rev-parse --abbrev-ref HEAD) != "HEAD" ] && $SGIT branch --set-upstream-to=origin/$($SGIT rev-parse --abbrev-ref HEAD)
 
                 # sync repo with origin if git is reachable 
-                if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
+                if ckrepo ; then
                     sync_config
                     . ${SERVERCONFIG_BASE}/functions.sh
                     create_symlinks "$SERVERCONFIG_BASE"
@@ -158,6 +170,15 @@ sync_config () {
                     echo "${SERVERCONFIG_GIT_SERVER}" not reachable >&2;
                     echo profile not syncing >&2;
                 fi
+
+#                if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
+#                    sync_config
+#                    . ${SERVERCONFIG_BASE}/functions.sh
+#                    create_symlinks "$SERVERCONFIG_BASE"
+#                else 
+#                    echo "${SERVERCONFIG_GIT_SERVER}" not reachable >&2;
+#                    echo profile not syncing >&2;
+#                fi
             else
                 echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
 
