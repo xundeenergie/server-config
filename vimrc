@@ -470,3 +470,11 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
+" Tabhandling
+set switchbuf=usetab
+noremap <F8> :sbnext<CR>
+noremap <S-F8> :sbprevious<CR>
+noremap <C-S-Tab> :tabprevious<CR>
+noremap <C-Tab> :tabnext<CR>
+noremap <silent> <C-A-S-Tab> :execute 'silent! tabmove' . (tabpagenr()-2)<CR>
+noremap <silent> <C-A-Tab> :execute 'silent! tabmove' . (tabpagenr()+1)<CR>
