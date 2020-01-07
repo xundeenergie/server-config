@@ -155,8 +155,8 @@ sync_config () {
                         echo Repo ok
                     else
                         echo "Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}" >&2
-                        SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_HTTP}"
-                        SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_HTTP}"
+                        SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
+                        SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
                         $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
                     fi
                 else
