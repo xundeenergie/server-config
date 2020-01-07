@@ -362,13 +362,13 @@ gnome-shell-extensions-enable-defaults () {
 
 checkbkp () {
     if ping -c 1 backup.vpn >/dev/null 2>&1 ; then
-        pdsh -g hetzner-servers sudo systemctl status backup.service
-
         local SSH="/usr/bin/ssh"
         local CMD="$SSH -T backup.vpn"
         $CMD /bin/bash << EOF
-        sudo find /srv/nfs/backup -mindepth 1 -maxdepth 1|grep -v -e "git$"|while read i;do printf "%-30s%s\\n" "\$i" \$(ls \$i|tail -n1);done
+        sudo find /srv/nfs/backup -mindepth 1 -maxdepth 1|grep -v -e "git$\|git-backup-repos"|while read i;do printf "%-30s%s\\n" "\$i" \$(ls \$i|tail -n1);done
 EOF
+        which pdsh 1>/dev/null 2>&1 && pdsh -g hetzner-servers sudo systemctl status backup.service
+
         
     fi
 }
