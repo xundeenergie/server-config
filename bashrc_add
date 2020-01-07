@@ -150,6 +150,7 @@ sync_config () {
                         echo "Set git-protocol to ${SERVERCONFIG_GIT_REMOTE_HTTP}" >&2
                         SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_HTTP}"
                         SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_HTTP}"
+                        $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
                     fi
                 else
                     #echo "Init ${SERVERCONFIG_BASE}" >&2
