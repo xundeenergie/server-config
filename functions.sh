@@ -369,6 +369,8 @@ checkbkp () {
 EOF
         which pdsh 1>/dev/null 2>&1 && pdsh -g hetzner-servers sudo systemctl status backup.service
 
+    else
+        echo "backup.vpn is not reachable -> exit"
         
     fi
 }
