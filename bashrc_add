@@ -154,7 +154,7 @@ sync_config () {
                     if ckrepo ; then
                         echo Repo ok
                     else
-                        echo "Set git-protocol to ${SERVERCONFIG_GIT_REMOTE_HTTP}" >&2
+                        echo "Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}" >&2
                         SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_HTTP}"
                         SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_HTTP}"
                         $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
