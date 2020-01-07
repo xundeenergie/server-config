@@ -371,6 +371,7 @@ EOF
 
     else
         echo "backup.vpn is not reachable -> exit"
+        return 1
         
     fi
 }
