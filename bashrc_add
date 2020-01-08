@@ -198,7 +198,7 @@ EOF
 #                    echo profile not syncing >&2;
 #                fi
             else
-                echo "Clone ${SERVERCONFIG_BASE} and configure git" >&2
+                echo "Clone ${SERVERCONFIG_GIT_REMOTE} and configure git" >&2
 
 #                if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
                     #$SGIT clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
@@ -207,6 +207,7 @@ EOF
                         :
                     else
                         SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
+                        echo "Clone ${SERVERCONFIG_GIT_REMOTE} and configure git" >&2
                         timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" || exit 1
                     fi
 
