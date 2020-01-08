@@ -156,12 +156,12 @@ sync_config () {
                         echo Repo ok >&2
                     else
                         cat << EOF >&2
-    Git repo"
+Git repo
 
-        $($SGIT remote -v )
+$($SGIT remote -v )
 
-    not reachable!
-    Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}
+not reachable!
+Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}
 EOF
                         SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
                         SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
@@ -231,7 +231,7 @@ EOF
 #                fi
             fi
             [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ] || $SGIT remote set-url --push origin "${SERVERCONFIG_GIT_REMOTE_PUSH}" 
-            cd ${HOME}
+#            cd ${HOME}
             ;;
         *screen*)
             ;;
