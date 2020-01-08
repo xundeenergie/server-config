@@ -148,19 +148,15 @@ sync_config () {
 
             if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
                 #cd "${SERVERCONFIG_BASE}"
-                echo TEST 10 >&2
                 [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-                echo TEST 20 >&2
                 if $SGIT rev-parse --git-dir > /dev/null 2>&1 ; then
-                    echo TEST 30 >&2
                     #echo "Update ${SERVERCONFIG_BASE}" >&2
+                    # Removed set url every time new, makes start terminal slow
                     #$SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
-                    echo TEST 40 >&2
                     $SGIT remote -v
                     if ckrepo ; then
-                        echo Repo ok
+                        echo Repo ok >&2
                     else
-                        echo TEST 50 >&2
                         echo "Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}" >&2
                         SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
                         SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
