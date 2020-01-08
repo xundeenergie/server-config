@@ -144,7 +144,6 @@ sync_config () {
 
             USERNAME="$USER"
             FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
-            echo USERNAME: $USERNAME, FULLNAME: $FULLNAME >&2
 
             if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
                 #cd "${SERVERCONFIG_BASE}"
@@ -153,11 +152,17 @@ sync_config () {
                     #echo "Update ${SERVERCONFIG_BASE}" >&2
                     # Removed set url every time new, makes start terminal slow
                     #$SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
-                    $SGIT remote -v
                     if ckrepo ; then
                         echo Repo ok >&2
                     else
-                        echo "Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}" >&2
+                        cat << EOF >&2
+    Git repo"
+
+        $(git remote -v )
+
+    not reachable!
+    Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}
+EOF
                         SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
                         SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
                         $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
