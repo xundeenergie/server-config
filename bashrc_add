@@ -204,6 +204,8 @@ EOF
                     #$SGIT clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
                     #git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
                     if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" ); then
+                        :
+                    else
                         SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
                         git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
                     fi
