@@ -154,7 +154,7 @@ sync_config () {
                 if $SGIT rev-parse --git-dir > /dev/null 2>&1 ; then
                     echo TEST 30 >&2
                     #echo "Update ${SERVERCONFIG_BASE}" >&2
-                    $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
+                    #$SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
                     echo TEST 40 >&2
                     $SGIT remote -v
                     if ckrepo ; then
