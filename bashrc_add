@@ -156,6 +156,7 @@ sync_config () {
                     #echo "Update ${SERVERCONFIG_BASE}" >&2
                     $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
                     echo TEST 40 >&2
+                    $SGIT remote -v
                     if ckrepo ; then
                         echo Repo ok
                     else
