@@ -10,6 +10,7 @@
 
 ######################################
 
+echo BLA >&2
 
 SERVERCONFIG_GIT_PROTOCOL_GIT="git://"
 SERVERCONFIG_GIT_PROTOCOL_HTTP="http://"
