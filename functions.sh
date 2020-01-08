@@ -142,6 +142,8 @@ sshserverconfig() {
 
     local SSH="/usr/bin/ssh"
     $SSH -T -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
+    $SSH -T -o VisualHostKey=no $@ "cat > ~/.gitconfig" < "${HOME}/.gitconfig"
+    $SSH -T -o VisualHostKey=no $@ "cat > ~/.gitconfig_local" < "${HOME}/.gitconfig_local"
     local CMD="$SSH -T $@"
     $CMD /bin/bash << EOF
     [ -e /etc/bashrc ] && .  /etc/bashrc
