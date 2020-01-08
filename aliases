@@ -78,6 +78,7 @@ alias l='ls -alF $LS_OPTIONS'
 alias ls-l='ls -l $LS_OPTIONS'
 alias md='mkdir -p'
 alias rd=rmdir
+alias rmbrokenlinks='for f in $(find -L . -maxdepth 1 -type l); do unlink "$f";done'
 
 # tests
 alias testmail='echo testemail von ${USER}@${HOSTNAME} am $(date)|mail -s "TESTEMAIL ${USER}@${HOSTNAME} $(date)"'
