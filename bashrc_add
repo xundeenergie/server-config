@@ -202,7 +202,12 @@ EOF
 
 #                if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
                     #$SGIT clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
-                    git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
+                    #git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
+                    if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" ); then
+                        SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
+                        git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
+                    fi
+
 
                     #cd "${SERVERCONFIG_BASE}"
 
