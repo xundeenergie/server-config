@@ -158,7 +158,7 @@ sync_config () {
                         cat << EOF >&2
     Git repo"
 
-        $(git remote -v )
+        $($SGIT remote -v )
 
     not reachable!
     Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}
