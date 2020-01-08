@@ -77,6 +77,7 @@ fi
 [ -z "${SERVERCONFIG_LOGDIR+x}" ]      && SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
 [ -z "${SERVERCONFIG_LOGFILE+x}" ]     && SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
 [ -z "${SERVERCONFIG_GIT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_TIMEOUT=5s
+[ -z "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_CHECKOUT_TIMEOUT=20s
 SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
 
 SGIT="git -C ${SERVERCONFIG_BASE}" 
@@ -203,12 +204,12 @@ EOF
 #                if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
                     #$SGIT clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
                     #git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
-                    if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" ); then
+                    if $( timeout --foreground "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" ); then
                         :
                     else
                         SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
                         echo "Clone ${SERVERCONFIG_GIT_REMOTE} and configure git" >&2
-                        timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" || exit 1
+                        timeout --foreground "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" || exit 1
                     fi
 
 
