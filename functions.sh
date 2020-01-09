@@ -79,6 +79,7 @@ uencfs () {
 
 mencfs () {
 
+    [ $# -eq 0 ] && return 1
     local PKEY
     local ENCDIR
     local DESTDIR
