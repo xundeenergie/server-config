@@ -108,9 +108,9 @@ alias tmux='tmux -f ~/.tmux.conf'
 # mount/unmount
 alias me='owndisk mount'
 alias m=mount
-alias mxxx='encfs ~/.x ~/X && xdg-open ~/X'
+#alias mxxx='encfs ~/.x ~/X && xdg-open ~/X'
 alias ue='owndisk umount'
-alias umxx='fusermount -u ~/X'
+#alias umxx='fusermount -u ~/X'
 alias u=umount
 
 # rock64
