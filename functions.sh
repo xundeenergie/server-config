@@ -40,7 +40,7 @@ setproxy () {
             ;;
         *)
             if [ -z ${SETPROXY_CREDS_DIRS+x} ] ; then
-                echo "are you sure, KERBEROS_CONFIG_DIRS is defined?"
+                echo "are you sure, SETPROXY_CREDS_DIRS is defined?"
                 return 1
             else
                 CONFIG=$(find ${SETPROXY_CREDS_DIRS[*]} -mindepth 1 -name "$1.conf" -print -quit 2>/dev/null )
@@ -58,24 +58,6 @@ setproxy () {
         export PROXY_CREDS=""
     fi
     export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PROXY_PORT}"
-}
-
-uencfs () {
-
-    local FUSERMOUNT=$(which fusermount 2>/dev/null || exit 127 )
-    [ -z ${FUSERMOUNT+x} ] && return 127
-    if [ $# -eq 1 ]; then
-        if [ ! -d ${1} ];then
-            echo "encrypted directory ${1} not found -> exit" >&2
-            return 128
-        else
-            echo umount encrypted directory $1 >&2
-            $FUSERMOUNT -u "$1"
-        fi
-    else
-        echo "too few arguments" >&2
-        return 1
-    fi
 }
 
 mencfs () {
@@ -121,6 +103,24 @@ $ENCFS_PASSWORD
             echo open "$DESTDIR"
             xdg-open $DESTDIR
         fi
+    fi
+}
+
+uencfs () {
+
+    local FUSERMOUNT=$(which fusermount 2>/dev/null || exit 127 )
+    [ -z ${FUSERMOUNT+x} ] && return 127
+    if [ $# -eq 1 ]; then
+        if [ ! -d ${1} ];then
+            echo "encrypted directory ${1} not found -> exit" >&2
+            return 128
+        else
+            echo umount encrypted directory $1 >&2
+            $FUSERMOUNT -u "$1"
+        fi
+    else
+        echo "too few arguments" >&2
+        return 1
     fi
 }
 
