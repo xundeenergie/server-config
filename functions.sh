@@ -206,12 +206,6 @@ export LS_OPTIONS="${LS_OPTIONS}"
 export VIMRC="${REMOTETMPVIMCONFIG}"
 export BASHRC="${REMOTETMPBASHCONFIG}"
 title "\$USER@\$HOSTNAME: \$PWD"
-    USERNAME="\$USER"
-    FULLNAME="\$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
-    GIT_AUTHOR_NAME=\$USERNAME
-    GIT_AUTHOR_EMAIL=\$FULLNAME
-    GIT_COMMITTER_NAME=\$USERNAME
-    GIT_COMMITTER_EMAIL=\$FULLNAME
 echo "This bash runs with temporary config from \$BASHRC"
 EOF
 
@@ -219,7 +213,7 @@ EOF
            ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
-           ssh -t $@ "$RCMD; SSHS=true bash -c \"exec bash --rcfile ${REMOTETMPBASHCONFIG} -i\""
+           ssh -t -o SendEnv=GIT_COMMITTER_NAME $@ "$RCMD; SSHS=true bash -c \"exec bash --rcfile ${REMOTETMPBASHCONFIG} -i\""
            rm "${TMPBASHCONFIG}"
         else
            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
