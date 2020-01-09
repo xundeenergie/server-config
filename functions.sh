@@ -63,23 +63,24 @@ setproxy () {
 uencfs () {
 
     local FUSERMOUNT=$(which fusermount 2>/dev/null || exit 127 )
-    [ -z ${FUSERMOUNT+x} ] && return 1
+    [ -z ${FUSERMOUNT+x} ] && return 127
     if [ $# -eq 1 ]; then
         if [ ! -d ${1} ];then
             echo "encrypted directory ${1} not found -> exit" >&2
-            return 2
+            return 128
         else
             echo umount encrypted directory $1 >&2
             $FUSERMOUNT -u "$1"
         fi
     else
-        echo "No decrypted directory given" >&2
+        echo "too few arguments" >&2
+        return 1
     fi
 }
 
 mencfs () {
 
-    [ $# -eq 0 ] && return 1
+    [ $# -eq 0 ] && { echo "too few arguments" >&2; return 1; }
     local PKEY
     local ENCDIR
     local DESTDIR
