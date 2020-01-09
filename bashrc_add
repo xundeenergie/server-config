@@ -283,7 +283,8 @@ EOF
 
         case $TERM in
             *screen*)
-                echo BASHRC: $BASHRC
+                echo BASHRC: $BASHRC -> source it
+                [ -e $BASHRC ] && . "$BASHRC"
                 ;;
         esac
 
