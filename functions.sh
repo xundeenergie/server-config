@@ -62,41 +62,18 @@ setproxy () {
 
 uencfs () {
 
-    local PKEY
-    local ENCDIR
-    local DESTDIR
-    local PASS=$(which pass 2>/dev/null || exit 127 )
     local FUSERMOUNT=$(which fusermount 2>/dev/null || exit 127 )
-    local CONFIG
-    if [ -z ${ENCFS_CONFIG_DIRS+x} ] ; then
-        echo "are you sure, ENCFS_CONFIG_DIRS is defined?"
-        return 1
+    [ -z ${FUSERMOUNT+x} ] && return 1
+    if [ $# -eq 1 ]; then
+        if [ ! -d ${1} ];then
+            echo "encrypted directory ${1} not found -> exit" >&2
+            return 2
+        else
+            echo umount encrypted directory $1 >&2
+            $FUSERMOUNT -u "$1"
+        fi
     else
-        CONFIG=$(find ${ENCFS_CONFIG_DIRS[*]} -mindepth 1 -name "$1.conf" -print -quit 2>/dev/null )
-    fi
-    
-    if [ -e ${CONFIG} ]; then
-        echo -n "${CONFIG} existing: "
-        source "${CONFIG}"
-        echo "sourced"
-    else
-        echo "${CONFIG} not existing"
-        return 2
-    fi
-
-    [ -z ${PKEY+x} ] && return 3
-    [ -z ${FUSERMOUNT+x} ] && return 4
-    [ -z ${DESTDIR+x} ] && DESTDIR="$(dirname $ENCDIR)/$(basename $ENCDIR| tr '[:lower:]' '[:upper:]'| sed -e 's/^\.//')"
-    $PASS "${PKEY}" 1>/dev/null 2>&1 || { echo entry $PKEY does not exist in passwordsotre; return 5; }
-
-
-    if [ -z ${ENCDIR+x} -a -d ${ENCDIR} ];then
-        echo "no encrypted directory found -> exit"
-        return 4
-    else
-        echo umount encrypted directory $ENCDIR on $DESTDIR
-        echo FUSERMOUNT: $FUSERMOUNT
-        $FUSERMOUNT -u "$DESTDIR"
+        echo "No decrypted directory given" >&2
     fi
 }
 

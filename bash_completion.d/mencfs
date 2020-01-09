@@ -18,4 +18,4 @@ function _encfsfiles() {
     COMPREPLY=( $(compgen -W "${KEYS}" -- ${CUR}) )
     return 0
 }
-complete -F _encfsfiles mencfs uencfs
+complete -F _encfsfiles mencfs
