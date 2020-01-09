@@ -276,7 +276,7 @@ else
             Starting or resuming screen session
             Press CTRL+C to cancel screen startup
 
-    EOF
+EOF
             sleep 2
             #screen -UxR
             tmux attach-session
