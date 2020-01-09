@@ -8,7 +8,7 @@ if [ ! -z "$PS1" ] ;then
 #    echo "do not source bashrc_add" >&2
 #else
 #    echo "interactive shell" >&2
-    if ! SSHS; then
+    if ! $SSHS; then
 #        echo "do not source bashrc_add" >&2
 #    else
 #        echo "source bashrc_add" >&2
