@@ -197,7 +197,6 @@ EOF
            local RCMD="/bin/bash --noprofile --norc -c "
            local REMOTETMPBASHCONFIG=$(ssh -T -o VisualHostKey=no $@ "mktemp -p \${XDG_RUNTIME_DIR} -t bashrc.XXXXXXXX --suffix=.conf"| tr -d '[:space:]' )
            local REMOTETMPVIMCONFIG=$(ssh -T -o VisualHostKey=no $@ "mktemp -p \${XDG_RUNTIME_DIR} -t vimrc.XXXXXXXX --suffix=.conf"| tr -d '[:space:]')
-#           REMOTETMPBASHCOMPLETIONCONFIG=$(ssh -T -o VisualHostKey=no $@ "$BASHCOMPLETIONMKTMPCMD"| tr -d '[:space:]')
 
            # Add additional aliases to bashrc for remote-machine
            cat << EOF >> "${TMPBASHCONFIG}"
@@ -215,7 +214,7 @@ EOF
            ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
-           ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}"
+           ssh -t $@ "$RCMD; bash --rcfile ${REMOTETMPBASHCONFIG}; exec bash -i"
            rm "${TMPBASHCONFIG}"
         else
            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
