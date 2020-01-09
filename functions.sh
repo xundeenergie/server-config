@@ -1,7 +1,8 @@
 # Initialize variables, if not set
 [ -z ${TMUX_SESSION_DIRS+x} ] && TMUX_SESSION_DIRS=( ~/.config/tmux/sessions ~/.local/share/tmux/sessions ~/.tmux/sessions)
 [ -z ${SETPROXY_CREDS_DIRS+x} ] && SETPROXY_CREDS_DIRS=(~/.config/proxycreds)
-[ -z ${KERBEROS_CONFIG_DIRS+x} ] && KERBEROS_CONFIG_DIRS=(~/.config/kerberos-conf)
+[ -z ${KERBEROS_CONFIG_DIRS+x} ] && KERBEROS_CONFIG_DIRS=(~/.config/kinit)
+[ -z ${ENCFS_CONFIG_DIRS+x} ] && ENCFS_CONFIG_DIRS=(~/.config/encfs)
 
 export TMUX_SESSION_DIRS SETPROXY_CREDS_DIRS KERBEROS_CONFIG_DIRS
 
@@ -57,6 +58,51 @@ setproxy () {
         export PROXY_CREDS=""
     fi
     export {http,https,ftp}_proxy="http://${PROXY_CREDS}${PROXY_SERVER}:${PROXY_PORT}"
+}
+
+mencfs () {
+
+    local PKEY
+    local ENCDIR
+    local DESTDIR
+    local PASS=$(which pass 2>/dev/null || exit 127 )
+    local ENCFS=$(which encfs 2>/dev/null || exit 127 )
+    local CONFIG
+    if [ -z ${ENCFS_CONFIG_DIRS+x} ] ; then
+        echo "are you sure, ENCFS_CONFIG_DIRS is defined?"
+        return 1
+    else
+        CONFIG=$(find ${ENCFS_CONFIG_DIRS[*]} -mindepth 1 -name "$1.conf" -print -quit 2>/dev/null )
+    fi
+    
+    if [ -e ${CONFIG} ]; then
+        echo -n "${CONFIG} existing: "
+        source "${CONFIG}"
+        echo "sourced"
+    else
+        echo "${CONFIG} not existing"
+        return 2
+    fi
+
+    [ -z ${PKEY+x} ] && return 3
+    [ -z ${DESTDIR+x} ] && DESTDIR="$(dirname $ENCDIR)/$(basename $ENCDIR| tr '[:lower:]' '[:upper:]'| sed -e 's/^\-//')"
+    $PASS "${PKEY}" 1>/dev/null 2>&1 || return 3
+    local ENCFS_PASSWORD=$($PASS "${PKEY}" | head -n1)
+    #echo KERBEROS_PASSWORD: $KERBEROS_PASSWORD
+    echo ENCDIR: $ENCDIR, DESTDIR: $DESTDIR
+    echo mount encrypted directory $ENCDIR on $DESTDIR
+
+    if [ -z ${ENCDIR+x} -a -d ${ENCDIR} ];then
+        echo "no encrypted directory found -> exit"
+        return 4
+    else
+        $ENCFS $ENCDIR $DESTDIR <<!
+${ENCFS_PASSWORD}
+!
+        if $?; then
+            xdg-open "$ENCDESTDIR"
+        fi
+    fi
 }
 
 kinit-custom () {
