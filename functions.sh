@@ -206,6 +206,12 @@ export LS_OPTIONS="${LS_OPTIONS}"
 export VIMRC="${REMOTETMPVIMCONFIG}"
 export BASHRC="${REMOTETMPBASHCONFIG}"
 title "\$USER@\$HOSTNAME: \$PWD"
+    USERNAME="\$USER"
+    FULLNAME="\$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
+    GIT_AUTHOR_NAME=\$USERNAME
+    GIT_AUTHOR_EMAIL=\$FULLNAME
+    GIT_COMMITTER_NAME=\$USERNAME
+    GIT_COMMITTER_EMAIL=\$FULLNAME
 echo "This bash runs with temporary config from \$BASHRC"
 EOF
 
