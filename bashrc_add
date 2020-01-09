@@ -131,6 +131,7 @@ else
             if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
                 [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
                 if $SGIT rev-parse --git-dir > /dev/null 2>&1 ; then
+                    :
                     #echo "Update ${SERVERCONFIG_BASE}" >&2
                     # Removed set url every time new, makes start terminal slow
                     #$SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
