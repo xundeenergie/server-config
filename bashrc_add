@@ -1,13 +1,71 @@
 #!/bin/bash
 #debug
 
+# set SSHS to false, if not set
 if [ -z ${SSHS+x} ]; then SSHS=false;fi
-if [ ! -z "$PS1" ] ;then
-#    :
-#    echo "non-interactive shell" >&2
-#    echo "do not source bashrc_add" >&2
-#else
-#    echo "interactive shell" >&2
+
+# check if we are a interactive shell
+if [ -n "$PS1" ] ;then
+    #echo "interactive shell" >&2
+   
+
+    # define variables
+
+    [ -z "${SERVERCONFIG_SUBPATH+x}" ]     && SERVERCONFIG_SUBPATH=server-config
+    [ -z "${SERVERCONFIG_BASE+x}" ]        && SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
+    [ -z "${SERVERCONFIG_LOGDIR+x}" ]      && SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
+    [ -z "${SERVERCONFIG_LOGFILE+x}" ]     && SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
+    [ -z "${SERVERCONFIG_GIT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_TIMEOUT=5s
+    [ -z "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_CHECKOUT_TIMEOUT=20s
+    SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
+
+    SGIT="git -C ${SERVERCONFIG_BASE}" 
+    export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
+
+    # define functions
+
+    ckrepo () {
+        # check if remote repo is reachable
+        if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
+            return 0
+        else 
+            return 1
+        fi
+
+    }
+
+    sync_config () {
+        local nok=""
+        local gco=""
+        if which git >/dev/null; then
+            echo -n "Sync config with ${SERVERCONFIG_GIT_SERVER}: " 1>&2
+            # SERVERCONFIG_GITCHECKOUTSCRIPT_OPTIONS are options for bin/git-checkout.sh
+            # this are now:
+            #   -h for headless repo
+            if [ -z ${SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS+x} ]; then
+                gco="-h"
+            else
+                gco="$SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
+            fi
+            ${SERVERCONFIG_BASE}/bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+            printf '%s\n' "${nok}synced" 1>&2
+
+            # If you want, put a greeting message after sync here
+#                    cat << EOF >&2
+#
+#---------------------------------------------------
+#if you want to update submodules, change dir an run
+#cd ~/server-config
+#git submodule update --remote --merge
+#cd ~
+#---------------------------------------------------
+#EOF
+
+        else
+            echo "git not installed, no configuration possible, please install git" >&2
+        fi
+    }
+
     if ! $SSHS; then
 #        echo "do not source bashrc_add" >&2
 #    else
@@ -78,57 +136,6 @@ if [ ! -z "$PS1" ] ;then
         fi
 
         #GIT_SSH_PATH="/srv/repos"
-        [ -z "${SERVERCONFIG_SUBPATH+x}" ]     && SERVERCONFIG_SUBPATH=server-config
-        [ -z "${SERVERCONFIG_BASE+x}" ]        && SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
-        [ -z "${SERVERCONFIG_LOGDIR+x}" ]      && SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
-        [ -z "${SERVERCONFIG_LOGFILE+x}" ]     && SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
-        [ -z "${SERVERCONFIG_GIT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_TIMEOUT=5s
-        [ -z "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_CHECKOUT_TIMEOUT=20s
-        SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
-
-        SGIT="git -C ${SERVERCONFIG_BASE}" 
-        export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
-
-        ckrepo () {
-            if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
-                return 0
-            else 
-                return 1
-            fi
-
-        }
-
-        sync_config () {
-            local nok=""
-            local gco=""
-            if which git >/dev/null; then
-                echo -n "Sync config with ${SERVERCONFIG_GIT_SERVER}: " 1>&2
-                # SERVERCONFIG_GITCHECKOUTSCRIPT_OPTIONS are options for bin/git-checkout.sh
-                # this are now:
-                #   -h for headless repo
-                if [ -z ${SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS+x} ]; then
-                    gco="-h"
-                else
-                    gco="$SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
-                fi
-                ${SERVERCONFIG_BASE}/bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
-                printf '%s\n' "${nok}synced" 1>&2
-
-                # If you want, put a greeting message here
-#                cat << EOF >&2
-#
-#---------------------------------------------------
-#if you want to update submodules, change dir an run
-#cd ~/server-config
-#git submodule update --remote --merge
-#cd ~
-#---------------------------------------------------
-#EOF
-
-            else
-                echo "git not installed, no configuration possible, please install git" >&2
-            fi
-        }
 
         case $TERM in
             *term*)
@@ -138,27 +145,7 @@ if [ ! -z "$PS1" ] ;then
 
                 if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
                     [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
-                    if $SGIT rev-parse --git-dir > /dev/null 2>&1 ; then
-                        :
-                        #echo "Update ${SERVERCONFIG_BASE}" >&2
-                        # Removed set url every time new, makes start terminal slow
-                        #$SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
-#                            if ckrepo ; then
-#                                echo Repo ok >&2
-#                            else
-#                                cat << EOF >&2
-#Git repo
-#
-#$($SGIT remote -v )
-#
-#not reachable!
-#Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}
-#EOF
-#                                SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
-#                                SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
-#                                $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
-#                            fi
-                    else
+                    if ! $SGIT rev-parse --git-dir > /dev/null 2>&1 ; then
                         echo "Init ${SERVERCONFIG_BASE} as git-repo" >&2
                         $SGIT init
                     fi
@@ -291,6 +278,14 @@ EOF
         fi
 
         unset -f pathmunge
+
+    else
+
+        case $TERM in
+            *screen*)
+                echo BASHRC: $BASHRC
+                ;;
+        esac
 
     fi
 
