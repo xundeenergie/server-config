@@ -284,7 +284,8 @@ EOF
         case $TERM in
             *screen*)
                 echo BASHRC: $BASHRC -> source it
-                [ -e $BASHRC ] && . "$BASHRC"
+                #[ -e $BASHRC ] && . "$BASHRC"
+                [ -e $BASHRC ] && bash --rcfile "$BASHRC" -i
                 ;;
         esac
 
