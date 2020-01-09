@@ -1,123 +1,113 @@
 #!/bin/bash
 #debug
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
+if [ -z "$PS1" ]; then
+    :
+else
+    # Uncomment the following line if you don't like systemctl's auto-paging feature:
+    # export SYSTEMD_PAGER=
 
-### set userspecific variables #######
-[ -z "$PDSH_RCMD_TYPE" ] && PDSH_RCMD_TYPE=ssh
-[ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR=/run/user/$(id -u $USER)
+    ### set userspecific variables #######
+    [ -z "$PDSH_RCMD_TYPE" ] && PDSH_RCMD_TYPE=ssh
+    [ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR=/run/user/$(id -u $USER)
 
-######################################
+    ######################################
 
-echo BLA >&2
+    SERVERCONFIG_GIT_PROTOCOL_GIT="git://"
+    SERVERCONFIG_GIT_PROTOCOL_HTTP="http://"
+    SERVERCONFIG_GIT_PROTOCOL_SSH="git@"
+    [ -z "${SERVERCONFIG_GIT_SERVER+x}" ] && SERVERCONFIG_GIT_SERVER="git.schuerz.at"
+    [ -z "${SERVERCONFIG_GIT_REPO_NAME+x}" ] && SERVERCONFIG_GIT_REPO_NAME="server-config.git"
+    [ -z "${SERVERCONFIG_GIT_REPO_PATH_HTTP+x}" ] && SERVERCONFIG_GIT_REPO_PATH_HTTP="/public/"
+    [ -z "${SERVERCONFIG_GIT_REPO_PATH_SSH+x}" ] && SERVERCONFIG_GIT_REPO_PATH_SSH=":public/"
+    [ -z "${SERVERCONFIG_GIT_REPO_PATH_GIT+x}" ] && SERVERCONFIG_GIT_REPO_PATH_GIT="/public/"
 
-SERVERCONFIG_GIT_PROTOCOL_GIT="git://"
-SERVERCONFIG_GIT_PROTOCOL_HTTP="http://"
-SERVERCONFIG_GIT_PROTOCOL_SSH="git@"
-[ -z "${SERVERCONFIG_GIT_SERVER+x}" ] && SERVERCONFIG_GIT_SERVER="git.schuerz.at"
-[ -z "${SERVERCONFIG_GIT_REPO_NAME+x}" ] && SERVERCONFIG_GIT_REPO_NAME="server-config.git"
-[ -z "${SERVERCONFIG_GIT_REPO_PATH_HTTP+x}" ] && SERVERCONFIG_GIT_REPO_PATH_HTTP="/public/"
-[ -z "${SERVERCONFIG_GIT_REPO_PATH_SSH+x}" ] && SERVERCONFIG_GIT_REPO_PATH_SSH=":public/"
-[ -z "${SERVERCONFIG_GIT_REPO_PATH_GIT+x}" ] && SERVERCONFIG_GIT_REPO_PATH_GIT="/public/"
+    SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT="${SERVERCONFIG_GIT_PROTOCOL_GIT}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_GIT}"
+    SERVERCONFIG_GIT_REMOTE_PUBLIC_SSH="${SERVERCONFIG_GIT_PROTOCOL_SSH}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_SSH}"
+    SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP="${SERVERCONFIG_GIT_PROTOCOL_HTTP}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_HTTP}"
+    SERVERCONFIG_GIT_REMOTE_PUBLIC_DEFAULT="${SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT}"
 
-SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT="${SERVERCONFIG_GIT_PROTOCOL_GIT}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_GIT}"
-SERVERCONFIG_GIT_REMOTE_PUBLIC_SSH="${SERVERCONFIG_GIT_PROTOCOL_SSH}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_SSH}"
-SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP="${SERVERCONFIG_GIT_PROTOCOL_HTTP}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_HTTP}"
-SERVERCONFIG_GIT_REMOTE_PUBLIC_DEFAULT="${SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT}"
+    SERVERCONFIG_GIT_REMOTE_DEFAULT="${SERVERCONFIG_GIT_PROTOCOL_GIT}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_GIT}"
 
-#SERVERCONFIG_GIT_REMOTE_GIT="${SERVERCONFIG_GIT_PROTOCOL_GIT}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_GIT}${SERVERCONFIG_GIT_REPO_NAME}"
-#SERVERCONFIG_GIT_REMOTE_SSH="${SERVERCONFIG_GIT_PROTOCOL_SSH}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_SSH}${SERVERCONFIG_GIT_REPO_NAME}"
-#SERVERCONFIG_GIT_REMOTE_HTTP="${SERVERCONFIG_GIT_PROTOCOL_HTTP}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
+    # If SERVERCONFIG_GIT_REMOTE is set in ~/.bashrc before sourcing this file, take value from ~/.bashrc
+    # If set SERVERCONFIG_GIT_REMOTE_PROTOCOL in ~/.bashrc before sourcing this file, you cange choose one of the above 
+    # defined values for a specific host
 
-SERVERCONFIG_GIT_REMOTE_DEFAULT="${SERVERCONFIG_GIT_PROTOCOL_GIT}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_GIT}"
-
-# If SERVERCONFIG_GIT_REMOTE is set in ~/.bashrc before sourcing this file, take value from ~/.bashrc
-# If set SERVERCONFIG_GIT_REMOTE_PROTOCOL in ~/.bashrc before sourcing this file, you cange choose one of the above 
-# defined values for a specific host
-
-if [ -z ${SERVERCONFIG_GIT_REMOTE+x} ]; then
-    case $SERVERCONFIG_GIT_REMOTE_PROTOCOL in
-        git)
-            SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT}"
-            ;;
-        ssh)
-            SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_SSH}"
-            ;;
-        http)
-            SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}"
-            ;;
-        *)
-            SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_DEFAULT}"
-            ;;
-        esac
-        SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC}${SERVERCONFIG_GIT_REPO_NAME}"
-fi
-
-if [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ]; then
-    case $SERVERCONFIG_GIT_REMOTE_PUSH_PROTOCOL in
-        git)
-            SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT}"
-            ;;
-        ssh)
-            SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_SSH}"
-            ;;
-        http)
-            SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}"
-            ;;
-        *)
-            SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_DEFAULT}"
-            ;;
-        esac
-        SERVERCONFIG_GIT_REMOTE_PUSH=${SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC}${SERVERCONFIG_GIT_REPO_NAME}
-fi
-
-#GIT_SSH_PATH="/srv/repos"
-[ -z "${SERVERCONFIG_SUBPATH+x}" ]     && SERVERCONFIG_SUBPATH=server-config
-[ -z "${SERVERCONFIG_BASE+x}" ]        && SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
-[ -z "${SERVERCONFIG_LOGDIR+x}" ]      && SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
-[ -z "${SERVERCONFIG_LOGFILE+x}" ]     && SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
-[ -z "${SERVERCONFIG_GIT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_TIMEOUT=5s
-[ -z "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_CHECKOUT_TIMEOUT=20s
-SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
-
-SGIT="git -C ${SERVERCONFIG_BASE}" 
-export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
-
-#----------------------------------------
-# eigentlich sinnloss, denn serverconfig.local könnte man ja direkt in ~/.bashrc vor dem sourcen von bashrc_add einfügen... 
-[ -f "${SERVERCONFIG_BASE}/serverconfig.local.conf" ] && . "${SERVERCONFIG_BASE}/serverconfig.local.conf"
-
-ckrepo () {
-    if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
-        return 0
-    else 
-        return 1
+    if [ -z ${SERVERCONFIG_GIT_REMOTE+x} ]; then
+        case $SERVERCONFIG_GIT_REMOTE_PROTOCOL in
+            git)
+                SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT}"
+                ;;
+            ssh)
+                SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_SSH}"
+                ;;
+            http)
+                SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}"
+                ;;
+            *)
+                SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_DEFAULT}"
+                ;;
+            esac
+            SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC}${SERVERCONFIG_GIT_REPO_NAME}"
     fi
 
-}
+    if [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ]; then
+        case $SERVERCONFIG_GIT_REMOTE_PUSH_PROTOCOL in
+            git)
+                SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT}"
+                ;;
+            ssh)
+                SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_SSH}"
+                ;;
+            http)
+                SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}"
+                ;;
+            *)
+                SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_DEFAULT}"
+                ;;
+            esac
+            SERVERCONFIG_GIT_REMOTE_PUSH=${SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC}${SERVERCONFIG_GIT_REPO_NAME}
+    fi
 
-sync_config () {
-    local nok=""
-    local gco=""
-    #cd "${SERVERCONFIG_BASE}"
-    if which git >/dev/null; then
-        echo -n "Sync config with ${SERVERCONFIG_GIT_SERVER}: " 1>&2
-        #git pull > /dev/null 2>&1
-        # SERVERCONFIG_GITCHECKOUTSCRIPT_OPTIONS are options for bin/git-checkout.sh
-        # this are now:
-        #   -h for headless repo
-        if [ -z ${SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS+x} ]; then
-            gco="-h"
-        else
-            gco="$SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
+    #GIT_SSH_PATH="/srv/repos"
+    [ -z "${SERVERCONFIG_SUBPATH+x}" ]     && SERVERCONFIG_SUBPATH=server-config
+    [ -z "${SERVERCONFIG_BASE+x}" ]        && SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
+    [ -z "${SERVERCONFIG_LOGDIR+x}" ]      && SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
+    [ -z "${SERVERCONFIG_LOGFILE+x}" ]     && SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
+    [ -z "${SERVERCONFIG_GIT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_TIMEOUT=5s
+    [ -z "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_CHECKOUT_TIMEOUT=20s
+    SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
+
+    SGIT="git -C ${SERVERCONFIG_BASE}" 
+    export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
+
+    ckrepo () {
+        if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
+            return 0
+        else 
+            return 1
         fi
-        #echo gco: $gco 2>&1
-        #echo "git-checkout" >&2
-        ${SERVERCONFIG_BASE}/bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
-        printf '%s\n' "${nok}synced" 1>&2
 
-#cat << EOF >&2
+    }
+
+    sync_config () {
+        local nok=""
+        local gco=""
+        if which git >/dev/null; then
+            echo -n "Sync config with ${SERVERCONFIG_GIT_SERVER}: " 1>&2
+            # SERVERCONFIG_GITCHECKOUTSCRIPT_OPTIONS are options for bin/git-checkout.sh
+            # this are now:
+            #   -h for headless repo
+            if [ -z ${SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS+x} ]; then
+                gco="-h"
+            else
+                gco="$SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
+            fi
+            ${SERVERCONFIG_BASE}/bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+            printf '%s\n' "${nok}synced" 1>&2
+
+            # If you want, put a greeting message here
+#            cat << EOF >&2
 #
 #---------------------------------------------------
 #if you want to update submodules, change dir an run
@@ -127,19 +117,10 @@ sync_config () {
 #---------------------------------------------------
 #EOF
 
-    else
-        echo "git not installed, no configuration possible, please install git" >&2
-        #curl --request GET 'https://git.ebcont.com/jakobus.schuerz/server-config/repository/master/archive.tar.gz'
-    fi
-    # Install some scripts to ~/bin
-#    scripts=(configserver.sh git-checkout.sh)
-#    TARGETDIR="${HOME}/bin"
-#    [ -d ${TARGETDIR} ] || mkdir -p ${TARGETDIR}
-#    for i in ${scripts[*]};do
-#        [ -e bin/${i} ] && install bin/"${i}" "${TARGETDIR}/${i}"
-#    done
-
-}
+        else
+            echo "git not installed, no configuration possible, please install git" >&2
+        fi
+    }
 
     case $TERM in
         *term*)
@@ -148,29 +129,28 @@ sync_config () {
             FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
 
             if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
-                #cd "${SERVERCONFIG_BASE}"
                 [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
                 if $SGIT rev-parse --git-dir > /dev/null 2>&1 ; then
                     #echo "Update ${SERVERCONFIG_BASE}" >&2
                     # Removed set url every time new, makes start terminal slow
                     #$SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
-                    if ckrepo ; then
-                        echo Repo ok >&2
-                    else
-                        cat << EOF >&2
-Git repo
-
-$($SGIT remote -v )
-
-not reachable!
-Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}
-EOF
-                        SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
-                        SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
-                        $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
-                    fi
+#                        if ckrepo ; then
+#                            echo Repo ok >&2
+#                        else
+#                            cat << EOF >&2
+#Git repo
+#
+#$($SGIT remote -v )
+#
+#not reachable!
+#Set git-protocol to ${SERVERCONFIG_GIT_PROTOCOL_HTTP}
+#EOF
+#                            SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
+#                            SERVERCONFIG_GIT_REMOTE_PUSH="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
+#                            $SGIT remote set-url origin "${SERVERCONFIG_GIT_REMOTE}" 
+#                        fi
                 else
-                    #echo "Init ${SERVERCONFIG_BASE}" >&2
+                    echo "Init ${SERVERCONFIG_BASE} as git-repo" >&2
                     $SGIT init
                 fi
                 
@@ -191,137 +171,118 @@ EOF
                     echo profile not syncing >&2;
                 fi
 
-#                if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
-#                    sync_config
-#                    . ${SERVERCONFIG_BASE}/functions.sh
-#                    create_symlinks "$SERVERCONFIG_BASE"
-#                else 
-#                    echo "${SERVERCONFIG_GIT_SERVER}" not reachable >&2;
-#                    echo profile not syncing >&2;
-#                fi
             else
                 echo "Clone ${SERVERCONFIG_GIT_REMOTE} and configure git" >&2
 
-#                if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
-                    #$SGIT clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
-                    #git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}"
-                    if $( timeout --foreground "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" ); then
-                        :
-                    else
-                        SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
-                        echo "Clone ${SERVERCONFIG_GIT_REMOTE} and configure git" >&2
-                        timeout --foreground "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" || exit 1
-                    fi
+                if $( timeout --foreground "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" ); then
+                    :
+                else
+                    SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
+                    echo "Clone ${SERVERCONFIG_GIT_REMOTE} and configure git" >&2
+                    timeout --foreground "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" || exit 1
+                fi
 
 
-                    #cd "${SERVERCONFIG_BASE}"
 
-                    [ -d "${SERVERCONFIG_BASE}" ] && { echo create ${SERVERCONFIG_LOGDIR} >&2; mkdir -p "${SERVERCONFIG_LOGDIR}"; }
+                [ -d "${SERVERCONFIG_BASE}" ] && { echo create ${SERVERCONFIG_LOGDIR} >&2; mkdir -p "${SERVERCONFIG_LOGDIR}"; }
 
-                    $SGIT config user.email "${USERNAME}"
-                    $SGIT config user.name "${FULLNAME}"
+                $SGIT config user.email "${USERNAME}"
+                $SGIT config user.name "${FULLNAME}"
 
-                    # Initialize Vundle as preconfigured Submodule
-                    #$SGIT submodule update --init --recursive
-                    #$SGIT submodule foreach 'git checkout master'
+                # Initialize Vundle as preconfigured Submodule
+                #$SGIT submodule update --init --recursive
+                #$SGIT submodule foreach 'git checkout master'
 
-                    echo "sync config" >&2
-                    sync_config
-                    . ${SERVERCONFIG_BASE}/functions.sh
-                    echo "config synced, functions.sh sourced" >&2
-                    create_symlinks "$SERVERCONFIG_BASE"
+                echo "sync config" >&2
+                sync_config
+                . ${SERVERCONFIG_BASE}/functions.sh
+                echo "config synced, functions.sh sourced" >&2
+                create_symlinks "$SERVERCONFIG_BASE"
 
-                    # Install vim Plugins
-                    #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
-                    vim -c "PluginInstall" -c ":qa!"
-#                else 
-#                    echo "${SERVERCONFIG_GIT_SERVER}" not reachable 1>&2;
-#                    echo profile not cloning 1>&2;
-#                    echo do you need a proxy? 1>&2
-#                fi
+                # Install vim Plugins
+                #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
+                vim -c "PluginInstall" -c ":qa!"
             fi
             [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ] || $SGIT remote set-url --push origin "${SERVERCONFIG_GIT_REMOTE_PUSH}" 
 #            cd ${HOME}
             ;;
         *screen*)
+            echo "I'm in sceen/tmux now" >&2
             ;;
         *dumb*)
             echo "Run with dumb terminal" 1>&2
             ;;
     esac
-#else
-#    echo "Run with temporary config"
-#fi
 
-if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
-    . ${SERVERCONFIG_BASE}/functions.sh
-else
-    return
+    if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
+        . ${SERVERCONFIG_BASE}/functions.sh
+    else
+        return
+    fi
+
+
+
+    ######################################################################################
+    # ls is not in color on all systems
+    export LS_OPTIONS='--color=auto'
+    eval "`dircolors`"
+
+    #######################################################################################
+    # User specific aliases and function
+
+    if [ -d "${HOME}/bin" ] ; then
+        pathmunge "${HOME}/bin"
+        export PATH
+    fi
+
+    if [ -d "${SERVERCONFIG_BASE}/bin" ] ; then
+        pathmunge "${SERVERCONFIG_BASE}/bin"
+        export PATH
+    fi
+
+    if [ -f "${SERVERCONFIG_BASE}/aliases" ]; then
+        . "${SERVERCONFIG_BASE}/aliases"
+    fi
+
+    if [ -f ~/.aliases ]; then
+        . ~/.aliases
+    fi
+
+    if [ -f "${SERVERCONFIG_BASE}/PS1" ]; then
+        . "${SERVERCONFIG_BASE}/PS1"
+    fi
+
+    if [ -e "${SERVERCONFIG_BASH_COMPLETION}" ]; then
+        for i in $( ls "${SERVERCONFIG_BASH_COMPLETION}" ); do
+            . "${SERVERCONFIG_BASH_COMPLETION}/${i}"
+        done
+    fi
+
+
+    #########################################################################################
+
+
+    # Go HOME
+    #cd ${HOME}
+
+    echo "bashrc_add sourced" 1>&2
+
+    if test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
+        cat << EOF
+
+            "User: $USER - $UID"
+
+            Starting or resuming screen session
+            Press CTRL+C to cancel screen startup
+
+    EOF
+            sleep 2
+            #screen -UxR
+            tmux attach-session
+    fi
+
+    unset -f pathmunge
+
 fi
-
-
-
-######################################################################################
-# ls is not in color on all systems
-export LS_OPTIONS='--color=auto'
-eval "`dircolors`"
-
-#######################################################################################
-# User specific aliases and function
-
-if [ -d "${HOME}/bin" ] ; then
-    pathmunge "${HOME}/bin"
-    export PATH
-fi
-
-if [ -d "${SERVERCONFIG_BASE}/bin" ] ; then
-    pathmunge "${SERVERCONFIG_BASE}/bin"
-    export PATH
-fi
-
-if [ -f "${SERVERCONFIG_BASE}/aliases" ]; then
-    . "${SERVERCONFIG_BASE}/aliases"
-fi
-
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
-
-if [ -f "${SERVERCONFIG_BASE}/PS1" ]; then
-    . "${SERVERCONFIG_BASE}/PS1"
-fi
-
-if [ -e "${SERVERCONFIG_BASH_COMPLETION}" ]; then
-    for i in $( ls "${SERVERCONFIG_BASH_COMPLETION}" ); do
-        . "${SERVERCONFIG_BASH_COMPLETION}/${i}"
-    done
-fi
-
-
-#########################################################################################
-
-
-# Go HOME
-#cd ${HOME}
-
-echo "bashrc_add sourced" 1>&2
-
-if test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
-    cat << EOF
-
-        "User: $USER - $UID"
-
-        Starting or resuming screen session
-        Press CTRL+C to cancel screen startup
-
-EOF
-        sleep 2
-        #screen -UxR
-        tmux attach-session
-fi
-
-unset -f pathmunge
-
-
 
 
