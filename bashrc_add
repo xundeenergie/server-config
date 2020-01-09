@@ -11,6 +11,13 @@ if [ -n "$PS1" ] ;then
 
     # define variables
 
+    USERNAME="$USER"
+    FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
+    GIT_AUTHOR_NAME=$USERNAME
+    GIT_AUTHOR_EMAIL=$FULLNAME
+    GIT_COMMITTER_NAME=$USERNAME
+    GIT_COMMITTER_EMAIL=$FULLNAME
+
     [ -z "${SERVERCONFIG_SUBPATH+x}" ]     && SERVERCONFIG_SUBPATH=server-config
     [ -z "${SERVERCONFIG_BASE+x}" ]        && SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
     [ -z "${SERVERCONFIG_LOGDIR+x}" ]      && SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
@@ -139,9 +146,6 @@ if [ -n "$PS1" ] ;then
 
         case $TERM in
             *term*)
-
-                USERNAME="$USER"
-                FULLNAME="$(getent passwd $USER | cut -d ":" -f 5 | cut -d ',' -f 1)"
 
                 if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
                     [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
