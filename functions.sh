@@ -207,7 +207,7 @@ export LS_OPTIONS="${LS_OPTIONS}"
 export VIMRC="${REMOTETMPVIMCONFIG}"
 export BASHRC="${REMOTETMPBASHCONFIG}"
 title "$USER@$HOSTNAME: $PWD"
-
+echo "This bash runs with temporary config from $BASHRC"
 EOF
 
            ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
