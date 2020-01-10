@@ -124,9 +124,17 @@ case "$TERM" in
         ;;
     *)
         if [ "`id -u`" -eq 0 ]; then
-           PS1="\[$BRed\][$SYSSUBVOL]\[$On_IRed\]\u@\h \[$BRed\]\[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BRed\]\n${SYSSUBVOL}\w:\$(parse_git_branch) # \[\e[m\]\[$Red\]"
+           if [ -z ${SSH_TTY+x} ]; then
+               PS1="\[$BRed\][$SYSSUBVOL]\[$BRed\]\u@\h \[$BRed\]\[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BRed\]\n${SYSSUBVOL}\w:\$(parse_git_branch) # \[\e[m\]\[$Red\]"
+           else
+               PS1="\[$BRed\][$SYSSUBVOL]\[$On_IRed\]\u@\h \[$BRed\]\[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BRed\]\n${SYSSUBVOL}\w:\$(parse_git_branch) # \[\e[m\]\[$Red\]"
+           fi
         else
-           PS1="\[$BBlue\][$SYSSUBVOL]\[$On_IBlue\]\u@\h \[$BIBlue\]\[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BBlue\]\n${SYSSUBVOL}\w:\$(parse_git_branch) \$  \[\e[m\]\[$Blue\]"
+           if [ -z ${SSH_TTY+x} ]; then
+               PS1="\[$BBlue\][$SYSSUBVOL]\[$BBlue\]\u@\h \[$BIBlue\]\[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BBlue\]\n${SYSSUBVOL}\w:\$(parse_git_branch) \$  \[\e[m\]\[$Blue\]"
+           else
+               PS1="\[$BBlue\][$SYSSUBVOL]\[$On_IBlue\]\u@\h \[$BIBlue\]\[\e[m\]\[$BIPurple\](\A)\[\e[m\]\[$BBlue\]\n${SYSSUBVOL}\w:\$(parse_git_branch) \$  \[\e[m\]\[$Blue\]"
+           fi
         fi
         RETVAL0=":)"
         RETVALN0=":("
