@@ -214,12 +214,15 @@ if [ -n "$PS1" ] ;then
                 ;;
         esac
 
+        echo TEST >&2
+
         if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
             . ${SERVERCONFIG_BASE}/functions.sh
         else
             return
         fi
 
+        echo TEST2>&2
 
 
         ######################################################################################
@@ -265,7 +268,6 @@ if [ -n "$PS1" ] ;then
         # Go HOME
         #cd ${HOME}
 
-        echo TEST >&2
 
         echo "bashrc_add sourced" 1>&2
 
