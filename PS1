@@ -3,7 +3,6 @@
 parse_git_branch() {
 
      git branch 2>/dev/null | sed -ne 's/* \(.*\)/ (\1)/p'
-     echo TEST >&2
      #git symbolic-ref --short HEAD 2> /dev/null | sed -ne 's/\(.*\)/ (\1)/p'
 }
 
@@ -117,7 +116,9 @@ case "$TERM" in
            if $SSH_TTY; then
                PS1="\[$BIBlue\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BIBlue\]${SYSSUBVOL}\w:\$(parse_git_branch) \[\e[m\]\[$BIBlue\]\$ "
            else
+     echo TEST1 >&2
                PS1="\[$BIBlue\]$SCREEN\[$IBlue\]\u@\h \[$BIBlue\]\[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BIBlue\]${SYSSUBVOL}\w:\$(parse_git_branch) \[\e[m\]\[$BIBlue\]\$ "
+     echo TEST2 >&2
            fi
         fi
         RETVAL0="\342\234\223"
