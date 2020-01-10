@@ -2,9 +2,8 @@
 
 parse_git_branch() {
 
-    echo TEST >&2
-     git branch 2>/dev/null  1>&2 | sed -ne 's/* \(.*\)/ (\1)/p'
-    echo TEST2 >&2
+    :
+    # git branch 2>/dev/null | sed -ne 's/* \(.*\)/ (\1)/p'
      #git symbolic-ref --short HEAD 2> /dev/null | sed -ne 's/\(.*\)/ (\1)/p'
 }
 
