@@ -114,7 +114,7 @@ case "$TERM" in
                PS1="\[$BRed\]$SCREEN\[$On_IRed\]\u@\h \[$BRed\]\[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BRed\]${SYSSUBVOL}\w:\$(parse_git_branch) \[\e[m\]\[$BRed\]# "
            fi
         else
-     echo TEST2 >&2
+     echo TEST2 $SSHS_TTY >&2
            if $SSH_TTY; then
                PS1="\[$BIBlue\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BIBlue\]${SYSSUBVOL}\w:\$(parse_git_branch) \[\e[m\]\[$BIBlue\]\$ "
            else
