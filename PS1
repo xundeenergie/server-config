@@ -101,8 +101,6 @@ On_ICyan='\e[0;106m'    # Cyan
 On_IWhite='\e[0;107m'   # White
 
 
-        echo TEST >&2
-
 case "$TERM" in
     xterm*|rxvt*|screen*)
             case "$TERM" in
