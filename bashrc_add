@@ -230,7 +230,6 @@ if [ -n "$PS1" ] ;then
         #######################################################################################
         # User specific aliases and function
 
-        echo TEST >&2
 
         if [ -d "${HOME}/bin" ] ; then
             pathmunge "${HOME}/bin"
@@ -250,9 +249,12 @@ if [ -n "$PS1" ] ;then
             . ~/.aliases
         fi
 
+        echo TEST >&2
         if [ -f "${SERVERCONFIG_BASE}/PS1" ]; then
             . "${SERVERCONFIG_BASE}/PS1"
         fi
+
+        echo TEST2>&2
 
         if [ -e "${SERVERCONFIG_BASH_COMPLETION}" ]; then
             for i in $( ls "${SERVERCONFIG_BASH_COMPLETION}" ); do
@@ -260,7 +262,6 @@ if [ -n "$PS1" ] ;then
             done
         fi
 
-        echo TEST2>&2
 
         #########################################################################################
 
