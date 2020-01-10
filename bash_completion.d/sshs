@@ -1,2 +1,4 @@
+echo TEST >&2
 . /usr/share/bash-completion/completions/ssh
+echo TEST2 >&2
 shopt -u hostcomplete && complete -F _ssh sshs
