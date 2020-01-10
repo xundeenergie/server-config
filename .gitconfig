@@ -1,5 +1,6 @@
 [credential]
-	helper = cache --timeout=1200
+        #helper = cache --timeout=1200
+	helper = git-credential-pass.py
 [user]
 	name = Jakobus Schürz
 	email = jakobus.schuerz@schuerz.at
