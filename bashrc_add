@@ -214,15 +214,12 @@ if [ -n "$PS1" ] ;then
                 ;;
         esac
 
-        echo TEST >&2
-
         if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
             . ${SERVERCONFIG_BASE}/functions.sh
         else
             return
         fi
 
-        echo TEST2>&2
 
 
         ######################################################################################
@@ -232,6 +229,8 @@ if [ -n "$PS1" ] ;then
 
         #######################################################################################
         # User specific aliases and function
+
+        echo TEST >&2
 
         if [ -d "${HOME}/bin" ] ; then
             pathmunge "${HOME}/bin"
@@ -261,6 +260,7 @@ if [ -n "$PS1" ] ;then
             done
         fi
 
+        echo TEST2>&2
 
         #########################################################################################
 
