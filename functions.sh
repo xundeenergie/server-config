@@ -281,9 +281,11 @@ EOF
            ssh -t $@ "$RCMD; SSHS=true bash -c \"function bash () { /bin/bash --rcfile ${REMOTETMPBASHCONFIG} -i ; } ; export -f bash; exec bash --rcfile ${REMOTETMPBASHCONFIG}\""
            rm "${TMPBASHCONFIG}"
         else
-           echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
+           echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«" >&2
+           ssh -t "$@" 
         fi
     else
+        echo "too few arguments for sshs" >&2
         ssh
     fi
 }
