@@ -289,7 +289,7 @@ EOF
             *screen*)
                 echo BASHRC: $BASHRC -> source it
                 #[ -e $BASHRC ] && . "$BASHRC"
-                [ -e $BASHRC ] && exec bash --rcfile "$BASHRC" -i
+                [ -e $BASHRC ] && exec bash --rcfile "$BASHRC" -i /dev/null
                 ;;
         esac
 
