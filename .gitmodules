@@ -10,3 +10,6 @@
 [submodule "tmux/plugins/tmux-sensible"]
 	path = tmux/plugins/tmux-sensible
 	url = http://git.schuerz.at/public/tmux-plugins/tmux-sensible.git
+[submodule "git-credential-pass"]
+        path = git-credential-pass
+        url = git@github.com:muxueqz/git-credential-pass.git
