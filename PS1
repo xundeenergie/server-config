@@ -99,6 +99,8 @@ On_ICyan='\e[0;106m'    # Cyan
 On_IWhite='\e[0;107m'   # White
 
 
+        echo TEST >&2
+
 case "$TERM" in
 xterm*|rxvt*|screen*)
 	case "$TERM" in
@@ -131,6 +133,7 @@ xterm*|rxvt*|screen*)
     RETVALN0=":("
     ;;
 esac
+        echo TEST2>&2
 PS1="( \$? \$(if [[ \$? == 0 ]]; then echo \"\[$Green\]${RETVAL0}\"; else echo \"\[$Red\]${RETVALN0}\"; fi )\[\e[m\]) ${PS1}\[\e[m\]"
 
 #trap 'echo -ne "\e[0m"' DEBUG
