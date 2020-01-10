@@ -265,6 +265,8 @@ if [ -n "$PS1" ] ;then
         # Go HOME
         #cd ${HOME}
 
+        echo TEST >&2
+
         echo "bashrc_add sourced" 1>&2
 
         if test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
