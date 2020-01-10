@@ -278,7 +278,7 @@ EOF
            ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
-           ssh -t $@ "$RCMD;"' SSHS=true bash -c "function bash() { echo "test" >&2; /bin/bash --rcfile '"${REMOTETMPBASHCONFIG}"' \"\$@\"; }; export -f bash; exec bash  --rcfile '"${REMOTETMPBASHCONFIG}"' -i"'
+           ssh -t $@ "$RCMD;"' SSHS=true bash -c "function bash() { /bin/bash --rcfile '"${REMOTETMPBASHCONFIG}"'; }; export -f bash; exec bash  --rcfile '"${REMOTETMPBASHCONFIG}"' -i"'
            rm "${TMPBASHCONFIG}"
         else
            echo "${TMPBASHCONFIG} does not exist. Use »ssh $@«"
