@@ -102,6 +102,7 @@ On_IWhite='\e[0;107m'   # White
 
 case "$TERM" in
     xterm*|rxvt*|screen*)
+     echo TEST1 >&2
             case "$TERM" in
                 screen*) SCREEN="(SCREEN) ";;
                     *) SCREEN="";;
@@ -116,7 +117,6 @@ case "$TERM" in
            if $SSH_TTY; then
                PS1="\[$BIBlue\]$SCREEN\u@\h \[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BIBlue\]${SYSSUBVOL}\w:\$(parse_git_branch) \[\e[m\]\[$BIBlue\]\$ "
            else
-     echo TEST1 >&2
                PS1="\[$BIBlue\]$SCREEN\[$IBlue\]\u@\h \[$BIBlue\]\[\e[m\]\[$IPurple\](\A)\[\e[m\]\n\[$BIBlue\]${SYSSUBVOL}\w:\$(parse_git_branch) \[\e[m\]\[$BIBlue\]\$ "
      echo TEST2 >&2
            fi
