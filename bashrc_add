@@ -269,7 +269,7 @@ if [ -n "$PS1" ] ;then
 
         echo "bashrc_add sourced" 1>&2
 
-        if test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
+        if test $TMUX && test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
             cat << EOF
 
     "User: $USER - $UID"
