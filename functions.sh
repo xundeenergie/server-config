@@ -7,7 +7,7 @@
 export TMUX_SESSION_DIRS SETPROXY_CREDS_DIRS KERBEROS_CONFIG_DIRS
 
 sudo() {
-    /bin/sudo TMUX=$TMUX SSHS=$SSHS SSH_TTY=$SSH_TTY
+    /bin/sudo TMUX=$TMUX SSHS=$SSHS SSH_TTY=$SSH_TTY "$@"
 }
 create_symlinks() {
 
