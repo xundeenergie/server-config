@@ -121,6 +121,7 @@ uencfs () {
     else
         echo "no arguments given. Umount all mounted encfs-dirs" >&2
         for i in $(mount|grep encfs|sed -e 's/^encfs on \(.*\)\ type.*$/\1/');do
+            echo $FUSERMOUNT -u "$i"
             $FUSERMOUNT -u "$i"
         done
         return 1
