@@ -8,3 +8,4 @@ vim/bundle/*
 serverconfig.local.conf
 bashrc_local
 .local_scripts
+.git-token
