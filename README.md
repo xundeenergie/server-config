@@ -24,12 +24,12 @@ curl -o bashrc_add "https://git.schuerz.at/?p=server-config.git;a=blob_plain;f=b
 
 ## Lokale Configuration
 in ~/.bashrc werden vor der Zeile zum Einbinden der Serverconfig die Variablen eingefügt um damit ein hostspezifisches Verhalten zu steuern
-SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS=
+HOSTCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS=
 Mögliche Optionen:
     * -h
 Verwendung: Damit kann man angeben, ob ein headless Repo erzeugt wird. Ohne -h folgt das Repo origin/master
-SERVERCONFIG_GIT_REMOTE_PROTOCOL=git # git ist default
-SERVERCONFIG_GIT_REMOTE_PUSH_PROTOCOL=$SERVERCONFIG_GIT_REMOTE_PROTOCOL # SERVERCONFIG_GIT_REMOTE_PROTOCOL ist default
+HOSTCONFIG_GIT_REMOTE_PROTOCOL=git # git ist default
+HOSTCONFIG_GIT_REMOTE_PUSH_PROTOCOL=$HOSTCONFIG_GIT_REMOTE_PROTOCOL # HOSTCONFIG_GIT_REMOTE_PROTOCOL ist default
 Mögliche Optionen:
     * git - (default) Gitprotokoll ist git (Auf manchen Umgebungen kann der dazu notwenidge Port gesperrt sein)
     * http - wenn git nicht möglich ist, kann das http/https Protokoll verwendet werden. (ist langsamer als git, jedoch ist fast überall Port 80 oder 440 freigeschaltet)
@@ -51,17 +51,17 @@ Diese Datei clont dieses Repo nach $HOME oder pullt es, wenn das Repo schon vorh
 Damit ist auch schon alles erledigt
 
 # Über ~/.bashrc manuell festlegbare Variablen und ihre Default-Werte, wenn nicht manuell gesetzt:
-SERVERCONFIG_SUBPATH=server-config
-SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
-SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
-SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
-SERVERCONFIG_GIT_TIMEOUT=5s
+HOSTCONFIG_SUBPATH=server-config
+HOSTCONFIG_BASE="${HOME}/${HOSTCONFIG_SUBPATH}"
+HOSTCONFIG_LOGDIR="${HOSTCONFIG_BASE}/logs"
+HOSTCONFIG_LOGFILE="${HOSTCONFIG_LOGDIR}/git.log"
+HOSTCONFIG_GIT_TIMEOUT=5s
 
-SERVERCONFIG_GIT_SERVER="git.schuerz.at"
-SERVERCONFIG_GIT_REPO_NAME="server-config.git"
-SERVERCONFIG_GIT_REPO_PATH_HTTP="/public/"
-SERVERCONFIG_GIT_REPO_PATH_SSH=":public/"
-SERVERCONFIG_GIT_REPO_PATH_GIT="/public/"
+HOSTCONFIG_GIT_SERVER="git.schuerz.at"
+HOSTCONFIG_GIT_REPO_NAME="server-config.git"
+HOSTCONFIG_GIT_REPO_PATH_HTTP="/public/"
+HOSTCONFIG_GIT_REPO_PATH_SSH=":public/"
+HOSTCONFIG_GIT_REPO_PATH_GIT="/public/"
 
 
 # Modifizierung mit Skript

@@ -14,11 +14,11 @@ sudo() {
 }
 create_symlinks() {
 
-    #echo SERVERCONFIG_BASE: $SERVERCONFIG_BASE
-    SERVERCONFIG_BASEDIR="$1"
-    DIR="$(basename ${SERVERCONFIG_BASEDIR})"
-    cd  "${SERVERCONFIG_BASEDIR}"
-    #echo "DIR SERVERCONFIG_BASEDIR $DIR $SERVERCONFIG_BASEDIR"
+    #echo HOSTCONFIG_BASE: $HOSTCONFIG_BASE
+    HOSTCONFIG_BASEDIR="$1"
+    DIR="$(basename ${HOSTCONFIG_BASEDIR})"
+    cd  "${HOSTCONFIG_BASEDIR}"
+    #echo "DIR HOSTCONFIG_BASEDIR $DIR $HOSTCONFIG_BASEDIR"
     git config credential.helper 'cache --timeout=300'
     #Anlegen von Symlinks
     rm -rf ~/.vimrc ~/.vim ~/bashrc_add ~/.gitconfig ~/.tmux.conf ~/.tmux
@@ -216,7 +216,7 @@ mkcd () {
 sshserverconfig() {
 
     local SSH="/usr/bin/ssh"
-    [ -e ${SERVERCONFIG_BASE}/bashrc_add ] && $SSH -T -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${SERVERCONFIG_BASE}/bashrc_add"
+    [ -e ${HOSTCONFIG_BASE}/bashrc_add ] && $SSH -T -o VisualHostKey=no $@ "cat > ~/bashrc_add" < "${HOSTCONFIG_BASE}/bashrc_add"
     #[ -e ${HOME}/.gitconfig ] && $SSH -T -o VisualHostKey=no $@ "cat > ~/.gitconfig" < "${HOME}/.gitconfig"
     #[ -e ${HOME}/.gitconfig_local ] && $SSH -T -o VisualHostKey=no $@ "cat > ~/.gitconfig_local" < "${HOME}/.gitconfig_local"
     local CMD="$SSH -T $@"
@@ -240,7 +240,7 @@ sshs() {
 #    VIMMKTMPCMD="mktemp ${XDG_RUNTIME_DIR}/vimrc.XXXXXXXX.conf"
 
     local TMPBASHCONFIG=$(mktemp -p ${XDG_RUNTIME_DIR} -t bashrc.XXXXXXXX --suffix=.conf)
-    local FILELIST=( "${SERVERCONFIG_BASE}/functions.sh" "${SERVERCONFIG_BASE}/aliases" "${HOME}/.aliases" "${SERVERCONFIG_BASE}/PS1" "${SERVERCONFIG_BASE}/bash_completion.d/*" )
+    local FILELIST=( "${HOSTCONFIG_BASE}/functions.sh" "${HOSTCONFIG_BASE}/aliases" "${HOME}/.aliases" "${HOSTCONFIG_BASE}/PS1" "${HOSTCONFIG_BASE}/bash_completion.d/*" )
 
     # Read /etc/bashrc or /etc/bash.bashrc (depending on distribution) and /etc/profile.d/*.sh first
     cat << EOF >> "${TMPBASHCONFIG}"
@@ -285,7 +285,7 @@ echo "This bash runs with temporary config from \$BASHRC"
 EOF
 
            ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPBASHCONFIG}" < "${TMPBASHCONFIG}"
-           ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${SERVERCONFIG_BASE}/vimrc"
+           ssh -T -o VisualHostKey=no $@ "cat > ${REMOTETMPVIMCONFIG}" < "${HOSTCONFIG_BASE}/vimrc"
            RCMD="
            trap \"rm -f ${REMOTETMPBASHCONFIG} ${REMOTETMPVIMCONFIG}\" EXIT " ;
            ssh -t $@ "$RCMD; SSHS=true bash -c \"function bash () { /bin/bash --rcfile ${REMOTETMPBASHCONFIG} -i ; } ; export -f bash; exec bash --rcfile ${REMOTETMPBASHCONFIG}\""
@@ -300,7 +300,7 @@ EOF
     fi
 }
 
-VIMRC="${SERVERCONFIG_BASE}/vimrc"
+VIMRC="${HOSTCONFIG_BASE}/vimrc"
 
 svi () { 
     if [ -f ${VIMRC} ]; then
@@ -321,13 +321,13 @@ vim-plugins-install () {
 }
 
 vim-repair-vundle () {
-    if [ -z ${SERVERCONFIG_BASE+x} ]; then   
-        echo "SERVERCONFIG_BASE nicht gesetzt. Eventuell noch einmal ausloggen und wieder einloggen"
+    if [ -z ${HOSTCONFIG_BASE+x} ]; then   
+        echo "HOSTCONFIG_BASE nicht gesetzt. Eventuell noch einmal ausloggen und wieder einloggen"
     else
-        cd $SERVERCONFIG_BASE
+        cd $HOSTCONFIG_BASE
         cd vim/bundle
         rm -rf Vundle.vim
-        git clone  "${SERVERCONFIG_GIT_REMOTE_PUBLIC}Vim/Vundle.vim.git"
+        git clone  "${HOSTCONFIG_GIT_REMOTE_PUBLIC}Vim/Vundle.vim.git"
         cd ~-
     fi
 }

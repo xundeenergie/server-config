@@ -18,22 +18,22 @@ if [ -n "$PS1" ] ;then
     GIT_COMMITTER_NAME=$USERNAME
     GIT_COMMITTER_EMAIL=$FULLNAME
 
-    [ -z "${SERVERCONFIG_SUBPATH+x}" ]     && SERVERCONFIG_SUBPATH=server-config
-    [ -z "${SERVERCONFIG_BASE+x}" ]        && SERVERCONFIG_BASE="${HOME}/${SERVERCONFIG_SUBPATH}"
-    [ -z "${SERVERCONFIG_LOGDIR+x}" ]      && SERVERCONFIG_LOGDIR="${SERVERCONFIG_BASE}/logs"
-    [ -z "${SERVERCONFIG_LOGFILE+x}" ]     && SERVERCONFIG_LOGFILE="${SERVERCONFIG_LOGDIR}/git.log"
-    [ -z "${SERVERCONFIG_GIT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_TIMEOUT=5s
-    [ -z "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT+x}" ] && SERVERCONFIG_GIT_CHECKOUT_TIMEOUT=20s
-    SERVERCONFIG_BASH_COMPLETION="${HOME}/${SERVERCONFIG_SUBPATH}/bash_completion.d"
+    [ -z "${HOSTCONFIG_SUBPATH+x}" ]     && HOSTCONFIG_SUBPATH=server-config
+    [ -z "${HOSTCONFIG_BASE+x}" ]        && HOSTCONFIG_BASE="${HOME}/${HOSTCONFIG_SUBPATH}"
+    [ -z "${HOSTCONFIG_LOGDIR+x}" ]      && HOSTCONFIG_LOGDIR="${HOSTCONFIG_BASE}/logs"
+    [ -z "${HOSTCONFIG_LOGFILE+x}" ]     && HOSTCONFIG_LOGFILE="${HOSTCONFIG_LOGDIR}/git.log"
+    [ -z "${HOSTCONFIG_GIT_TIMEOUT+x}" ] && HOSTCONFIG_GIT_TIMEOUT=5s
+    [ -z "${HOSTCONFIG_GIT_CHECKOUT_TIMEOUT+x}" ] && HOSTCONFIG_GIT_CHECKOUT_TIMEOUT=20s
+    HOSTCONFIG_BASH_COMPLETION="${HOME}/${HOSTCONFIG_SUBPATH}/bash_completion.d"
 
-    SGIT="git -C ${SERVERCONFIG_BASE}" 
-    export SERVERCONFIG_BASE SERVERCONFIG_LOGDIR SERVERCONFIG_LOGFILE SGIT
+    SGIT="git -C ${HOSTCONFIG_BASE}" 
+    export HOSTCONFIG_BASE HOSTCONFIG_LOGDIR HOSTCONFIG_LOGFILE SGIT
 
     # define functions
 
     ckrepo () {
         # check if remote repo is reachable
-        if $( timeout --foreground "${SERVERCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
+        if $( timeout --foreground "${HOSTCONFIG_GIT_TIMEOUT}"  $SGIT ls-remote >/dev/null  2>&1) ;then 
             return 0
         else 
             return 1
@@ -45,16 +45,16 @@ if [ -n "$PS1" ] ;then
         local nok=""
         local gco=""
         if which git >/dev/null; then
-            echo -n "Sync config with ${SERVERCONFIG_GIT_SERVER}: " 1>&2
-            # SERVERCONFIG_GITCHECKOUTSCRIPT_OPTIONS are options for bin/git-checkout.sh
+            echo -n "Sync config with ${HOSTCONFIG_GIT_SERVER}: " 1>&2
+            # HOSTCONFIG_GITCHECKOUTSCRIPT_OPTIONS are options for bin/git-checkout.sh
             # this are now:
             #   -h for headless repo
-            if [ -z ${SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS+x} ]; then
+            if [ -z ${HOSTCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS+x} ]; then
                 gco="-h"
             else
-                gco="$SERVERCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
+                gco="$HOSTCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
             fi
-            ${SERVERCONFIG_BASE}/bin/git-checkout.sh ${gco}|| nok="not " 1>>"${SERVERCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+            ${HOSTCONFIG_BASE}/bin/git-checkout.sh ${gco}|| nok="not " 1>>"${HOSTCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
             printf '%s\n' "${nok}synced" 1>&2
 
             # If you want, put a greeting message after sync here
@@ -86,60 +86,60 @@ if [ -n "$PS1" ] ;then
 
         ######################################
 
-        SERVERCONFIG_GIT_PROTOCOL_GIT="git://"
-        SERVERCONFIG_GIT_PROTOCOL_HTTP="http://"
-        SERVERCONFIG_GIT_PROTOCOL_SSH="git@"
-        [ -z "${SERVERCONFIG_GIT_SERVER+x}" ] && SERVERCONFIG_GIT_SERVER="git.schuerz.at"
-        [ -z "${SERVERCONFIG_GIT_REPO_NAME+x}" ] && SERVERCONFIG_GIT_REPO_NAME="server-config.git"
-        [ -z "${SERVERCONFIG_GIT_REPO_PATH_HTTP+x}" ] && SERVERCONFIG_GIT_REPO_PATH_HTTP="/public/"
-        [ -z "${SERVERCONFIG_GIT_REPO_PATH_SSH+x}" ] && SERVERCONFIG_GIT_REPO_PATH_SSH=":public/"
-        [ -z "${SERVERCONFIG_GIT_REPO_PATH_GIT+x}" ] && SERVERCONFIG_GIT_REPO_PATH_GIT="/public/"
+        HOSTCONFIG_GIT_PROTOCOL_GIT="git://"
+        HOSTCONFIG_GIT_PROTOCOL_HTTP="http://"
+        HOSTCONFIG_GIT_PROTOCOL_SSH="git@"
+        [ -z "${HOSTCONFIG_GIT_SERVER+x}" ] && HOSTCONFIG_GIT_SERVER="git.schuerz.at"
+        [ -z "${HOSTCONFIG_GIT_REPO_NAME+x}" ] && HOSTCONFIG_GIT_REPO_NAME="server-config.git"
+        [ -z "${HOSTCONFIG_GIT_REPO_PATH_HTTP+x}" ] && HOSTCONFIG_GIT_REPO_PATH_HTTP="/public/"
+        [ -z "${HOSTCONFIG_GIT_REPO_PATH_SSH+x}" ] && HOSTCONFIG_GIT_REPO_PATH_SSH=":public/"
+        [ -z "${HOSTCONFIG_GIT_REPO_PATH_GIT+x}" ] && HOSTCONFIG_GIT_REPO_PATH_GIT="/public/"
 
-        SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT="${SERVERCONFIG_GIT_PROTOCOL_GIT}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_GIT}"
-        SERVERCONFIG_GIT_REMOTE_PUBLIC_SSH="${SERVERCONFIG_GIT_PROTOCOL_SSH}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_SSH}"
-        SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP="${SERVERCONFIG_GIT_PROTOCOL_HTTP}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_HTTP}"
-        SERVERCONFIG_GIT_REMOTE_PUBLIC_DEFAULT="${SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT}"
+        HOSTCONFIG_GIT_REMOTE_PUBLIC_GIT="${HOSTCONFIG_GIT_PROTOCOL_GIT}${HOSTCONFIG_GIT_SERVER}${HOSTCONFIG_GIT_REPO_PATH_GIT}"
+        HOSTCONFIG_GIT_REMOTE_PUBLIC_SSH="${HOSTCONFIG_GIT_PROTOCOL_SSH}${HOSTCONFIG_GIT_SERVER}${HOSTCONFIG_GIT_REPO_PATH_SSH}"
+        HOSTCONFIG_GIT_REMOTE_PUBLIC_HTTP="${HOSTCONFIG_GIT_PROTOCOL_HTTP}${HOSTCONFIG_GIT_SERVER}${HOSTCONFIG_GIT_REPO_PATH_HTTP}"
+        HOSTCONFIG_GIT_REMOTE_PUBLIC_DEFAULT="${HOSTCONFIG_GIT_REMOTE_PUBLIC_GIT}"
 
-        SERVERCONFIG_GIT_REMOTE_DEFAULT="${SERVERCONFIG_GIT_PROTOCOL_GIT}${SERVERCONFIG_GIT_SERVER}${SERVERCONFIG_GIT_REPO_PATH_GIT}"
+        HOSTCONFIG_GIT_REMOTE_DEFAULT="${HOSTCONFIG_GIT_PROTOCOL_GIT}${HOSTCONFIG_GIT_SERVER}${HOSTCONFIG_GIT_REPO_PATH_GIT}"
 
-        # If SERVERCONFIG_GIT_REMOTE is set in ~/.bashrc before sourcing this file, take value from ~/.bashrc
-        # If set SERVERCONFIG_GIT_REMOTE_PROTOCOL in ~/.bashrc before sourcing this file, you cange choose one of the above 
+        # If HOSTCONFIG_GIT_REMOTE is set in ~/.bashrc before sourcing this file, take value from ~/.bashrc
+        # If set HOSTCONFIG_GIT_REMOTE_PROTOCOL in ~/.bashrc before sourcing this file, you cange choose one of the above 
         # defined values for a specific host
 
-        if [ -z ${SERVERCONFIG_GIT_REMOTE+x} ]; then
-            case $SERVERCONFIG_GIT_REMOTE_PROTOCOL in
+        if [ -z ${HOSTCONFIG_GIT_REMOTE+x} ]; then
+            case $HOSTCONFIG_GIT_REMOTE_PROTOCOL in
                 git)
-                    SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT}"
+                    HOSTCONFIG_GIT_REMOTE_PUBLIC="${HOSTCONFIG_GIT_REMOTE_PUBLIC_GIT}"
                     ;;
                 ssh)
-                    SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_SSH}"
+                    HOSTCONFIG_GIT_REMOTE_PUBLIC="${HOSTCONFIG_GIT_REMOTE_PUBLIC_SSH}"
                     ;;
                 http)
-                    SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}"
+                    HOSTCONFIG_GIT_REMOTE_PUBLIC="${HOSTCONFIG_GIT_REMOTE_PUBLIC_HTTP}"
                     ;;
                 *)
-                    SERVERCONFIG_GIT_REMOTE_PUBLIC="${SERVERCONFIG_GIT_REMOTE_DEFAULT}"
+                    HOSTCONFIG_GIT_REMOTE_PUBLIC="${HOSTCONFIG_GIT_REMOTE_DEFAULT}"
                     ;;
                 esac
-                SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC}${SERVERCONFIG_GIT_REPO_NAME}"
+                HOSTCONFIG_GIT_REMOTE="${HOSTCONFIG_GIT_REMOTE_PUBLIC}${HOSTCONFIG_GIT_REPO_NAME}"
         fi
 
-        if [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ]; then
-            case $SERVERCONFIG_GIT_REMOTE_PUSH_PROTOCOL in
+        if [ -z ${HOSTCONFIG_GIT_REMOTE_PUSH+x} ]; then
+            case $HOSTCONFIG_GIT_REMOTE_PUSH_PROTOCOL in
                 git)
-                    SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_GIT}"
+                    HOSTCONFIG_GIT_REMOTE_PUSH_PUBLIC="${HOSTCONFIG_GIT_REMOTE_PUBLIC_GIT}"
                     ;;
                 ssh)
-                    SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_SSH}"
+                    HOSTCONFIG_GIT_REMOTE_PUSH_PUBLIC="${HOSTCONFIG_GIT_REMOTE_PUBLIC_SSH}"
                     ;;
                 http)
-                    SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}"
+                    HOSTCONFIG_GIT_REMOTE_PUSH_PUBLIC="${HOSTCONFIG_GIT_REMOTE_PUBLIC_HTTP}"
                     ;;
                 *)
-                    SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC="${SERVERCONFIG_GIT_REMOTE_PUBLIC_DEFAULT}"
+                    HOSTCONFIG_GIT_REMOTE_PUSH_PUBLIC="${HOSTCONFIG_GIT_REMOTE_PUBLIC_DEFAULT}"
                     ;;
                 esac
-                SERVERCONFIG_GIT_REMOTE_PUSH=${SERVERCONFIG_GIT_REMOTE_PUSH_PUBLIC}${SERVERCONFIG_GIT_REPO_NAME}
+                HOSTCONFIG_GIT_REMOTE_PUSH=${HOSTCONFIG_GIT_REMOTE_PUSH_PUBLIC}${HOSTCONFIG_GIT_REPO_NAME}
         fi
 
         #GIT_SSH_PATH="/srv/repos"
@@ -147,10 +147,10 @@ if [ -n "$PS1" ] ;then
         case $TERM in
             *term*)
 
-                if [ -d "${SERVERCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
-                    [ -d "${SERVERCONFIG_LOGDIR}" ] || mkdir -p "${SERVERCONFIG_LOGDIR}"
+                if [ -d "${HOSTCONFIG_BASE}" -a $($SGIT status 1>/dev/null 2>&1; echo $?) -eq 0 ]; then
+                    [ -d "${HOSTCONFIG_LOGDIR}" ] || mkdir -p "${HOSTCONFIG_LOGDIR}"
                     if ! $SGIT rev-parse --git-dir > /dev/null 2>&1 ; then
-                        echo "Init ${SERVERCONFIG_BASE} as git-repo" >&2
+                        echo "Init ${HOSTCONFIG_BASE} as git-repo" >&2
                         $SGIT init
                     fi
                     
@@ -164,27 +164,27 @@ if [ -n "$PS1" ] ;then
                     # sync repo with origin if git is reachable 
                     if ckrepo ; then
                         sync_config
-                        . ${SERVERCONFIG_BASE}/functions.sh
-                        create_symlinks "$SERVERCONFIG_BASE"
+                        . ${HOSTCONFIG_BASE}/functions.sh
+                        create_symlinks "$HOSTCONFIG_BASE"
                     else 
-                        echo "${SERVERCONFIG_GIT_SERVER}" not reachable >&2;
+                        echo "${HOSTCONFIG_GIT_SERVER}" not reachable >&2;
                         echo profile not syncing >&2;
                     fi
 
                 else
-                    echo "Clone ${SERVERCONFIG_GIT_REMOTE} and configure git" >&2
+                    echo "Clone ${HOSTCONFIG_GIT_REMOTE} and configure git" >&2
 
-                    if $( timeout --foreground "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" ); then
+                    if $( timeout --foreground "${HOSTCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${HOSTCONFIG_GIT_REMOTE}" "${HOSTCONFIG_BASE}" ); then
                         :
                     else
-                        SERVERCONFIG_GIT_REMOTE="${SERVERCONFIG_GIT_REMOTE_PUBLIC_HTTP}${SERVERCONFIG_GIT_REPO_NAME}"
-                        echo "Clone ${SERVERCONFIG_GIT_REMOTE} and configure git" >&2
-                        timeout --foreground "${SERVERCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${SERVERCONFIG_GIT_REMOTE}" "${SERVERCONFIG_BASE}" || exit 1
+                        HOSTCONFIG_GIT_REMOTE="${HOSTCONFIG_GIT_REMOTE_PUBLIC_HTTP}${HOSTCONFIG_GIT_REPO_NAME}"
+                        echo "Clone ${HOSTCONFIG_GIT_REMOTE} and configure git" >&2
+                        timeout --foreground "${HOSTCONFIG_GIT_CHECKOUT_TIMEOUT}" git -C ${HOME} clone "${HOSTCONFIG_GIT_REMOTE}" "${HOSTCONFIG_BASE}" || exit 1
                     fi
 
 
 
-                    [ -d "${SERVERCONFIG_BASE}" ] && { echo create ${SERVERCONFIG_LOGDIR} >&2; mkdir -p "${SERVERCONFIG_LOGDIR}"; }
+                    [ -d "${HOSTCONFIG_BASE}" ] && { echo create ${HOSTCONFIG_LOGDIR} >&2; mkdir -p "${HOSTCONFIG_LOGDIR}"; }
 
                     $SGIT config user.email "${USERNAME}"
                     $SGIT config user.name "${FULLNAME}"
@@ -195,15 +195,15 @@ if [ -n "$PS1" ] ;then
 
                     echo "sync config" >&2
                     sync_config
-                    . ${SERVERCONFIG_BASE}/functions.sh
+                    . ${HOSTCONFIG_BASE}/functions.sh
                     echo "config synced, functions.sh sourced" >&2
-                    create_symlinks "$SERVERCONFIG_BASE"
+                    create_symlinks "$HOSTCONFIG_BASE"
 
                     # Install vim Plugins
                     #echo "Run Vim, and in Vim run :PluginInstall to install all Plugins"
                     vim -c "PluginInstall" -c ":qa!"
                 fi
-                [ -z ${SERVERCONFIG_GIT_REMOTE_PUSH+x} ] || $SGIT remote set-url --push origin "${SERVERCONFIG_GIT_REMOTE_PUSH}" 
+                [ -z ${HOSTCONFIG_GIT_REMOTE_PUSH+x} ] || $SGIT remote set-url --push origin "${HOSTCONFIG_GIT_REMOTE_PUSH}" 
     #            cd ${HOME}
                 ;;
             *screen*)
@@ -214,8 +214,8 @@ if [ -n "$PS1" ] ;then
                 ;;
         esac
 
-        if [ -e ${SERVERCONFIG_BASE}/functions.sh ]; then
-            . ${SERVERCONFIG_BASE}/functions.sh
+        if [ -e ${HOSTCONFIG_BASE}/functions.sh ]; then
+            . ${HOSTCONFIG_BASE}/functions.sh
         else
             return
         fi
@@ -236,31 +236,31 @@ if [ -n "$PS1" ] ;then
             export PATH
         fi
 
-        if [ -d "${SERVERCONFIG_BASE}/bin" ] ; then
-            pathmunge "${SERVERCONFIG_BASE}/bin"
+        if [ -d "${HOSTCONFIG_BASE}/bin" ] ; then
+            pathmunge "${HOSTCONFIG_BASE}/bin"
             export PATH
         fi
 
-        if [ -d "${SERVERCONFIG_BASE}/git-credential-pass" ] ; then
-            pathmunge "${SERVERCONFIG_BASE}/git-credential-pass"
+        if [ -d "${HOSTCONFIG_BASE}/git-credential-pass" ] ; then
+            pathmunge "${HOSTCONFIG_BASE}/git-credential-pass"
             export PATH
         fi
 
-        if [ -f "${SERVERCONFIG_BASE}/aliases" ]; then
-            . "${SERVERCONFIG_BASE}/aliases"
+        if [ -f "${HOSTCONFIG_BASE}/aliases" ]; then
+            . "${HOSTCONFIG_BASE}/aliases"
         fi
 
         if [ -f ~/.aliases ]; then
             . ~/.aliases
         fi
 
-        if [ -f "${SERVERCONFIG_BASE}/PS1" ]; then
-            . "${SERVERCONFIG_BASE}/PS1"
+        if [ -f "${HOSTCONFIG_BASE}/PS1" ]; then
+            . "${HOSTCONFIG_BASE}/PS1"
         fi
 
-        if [ -e "${SERVERCONFIG_BASH_COMPLETION}" ]; then
-            for i in $( ls "${SERVERCONFIG_BASH_COMPLETION}" ); do
-                . "${SERVERCONFIG_BASH_COMPLETION}/${i}"
+        if [ -e "${HOSTCONFIG_BASH_COMPLETION}" ]; then
+            for i in $( ls "${HOSTCONFIG_BASH_COMPLETION}" ); do
+                . "${HOSTCONFIG_BASH_COMPLETION}/${i}"
             done
         fi
 
