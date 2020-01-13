@@ -46,7 +46,7 @@ if [ -n "$PS1" ] ;then
         local gco=""
         if which git >/dev/null; then
             echo -n "Sync config with ${HOSTCONFIG_GIT_SERVER}: " 1>&2
-            # HOSTCONFIG_GITCHECKOUTSCRIPT_OPTIONS are options for bin/git-checkout.sh
+            # HOSTCONFIG_GITCHECKOUTSCRIPT_OPTIONS are options for bin/git-hostconfig-checkout
             # this are now:
             #   -h for headless repo
             if [ -z ${HOSTCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS+x} ]; then
@@ -54,7 +54,7 @@ if [ -n "$PS1" ] ;then
             else
                 gco="$HOSTCONFIG_GIT_CHECKOUTSCRIPT_OPTIONS"
             fi
-            ${HOSTCONFIG_BASE}/bin/git-checkout.sh ${gco}|| nok="not " 1>>"${HOSTCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
+            ${HOSTCONFIG_BASE}/bin/git-hostconfig-checkout ${gco}|| nok="not " 1>>"${HOSTCONFIG_LOGFILE}" 2>&1 #|tee -a ./logs/git.log 1>&2   
             printf '%s\n' "${nok}synced" 1>&2
 
             # If you want, put a greeting message after sync here
