@@ -241,6 +241,11 @@ if [ -n "$PS1" ] ;then
             export PATH
         fi
 
+        if [ -d "${SERVERCONFIG_BASE}/git-credential-pass" ] ; then
+            pathmunge "${SERVERCONFIG_BASE}/git-credential-pass"
+            export PATH
+        fi
+
         if [ -f "${SERVERCONFIG_BASE}/aliases" ]; then
             . "${SERVERCONFIG_BASE}/aliases"
         fi
