@@ -285,7 +285,9 @@ if [ -n "$PS1" ] ;then
                 else
                     git -C ~/.local/myshellconfig pull
                 fi
+                echo TEST4 >&2
                 . ~/.local/myshellconfig/functions.sh
+                which tranist2newconf
                 transit2newconf
                 echo "please logout and login again"
                 return
