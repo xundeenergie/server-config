@@ -272,11 +272,13 @@ if [ -n "$PS1" ] ;then
         #cd ${HOME}
 
 
-        echo "bashrc_add sourced" 1>&2
 
+        echo TEST >&2
         if test ! $TMUX && test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
+            echo TEST2 >&2
             # Transition to new config
             if grep '^\[ -f bashrc_add \] ' ~/.bashrc; then
+                echo TEST3 >&2
                 echo "old config"
                 if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
                     git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
@@ -329,3 +331,4 @@ if [ -n "$PS1" ] ;then
 fi
 
 
+echo "bashrc_add sourced" 1>&2
