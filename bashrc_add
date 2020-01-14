@@ -275,18 +275,33 @@ if [ -n "$PS1" ] ;then
         echo "bashrc_add sourced" 1>&2
 
         if test ! $TMUX && test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
-            cat << EOF
-
-    "User: $USER - $UID"
-
-    Starting or resuming screen session
-    Press CTRL+C to cancel screen startup
-
-EOF
-                sleep 1
-                #screen -UxR
-                tmux attach-session
-        fi
+            # Transition to new config
+            if grep '^\[ -f bashrc_add \] ' ~/.bashrc; then
+                echo "old config"
+                if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
+                    git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
+                else
+                    git -C ~/.local/myshellconfig pull
+                fi
+                . ~/server-config/functions.sh
+                sshmyshellconfig localhost
+                echo "please logout and login again"
+                return
+            else
+                echo "new config"
+            fi
+#            cat << EOF
+#
+#    "User: $USER - $UID"
+#
+#    Starting or resuming screen session
+#    Press CTRL+C to cancel screen startup
+#
+#EOF
+#                sleep 1
+#                #screen -UxR
+#                tmux attach-session
+#        fi
 
         unset -f pathmunge
 
@@ -313,20 +328,4 @@ EOF
 
 fi
 
-# Transition to new config
-if grep '^\[ -f bashrc_add \] ' ~/.bashrc; then
-    echo "old config"
-    if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
-        git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
-    else
-        git -C ~/.local/myshellconfig pull
-    fi
-    . ~/server-config/functions.sh
-    sshmyshellconfig localhost
-    rm ~/bashrc_add
-    echo "please logout and login again"
-    return
-else
-    echo "new config"
-fi
 
