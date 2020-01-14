@@ -283,7 +283,7 @@ if [ -n "$PS1" ] ;then
                 else
                     git -C ~/.local/myshellconfig pull
                 fi
-                . ~/server-config/functions.sh
+                . ~/.local/myshellconfig/functions.sh
                 sshmyshellconfig localhost
                 echo "please logout and login again"
                 return
