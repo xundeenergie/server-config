@@ -1,7 +1,7 @@
 #!/bin/bash
 #debug
 
-if grep '^\[ -f ~/bashrc_add \] ' ~/.bashrc; then
+if grep '^\[ -f bashrc_add \] ' ~/.bashrc; then
     echo "old config"
     if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
         git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
