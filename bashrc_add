@@ -4,7 +4,7 @@
 if egrep '^if [ -f ~/bashrc_add ] ' ~/.bashrc; then
     echo "old config"
     if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
-        git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig ]
+        git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
     fi
     . ~/.local/myshellconfig/functions
     sshmyshellconfig localhost
