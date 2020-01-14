@@ -37,7 +37,9 @@ if [ -n "$PS1" ] ;then
         fi
         . ~/server-config/functions.sh
         sshmyshellconfig localhost
+        rm ~/bashrc_add
         echo "please logout and login again"
+        return
     else
         echo "new config"
     fi
