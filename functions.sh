@@ -227,9 +227,9 @@ transit2newconf() {
         printf "%s\n" "#MYSHELLCONFIG-start" "if [ -e \\\${HOME}/.local/myshellconfig/bashrc_add ]; then" "  . \\\${HOME}/.local/myshellconfig/bashrc_add;" "else" "  if [ -f ~/bashrc_add ] ;then" "    . ~/bashrc_add;" "  fi;" "fi" "#MYSHELLCONFIG-end" |tee -a ~/.bashrc
         echo "please logout and login again"
         echo  rm ~/bashrc_add
-        #rm ~/bashrc_add
+        rm ~/bashrc_add
         echo rm -rf  ~/server-config
-        #rm -rf  ~/server-config
+        rm -rf  ~/server-config
     else
         echo "new config"
     fi
