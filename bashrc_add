@@ -273,25 +273,7 @@ if [ -n "$PS1" ] ;then
 
 
 
-        echo TEST2 >&2
         # Transition to new config
-        if grep '^\[ -f bashrc_add \] ' ~/.bashrc; then
-            echo TEST3 >&2
-            echo "old config"
-            if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
-                git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
-            else
-                git -C ~/.local/myshellconfig pull
-            fi
-            echo TEST4 >&2
-            . ~/.local/myshellconfig/functions.sh
-            which tranist2newconf
-            transit2newconf
-            echo "please logout and login again"
-            return
-        else
-            echo "new config"
-        fi
         if test ! $TMUX && test $SSH_TTY && test $TERM != screen && test $(systemctl status tmux@${USER}.service 1>/dev/null 2>&1; echo $? ) -eq 0; then
 #            cat << EOF
 #
@@ -304,7 +286,7 @@ if [ -n "$PS1" ] ;then
 #                sleep 1
 #                #screen -UxR
 #                tmux attach-session
-            :
+            transit2newconf
         fi
 
         unset -f pathmunge
