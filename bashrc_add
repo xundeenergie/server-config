@@ -6,7 +6,7 @@ if grep '^\[ -f bashrc_add \] ' ~/.bashrc; then
     if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
         git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
     fi
-    . ~/.local/myshellconfig/functions
+    . ~/.local/myshellconfig/functions.sh
     sshmyshellconfig localhost
 else
     echo "new config"
