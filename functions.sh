@@ -226,12 +226,12 @@ sshmyshellconfig() {
     [ -e /etc/bashrc ] && .  /etc/bashrc
     [ -e /etc/bash.bashrc ] && . /etc/bash.bashrc
     echo "modify ~/.bashrc"
-    sed -e '/^if \[ -f ~\/bashrc_add \] /d' ~/.bashrc
-    sed -i -e '/^if \[ -f ~\/bashrc_add \] /d' ~/.bashrc
+    sed -e '/^\[ -f bashrc_add \] /d' ~/.bashrc
+    sed -i -e '/^\[ -f bashrc_add \] /d' ~/.bashrc
     sed -i -e '/#MYSHELLCONFIG-start/,/#MYSHELLCONFIG-end/d' ~/.bashrc
     echo
     #printf "%s" "[ -f bashrc_add ] && . bashrc_add" | tee -a ~/.bashrc
-    printf "%s\n" "" "#MYSHELLCONFIG-start" "if [ -e \\\${MYSHELLCONFIG_BASE}/bashrc_add ]; then" "  . \\\${MYSHELLCONFIG_BASE}/bashrc_add;" "else" "  if [ -f ~/bashrc_add ] ;then" "    . ~/bashrc_add;" "  fi;" "fi" "#MYSHELLCONFIG-end" |tee -a ~/.bashrc
+    printf "%s\n" "#MYSHELLCONFIG-start" "if [ -e \\\${MYSHELLCONFIG_BASE}/bashrc_add ]; then" "  . \\\${MYSHELLCONFIG_BASE}/bashrc_add;" "else" "  if [ -f ~/bashrc_add ] ;then" "    . ~/bashrc_add;" "  fi;" "fi" "#MYSHELLCONFIG-end" |tee -a ~/.bashrc
     echo
 
 EOF
