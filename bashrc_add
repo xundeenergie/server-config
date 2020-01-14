@@ -29,21 +29,6 @@ if [ -n "$PS1" ] ;then
     SGIT="git -C ${HOSTCONFIG_BASE}" 
     export HOSTCONFIG_BASE HOSTCONFIG_LOGDIR HOSTCONFIG_LOGFILE SGIT
 
-    # Transition to new config
-    if grep '^\[ -f bashrc_add \] ' ~/.bashrc; then
-        echo "old config"
-        if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
-            git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
-        fi
-        . ~/server-config/functions.sh
-        sshmyshellconfig localhost
-        rm ~/bashrc_add
-        echo "please logout and login again"
-        return
-    else
-        echo "new config"
-    fi
-    
     # define functions
 
     ckrepo () {
@@ -326,5 +311,22 @@ EOF
 
     fi
 
+fi
+
+# Transition to new config
+if grep '^\[ -f bashrc_add \] ' ~/.bashrc; then
+    echo "old config"
+    if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
+        git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
+    else
+        git -C ~/.local/myshellconfig pull
+    fi
+    . ~/server-config/functions.sh
+    sshmyshellconfig localhost
+    rm ~/bashrc_add
+    echo "please logout and login again"
+    return
+else
+    echo "new config"
 fi
 
