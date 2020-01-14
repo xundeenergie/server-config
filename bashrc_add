@@ -303,7 +303,7 @@ if [ -n "$PS1" ] ;then
 #                sleep 1
 #                #screen -UxR
 #                tmux attach-session
-#        fi
+        fi
 
         unset -f pathmunge
 
