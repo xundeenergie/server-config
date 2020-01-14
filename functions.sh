@@ -213,6 +213,30 @@ mkcd () {
     cd "$1"
 }
 
+transit2newconf() {
+    [ -z "${MYSHELLCONFIG_BASE+x}" ] && MYSHELLCONFIG_BASE=~/.local/myshellconfig
+    if grep '^\[ -f bashrc_add \] ' ~/.bashrc; then
+        echo "old config"
+        if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
+            git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
+        else
+            git -C ~/.local/myshellconfig pull
+        fi
+        echo "modify ~/.bashrc"
+        sed -i -e '/^\[ -f bashrc_add \] /d' ~/.bashrc
+        printf "%s\n" "#MYSHELLCONFIG-start" "if [ -e \\\${HOME}/.local/myshellconfig/bashrc_add ]; then" "  . \\\${HOME}/.local/myshellconfig/bashrc_add;" "else" "  if [ -f ~/bashrc_add ] ;then" "    . ~/bashrc_add;" "  fi;" "fi" "#MYSHELLCONFIG-end" |tee -a ~/.bashrc
+        echo "please logout and login again"
+        echo  rm ~/bashrc_add
+        #rm ~/bashrc_add
+        echo rm -rf  ~/server-config
+        #rm -rf  ~/server-config
+    else
+        echo "new config"
+    fi
+    echo "Log out and relogin again to start with new config"
+    exit
+}
+
 sshserverconfig() {
 
     local SSH="/usr/bin/ssh"
