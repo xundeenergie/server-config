@@ -220,7 +220,7 @@ transit2newconf() {
         if [ ! -e ~/.local/myshellconfig/bashrc_add ] ; then
             git clone https://git.schuerz.at/public/myshellconfig.git ~/.local/myshellconfig
         else
-            git -C ~/.local/myshellconfig pull
+            git -C ~/.local/myshellconfig pull origin master
         fi
         echo "modify ~/.bashrc"
         sed -i -e '/^\[ -f bashrc_add \] /d' ~/.bashrc
