@@ -1,6 +1,12 @@
 #!/bin/bash
 #debug
 
+if grep "if [ -f ~/bashrc_add ] &&" ~/.bashrc ); then
+    echo "old config"
+else
+    echo "new config"
+fi
+    
 # set SSHS to false, if not set
 if [ -z ${SSHS+x} ]; then SSHS=false;fi
 
