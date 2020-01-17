@@ -1,8 +1,19 @@
 # server-config
 
-Am Einfachsten ist es, das github-Repo zu forken und in .gitconfig den Namen und die Emailadresse an die eigenen Werte anzupassen. Das Repo ist öffentlich, also keine Passwörter speicher!!!
+Am Einfachsten ist es, das github-Repo zu forken und in .gitconfig den Namen und die Emailadresse an die eigenen Werte anzupassen. 
+Das Repo ist öffentlich, also keine Passwörter speichern!!!
 
-.gitconfig wird von diesem Repo beim Einrichten nach ~/.gitconfig gelinkt. Bitte beachten, dass damit eine schon vorhandene eigene Datei überschrieben wird!
+## ACHTUNG
+Diese automatische Konfiguration überschreibt bei jedem Login in ${HOME} einige Dateien mit Symlinks in das lokale Repo. Die zuvor vorhandenen Dateien werden nicht gesichert und gehen daher verloren.
+Folgende Dateien werden durch Symlinks ersetzt. Diese bitte VOR dem ersten Aufruf sichern.
+
+```
+~/.gitconfig -> /home/jakobus.schuerz/.local/myshellconfig/.gitconfig
+~/.tmux -> /home/jakobus.schuerz/.local/myshellconfig/tmux
+~/.tmux.conf -> /home/jakobus.schuerz/.local/myshellconfig/tmux/tmux.conf
+~/.vim -> /home/jakobus.schuerz/.local/myshellconfig/vim
+~/.vimrc -> /home/jakobus.schuerz/.local/myshellconfig/vimrc
+```
 
 Soll ein Proxy zum Einsatz kommen, so ist dieser mittels
 ```
