@@ -225,7 +225,8 @@ transit2newconf() {
         fi
         echo "modify ~/.bashrc:"
         sed -i -e '/^\[ -f bashrc_add \] /d' ~/.bashrc
-        printf "%s\n" "#MYSHELLCONFIG-start" "if [ -e \${HOME}/.local/myshellconfig/bashrc_add ]; then" "  . \${HOME}/.local/myshellconfig/bashrc_add;" "else" "  if [ -f ~/bashrc_add ] ;then" "    . ~/bashrc_add;" "  fi;" "fi" "#MYSHELLCONFIG-end" |tee -a ~/.bashrc
+        printf "%s\n" "#MYSHELLCONFIG-start" "[ -f \"\${HOME}/${MYSHELLCONFIG_SUBPATH}/bashrc_add\" ] && . \"\${HOME}/${MYSHELLCONFIG_SUBPATH}/bashrc_add\""  "#MYSHELLCONFIG-end"| tee -a ~/.bashrc
+        #printf "%s\n" "#MYSHELLCONFIG-start" "if [ -e \${HOME}/.local/myshellconfig/bashrc_add ]; then" "  . \${HOME}/.local/myshellconfig/bashrc_add;" "else" "  if [ -f ~/bashrc_add ] ;then" "    . ~/bashrc_add;" "  fi;" "fi" "#MYSHELLCONFIG-end" |tee -a ~/.bashrc
         
         rm ~/bashrc_add && echo  rm ~/bashrc_add
         rm -rf  ~/server-config && echo rm -rf  ~/server-config
